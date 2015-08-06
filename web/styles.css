@@ -48,7 +48,8 @@ p.top {
 }
 
 .forest {
-  background-color: darkgreen;
+  background-image: url('src/images/forest.png');
+  background-size: cover;
 }
 
 .sand {

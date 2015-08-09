@@ -1,0 +1,615 @@
+
+html {
+  font-family: 'Orbitron', sans-serif;
+  box-sizing: border-box;
+  color: transparent;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+    color: inherit;
+}
+
+body {
+  margin: 0;
+  background-color: #000;
+  position: relative;
+}
+
+img {
+  height: 50px;
+  width: 50px;
+}
+
+h4 {
+  margin: 0;
+  color: #808080;
+}
+
+th {
+  text-align: left;
+  height: 1px;
+}
+
+tr + tr {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 30px;
+  height: 1px;
+}
+
+tr:nth-child(3) {
+  height: 85px;
+
+}
+
+.footer {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 35%;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.footer img {
+  margin: 20px;
+  height: 35px;
+  width: 35px;
+}
+
+.main-section {
+  min-height: 500px;
+  background-color: #fff;
+}
+
+.hero-container > ul > li {
+  text-align: left;
+  padding: 20px 10px;
+  display: inline-block; 
+}
+
+.game-link {
+  float: right; 
+  padding: 20px;
+  background-color: transparent;
+}
+
+.game-link > li {
+  display: inline-block;
+  padding: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #494950;
+}
+
+a:hover {
+  color: #fff;
+}
+
+.hero-container {
+  min-height: 500px;
+  background-color: black;
+  text-align: center;
+  position: relative;
+}
+
+.header {
+  text-align: left;
+  margin: 0;
+}
+
+button {
+  border-radius: 3px;
+  background-color: transparent;
+  border: hidden;
+  min-width: 120px;
+  display: inline-block;
+  padding: 10px 16px;
+}
+
+button > a {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  position: relative;
+  cursor: pointer;
+  color: #FFF;
+}
+
+.row div {
+   display: inline-block;
+   height: 50px;
+   width: 50px;
+   /*border: 1px solid black;*/
+
+   box-sizing: border-box;
+
+}
+.new-game-screen {
+  position: relative;
+  background-color: #000;
+ /* height: 600px;
+  width: 1500px;*/
+  
+}
+.new-game-screen > div {
+  position: absolute;
+  top: 50px;
+  left: 20%;
+  height: 400px;
+  width: 800px;
+  border: 2px solid white;
+  box-shadow: 3px 3px gray, -3px -3px gray, -3px 3px gray, 3px -3px gray;
+  background-color: #00007F;
+  border-radius: 5px;
+  
+}
+
+span {
+    position: absolute;
+    background-position: -23px -23px; 
+    margin:0;
+    padding:0;
+    height: 50px;
+    width: 50px;
+    box-sizing: border-box;
+    /*border: 2px solid red;*/
+    /*background-color: rgba(0,255,0,0.33);*/
+    /*background-image: url('src/images/advent-character.png');*/
+    background-size: 100px;
+}
+
+span.left {
+    border-left: 2px solid rgba(0,255,0,0.75);
+}
+span.bottom {
+    border-bottom: 2px solid rgba(0,255,0,0.75);
+}
+span.right {
+    border-right: 2px solid rgba(0,255,0,0.75);
+}
+span.top {
+    border-top: 2px solid rgba(0,255,0,0.75);
+    /*position: absolute;
+    background-position: -4px -4px; 
+    margin:0;
+    padding:0;
+    height: 50px;
+    width: 50px;
+    box-sizing: border-box;
+    border: 2px solid red;
+    /*background-color: rgba(0,255,0,0.33);*/
+    /*background-image: url('src/images/advent-character-back.png');
+    background-size: 50px;*/
+}
+
+.success-button {
+  background-color: #7DDD11;
+}
+
+.success-link {
+  color: #7DDD11;
+}
+
+.cool-button {
+  background-color: #28AFFA;
+}
+
+.cool-link {
+  color: #28AFFA;
+}
+
+h1 {
+  color: white;
+  font-weight: 600;
+}
+
+
+.hero-container > img {
+  position: absolute;
+  display: block;
+  margin: auto;
+  width: 400px;
+  height: 300px;
+  left: 25%;
+  bottom: 0;
+  width: 50%;
+}
+
+.grass {
+    /*background-color: green;*/
+  background-image: url('src/images/grass.png');
+  background-size: cover;    
+}
+
+.forest {
+  background-image: url('src/images/forest.png');
+  background-size: cover;
+}
+
+.sand {
+    background-color: rgba(233, 180, 78, 1);
+}
+
+.water {
+    /*background-color: blue;*/
+    background-image: url('src/images/water.png');
+    background-size: cover;
+}
+
+.quicksand {
+    background-color: rgba(183, 135, 20, 1);
+}
+
+ /**
+ *  Sprites
+ */
+
+.sprite-size {
+  height: 50px;
+  width: 50px;
+}
+
+.ff-sprite {
+  background-image: url('src/images/ff1-sprites.png');
+  background-position: 0 0;
+  background-size: 1200px;
+
+} 
+
+.red-boy-down1 {
+  background-position: -5px -10px;
+}
+
+.red-boy-down2 {
+  background-position: -60px -10px;
+} 
+
+.red-boy-up1 {
+  background-position: -220px -10px;
+}
+
+.red-boy-up2 {
+  background-position: -275px -10px;
+}
+
+.red-boy-left1 {
+  background-position: -120px -10px;
+}
+
+.red-boy-left2 {
+
+}
+
+.red-boy-right1 {
+  background-position: -120px -10px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+
+}
+
+.red-boy-right2 {
+
+}
+
+.orange-bear-down1 {
+  background-position: 0 -160px;
+}
+
+.orange-bear-down2 {
+  background-position: 0 -240px;
+}
+
+.gray-rat {
+  background-position: -10px -75px;
+}
+
+.green-lizard {
+  background-position: -2px 0;
+}
+ /**
+ *  Battle Sceens
+ */
+
+.forest-battle > div {
+  background-image: url('src/images/forest-battle.png');
+  height: 675px;
+  width: 1280px;
+  background-size: cover;
+  position: relative;
+}
+
+.desert-battle > div {
+  background-image: url('src/images/desert-battle.png');
+  height: 675px;
+  width: 1280px;
+  background-size: cover;
+  position: relative;
+}
+
+.grass-battle > div {
+  background-image: url('src/images/grass-battle.png');
+  height: 675px;
+  width: 1280px;
+  background-size: cover;
+  position: relative;
+}
+
+.battle-menu-main {
+  position: absolute;
+  color: #C2C3C7;
+  text-indent: 40px;
+  font-size: 20px;
+  text-shadow: 2px 1px #8a8a7b;
+  bottom: 0;
+  left: 0;
+  height: 200px;
+  width: 600px;
+  border: 2px solid rgba(255, 255, 255, .20);
+  box-shadow: 3px 3px rgb(10, 10, 10), -3px -3px rgb(10, 10, 10), -3px 3px rgb(10, 10, 10), 3px -3px rgb(10, 10, 10);
+  background-color: rgba(15, 14, 45, .65);
+  border-radius: 5px;
+}
+
+.battle-menu-main > li {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 22pt;
+  list-style-type: none;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  text-indent: 40px;
+  text-shadow: 2px 1px #8a8a7b;
+}
+
+.battle-menu-main-stats {
+  position: absolute;
+  color: #C2C3C7;
+  text-indent: 40px;
+  font-size: 20px;
+  text-shadow: 2px 1px #8a8a7b;
+  bottom: 0;
+  right: 0;
+  height: 200px;
+  width: 676px;
+  border: 2px solid rgba(255, 255, 255, .20);
+  box-shadow: 3px 3px rgb(10, 10, 10), -3px -3px rgb(10, 10, 10), -3px 3px rgb(10, 10, 10), 3px -3px rgb(10, 10, 10);
+  background-color: rgba(15, 14, 45, .65);
+  border-radius: 5px;
+}
+
+.battle-menu-main-stats > li {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 22pt;
+  list-style-type: none;
+  margin-top: -5px;
+  margin-bottom: 25px;
+  text-indent: 40px;
+  text-shadow: 2px 1px #8a8a7b;
+}
+
+.battle-menu-turn {
+  /*position: absolute;*/
+  color: #C2C3C7;
+  text-indent: 40px;
+  font-size: 20px;
+  text-shadow: 2px 1px #8a8a7b;
+  margin-top: -210px;
+  margin-left: 150px;
+  height: 200px;
+  min-width: 300px;
+  border: 2px solid rgba(255, 255, 255, .20);
+  box-shadow: 3px 3px rgb(10, 10, 10), -3px -3px rgb(10, 10, 10), -3px 3px rgb(10, 10, 10), 3px -3px rgb(10, 10, 10);
+  background-color: rgba(15, 14, 45, .85);
+  border-radius: 5px;
+}
+
+.battle-menu-turn > li {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 22pt;
+  list-style-type: none;
+  margin-top: 0px;
+  margin-bottom: -5px;
+  text-indent: 40px;
+  text-shadow: 2px 1px #8a8a7b;
+}
+
+.battle-hero-position1-front {
+  position: absolute;
+  top: 30%;
+  right: 20%;
+}
+
+.battle-hero-position2-front {
+  position: absolute;
+  top: 50%;
+  right: 20%;
+}
+
+.battle-hero-position1-back {
+  position: absolute;
+  top: 30%;
+  right: 15%;
+}
+
+.battle-hero-position2-back {
+  position: absolute;
+  top: 50%;
+  right: 15%;
+}
+
+.battle-hero-position1-turn {
+  position: absolute;
+  top: 30%;
+  right: 25%;
+}
+
+.battle-hero-position2-turn {
+  position: absolute;
+  top: 30%;
+  right: 25%;
+}
+.battle-hero-red-boy {
+  background-position: 7px 10px;
+}
+
+.battle-hero-white-girl {
+  background-position: 10px -85px;
+}
+.battle-sprite-size {
+  height: 100px;
+  width: 100px;
+}
+
+.battle-ff-sprite {
+  background-image: url('src/images/battle-sprites.png');
+  background-size: 500px;
+
+} 
+
+.battle-hero-position-duo {
+
+}
+
+ /**
+ *  Enemy Sprites
+ */
+
+.enemy-sprites {
+  background-image: url('src/images/monsters2.png');
+  background-size: 2220px;
+}
+
+.enemy-sprite-small {
+  height: 100px;
+  width: 90px;
+}
+
+.enemy-blue-eagle {
+  background-position: 0 0;
+}
+
+.enemy-red-eagle {
+  background-position: -85px 0;
+}
+
+.enemy-blue-hornet {
+  background-position: -180px 0;
+}
+
+.enemy-green-hornet {
+  background-position: -275px 0;
+}
+
+.enemy-flying-yellow-brain {
+  background-position: -375px 0;
+}
+
+.enemy-flying-red-brain {
+  background-position: -475px 0;
+}
+
+.enemy-yellow-fish {
+  background-position: -565px 0;
+}
+
+.enemy-blue-fish {
+  background-position: -650px 0;
+}
+
+.enemy-green-blob {
+  background-position: -740px 0;
+}
+
+.enemy-yellow-blob {
+  background-position: -830px 0;
+}
+
+.enemy-red-blob {
+  background-position: -920px 0;
+}
+
+.enemy-blue-blob {
+  background-position: -1010px 0;
+}
+
+.enemy-yellow-antman {
+  background-position: -1105px 0;
+}
+
+.enemy-green-antman {
+  background-position: -1195px 0;
+}
+
+.enemy-blue-antman {
+  background-position: -1290px 0;
+}
+
+.enemy-blue-tapeworm {
+  background-position: -1377px 0;
+}
+
+.enemy-red-tapeworm {
+  background-position: -1468px 0;
+}
+
+.enemy-orange-babydemon {
+  background-position: -1560px 0;
+}
+
+.enemy-red-babydemon {
+  background-position: -1660px 0;
+}
+
+.enemy-green-babydemon {
+  background-position: -1750px 0;
+}
+
+.enemy-gray-mouse {
+  background-position: -1840px 0;
+}
+
+.enemy-gold-mouse {
+  background-position: -1945px 0;
+}
+
+.enemy-position-single {
+  position: absolute;
+  top: 40%;
+  left: 15%;
+}
+
+.enemy4 {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+}
+
+.enemy1 {
+  position: absolute;
+  top: 32%;
+  left: 22%;
+}
+
+.enemy3 {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+}
+
+.enemy2 {
+  position: absolute;
+  top: 48%;
+  left: 22%;
+}
+
+.enemy5 {
+  position: absolute;
+  top: 55%;
+  left: 10%;
+}

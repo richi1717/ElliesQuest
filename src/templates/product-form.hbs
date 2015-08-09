@@ -1,0 +1,61 @@
+<form action="#" class="product">
+  <div class="input-group">
+    <div class="input-label">
+      <label>Name: </label>
+    </div>
+    <div class="input-box">
+      <input type="text" name="name" value="{{name}}">
+    </div>
+  </div>
+  <div class="input-group">
+    <div class="input-label">
+      <label>Type: </label>
+    </div>
+    <div class="input-box">
+      <select name="type" class="dropdown">
+      {{#if type}}
+        <option value="{{type}}" selected>{{type}}</option>
+      {{else}}
+        <option value="type" selected>Choose one...</option>
+      {{/if}}
+      <option value="Action Figure">Action Figure</option>
+      <option value="Vehicle">Vehicle</option>
+      <option value="Playset">Playset</option>
+      <option value="Lego Action Figure">Lego Action Figure</option>
+      <option value="Lego Vehicle">Lego Vehicle</option>
+      <option value="Lego Playset">Lego Playset</option>
+    </select>
+    </div>
+  </div>
+  <div class="input-group">
+    <div class="input-label">
+      <label>Price: </label>
+    </div>
+    <div class="input-box">
+      <input type="text" name="price" value="{{price}}">
+    </div>
+  </div>
+  <div class="input-group">
+    <div class="input-label">
+      <label>Quantity: </label>
+    </div>
+    <div class="input-box">
+      <input type="text" name="qty" value="{{qty}}">
+    </div>
+  </div>
+  <div class="input-group">
+    <div class="input-label">
+      <label>Image: </label>
+    </div>
+    <div class="input-box">
+      <input type="text" name="img" value="{{img}}">
+    </div>
+  </div>
+  {{#if img}} 
+  <br>
+   <img src="{{img}}" alt="Toy Pic">
+    <br>
+  {{/if}}
+    <br>	
+  <button>Submit</button>
+</form>

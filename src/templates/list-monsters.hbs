@@ -1,0 +1,22 @@
+<div class="list-monsters">
+  
+  {{#each this}}
+  <li class="{{classes}}"></li>
+  <li>Name: {{name}}</li>
+  <li>Type: {{type}}</li>
+  <li>Monster id: {{id}}</li>
+  <li>Str: {{str}}</li>
+  <li>Def: {{def}}</li>
+  <li>Magic Defense: {{magicDef}}</li>
+  <li>Magic: {{magic}}</li>
+  <li>HP: {{currentHp}}/{{maxHp}}</li>
+  <li>MP: {{currentMp}}/{{maxMp}}</li>
+  <li>Level: {{level}}</li>
+  <li>Exp on defeat: {{expOnDefeat}}</li>
+  <li>Agility: {{agility}}</li>
+  <li>Evasion: {{evasion}}</li>
+  <li>Can be found in the {{sections}}.</li>
+  <li>Item drop: {{itemHeld}}</li>
+  <li>Item that can be stolen: {{rareItem}}</li>
+  {{/each}}
+</div>

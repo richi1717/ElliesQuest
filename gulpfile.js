@@ -1,46 +1,65 @@
 'use strict';
 
-var watchify = require('watchify');
-var browserify = require('browserify');
 var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
-var sourcemaps = require('gulp-sourcemaps');
-var assign = require('lodash.assign');
-var uglify = require('gulp-uglify');
-var del = require('del');
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var rimraf = require('rimraf');
+var jsonServer = require('json-server');
+var apiServer = jsonServer.create();
+var router = jsonServer.router('db.json');
+var serve = require('gulp-serve');
 
 
-gulp.task('clean', function(cb){
-    del('dist/**/*', cb); 
-})
+/****************************************
+  JS
+*****************************************/
 
-// add custom browserify options here
-var customOpts = {
-  entries: ['./web/src/index.js'],
+var bundler = browserify({
+  entries: ['./src/index.js'],
   debug: true
-};
-var opts = assign({}, watchify.args, customOpts);
-var b = watchify(browserify(opts)); 
+});
 
-gulp.task('js', bundle); // so you can run `gulp js` to build the file
-b.on('update', bundle); // on any dep update, runs the bundler
-b.on('log', gutil.log); // output build logs to terminal
+bundler.on('log', gutil.log); // output build logs to terminal
 
-gulp.task('default', ['js'], function(){
+gulp.task('clean', function (cb) {
+  rimraf('build', cb);
+});
 
-})
-
-function bundle() {
-
-  return b.bundle()
-    // log errors if they happen
+gulp.task('build', ['clean'], function () {
+  return bundler.bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    //.pipe(uglify())
-    .pipe(sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('./web/dist'));
-}
+    .pipe(gulp.dest('build'));
+});
+
+
+/****************************************
+  Servers (Web and API)
+*****************************************/
+
+apiServer.use(jsonServer.defaults);
+apiServer.use(router);
+
+gulp.task('serve:api', function (cb) {
+  apiServer.listen(3000, cb);
+});
+
+gulp.task('serve:web', ['serve:api'], serve({
+  root: ['.'],
+  port: process.env.PORT || 8000
+}));
+
+gulp.task('serve', ['serve:api', 'serve:web']);
+
+
+/****************************************
+  Watch
+*****************************************/
+
+gulp.task('watch', ['build'], function () {
+  return gulp.watch(['src/**/*.js', 'src/**/*.hbs'], ['build'])
+})
+
+// Default
+gulp.task('default', ['serve', 'watch']);

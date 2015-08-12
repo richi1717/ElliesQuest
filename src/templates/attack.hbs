@@ -1,8 +1,11 @@
 <span class="battle-menu-turn menu-attack sub-menu">
+    {{#each monster}}
+    <li><button class="menu-select">{{name}}</button></li>
+    {{/each}}
+    {{#each character}}
+      <li><button class="menu-select attack-character">{{name}}</button></li>
+    {{/each}}
 
-    <li><button class="menu-select" id="{{enemy1}}">{{enemy1}}</button></li>
-    <li><button class="menu-select attack-character" id="{{character1}}">{{character1}}</button></li>
-    <li><button class="menu-select attack-character" id="{{character2}}">{{character2}}</button></li>
 
     
 

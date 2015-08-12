@@ -2,3 +2,6 @@ node_modules
 dist
 db
 game.sublime-project
+build/
+libs/
+db.json

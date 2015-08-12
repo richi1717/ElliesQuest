@@ -1,0 +1,21 @@
+<div class="list-characters">
+  
+  {{#each this}}
+  <div><span class="{{classes}}"></span></div>
+  <br>
+  <li>Name: {{name}}</li>
+  <li>Type: {{type}}</li>
+  <li>Character id: {{id}}</li>
+  <li>Str: {{str}}</li>
+  <li>Def: {{def}}</li>
+  <li>Magic Defense: {{magicDef}}</li>
+  <li>Magic: {{magic}}</li>
+  <li>HP: {{currentHp}}/{{maxHp}}</li>
+  <li>MP: {{currentMp}}/{{maxMp}}</li>
+  <li>Level: {{level}}</li>
+  <li>Exp: {{exp}}/{{expLeftToLevel}}</li>
+  <li>Agility: {{agility}}</li>
+  <li>Evasion: {{evade}}</li>
+  <br>
+  {{/each}}
+</div>

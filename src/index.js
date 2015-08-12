@@ -1,8 +1,91 @@
-var http = require('http');
+var Backbone = require('backbone');
 
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
+// App
+var App = require('./app');
+var monsterCollection = require('./collections/monster');
+var characterCollection = require('./collections/character')
 
-console.log('Server running at http://127.0.0.1:1337/');
+// View: List Users
+var TerrainBattleView = require('./views/terrain-battle');
+App.Views.TerrainBattle  = new TerrainBattleView;
+
+// View: Home Page
+var HomePage = require('./views/home');
+App.Views.HomePage = new HomePage;
+
+var NewGame = require('./views/new-game')
+App.Views.NewGame = new NewGame
+
+var ListMonstersView = require('./views/list-monsters');
+App.Views.ListMonsters = new ListMonstersView;
+
+var ListCharactersView = require('./views/list-characters');
+App.Views.ListCharacters = new ListCharactersView;
+
+// View: List Products
+var GameWorldView = require('./views/world');
+App.Views.GameWorld = new GameWorldView;
+
+// App Router
+App.Router = Backbone.Router.extend({
+
+  // Route definitions
+  routes: {
+    '': 'index',
+    'battle/:terrain(/)': 'terrainBattle',
+    'monsters(/)': 'listMonsters',
+    'monsters/:id(/)': 'showMonster',
+    'characters(/)': 'listCharacters',
+    'characters/:id(/)': 'showCharacter',
+    'game(/)': 'world',
+    'new-game(/)': 'newGame',
+    '*actions': 'index'
+  },
+
+  // Route handlers
+  index: function() {
+    App.Views.HomePage.render();
+  },
+
+  terrainBattle: function(terrain) {
+      App.Views.TerrainBattle.render(terrain);
+  },
+
+  listMonsters: function() {
+    App.Views.ListMonsters.render();
+  },
+
+  showMonster: function(id) {
+    App.Views.ListMonsters.render(id);
+    console.log(id)
+  },
+
+  listCharacters: function() {
+    App.Views.ListCharacters.render();
+  },
+
+  showCharacter: function(id) {
+    App.Views.ListCharacters.render(id);
+  },
+
+  world: function(id) {
+    App.Views.GameWorld.render();
+  },
+
+  newGame: function() {
+    App.Views.NewGame.render()
+  },
+
+  defaultRoute: function(actions) {
+    
+  }
+});
+
+// module.export = {
+//   App.Router: App.Router
+// }
+
+// Initiate the router
+App.router = new App.Router;
+
+Backbone.history.start();

@@ -1,0 +1,28 @@
+<div class="battle {{terrain}}">
+  <div>
+    <div class="battle-menu-main">NAME 
+      {{#each character}}
+        <li><button class="menu-select character{{id}} character" name="{{id}}">{{name}}</button></li>
+      {{/each}}
+      {{!-- <li><button class="menu-select character{{id}} character">{{character.name}}</button></li> --}}
+    
+    </div>
+    <div class="battle-menu-main-stats">
+    <table>
+      <tr>
+        <th>HP</th>
+        <th>MP</th>
+      </tr>
+      {{#each character}}
+        <tr>
+          <td>{{currentHp}}/{{maxHp}}</td>
+          <td>{{currentMp}}/{{maxMp}}</td>
+        </tr>
+      {{/each}}
+      
+    </table>
+  </div>
+</div>
+<span class="hero1 battle-hero"></span>
+<span class="hero2 battle-hero"></span> 
+

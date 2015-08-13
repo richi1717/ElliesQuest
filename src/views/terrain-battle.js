@@ -214,7 +214,12 @@ var TerrainBattle = Backbone.View.extend({
           } else {
             console.log('you did no damage')
           }
+          if ($('section').hasClass('enemy-sprites')) {
+            console.log('continue')
+          } else {
+            console.log('you win')
           timeToTurn()
+          }
         })
 
         function defendClick(turn, who) {
@@ -269,6 +274,7 @@ var TerrainBattle = Backbone.View.extend({
           time = (100 - time) * 30
           setTimeout(function () {
             console.log('heyo')
+            App.router.navigate('/game/', { trigger: true })
           }, time)
         }
 

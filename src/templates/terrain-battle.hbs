@@ -23,6 +23,8 @@
     </table>
   </div>
 </div>
-<span class="hero1 battle-hero"></span>
-<span class="hero2 battle-hero"></span> 
+{{#each character}}
+  <span class="hero{{id}} battle-hero" name="{{name}}"></span>
+{{/each}}
+
 

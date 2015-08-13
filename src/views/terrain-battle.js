@@ -48,20 +48,28 @@ var TerrainBattle = Backbone.View.extend({
         }
         characterDbInfo(character)
         
-
+        function getRandomEnemy(terrainType, monsters) {
+          return _.assign({},_.sample(_.where(monsters, { 
+            sections: [terrainType] 
+          })), {
+            id: Date.now()
+          })
+        }
 
         function enemyCountTerrain(terrainType, monsters) {
           var count = _.random(1, 5)
           var i = 1
           var position
           while (count >= i) {
-            var randomEnemy = _.sample(_.where(monsters, { sections: [terrainType] }))
-            position = 'enemy' + i
-
+            var randomEnemy = getRandomEnemy(terrainType, monsters)
             monstersWithStats.push({ monster: randomEnemy })
 
+            console.log(monstersWithStats[(i - 1)])
+
             
-            $('main').append('<section class="enemy' + i + ' ' + randomEnemy.classes + '" data-name="' + randomEnemy.name + '"></section>')
+            $('main').append('<section class="enemy' + i + ' ' 
+              + randomEnemy.classes + '" data-name="' 
+              + randomEnemy.name + '"></section>')
             
             console.log('you fight ' + randomEnemy.name)
             i++ 
@@ -147,7 +155,7 @@ var TerrainBattle = Backbone.View.extend({
 
           $('main').append(renderSubMenu(true, turn))
           $('.battle-hero').removeClass('run1 run2')
-          clearInterval(runningTimer)
+          // clearInterval(runningTimer)
           attackClick()
           defendClick()
           magicClick()
@@ -163,15 +171,32 @@ var TerrainBattle = Backbone.View.extend({
           })
         }
 
+        var blinkingArrow = setTimeout(blinkingSelectorArrow(), 1000) 
+        function blinkingSelectorArrow() {
+          setTimeout(function () {
+            $('div.selected').toggleClass('fade').addClass('stop-this')
+            blinkingSelectorArrow()
+          }, 1000)   
+        }
+
         function attackIndividualClick() {
           $('main').on('click', 'span > div > button', function () {
-            $('div.selected').remove()
             var selectedName = $(this).attr('name')
             var sectionEnemy = $('section.' + selectedName)
             var spanHero = $('span.' + selectedName)
-            if ($('section').hasClass(selectedName)) {
-              sectionEnemy.append('<div class="selected"></div>')
+            sectionEnemy.append('<div class="stop-this"></div>')
+            
+            if ($('div').hasClass('stop-this')) {
+              clearTimeout(blinkingArrow)
+              $('div.selected').remove()
+              console.log('removed')
+            }
+            else {
+              blinkingArrow
+            }
+            $('div.stop-this').addClass('selected fade-in')
 
+            if ($('section').hasClass(selectedName)) {
               indexOfTarget = sectionEnemy.attr('class')
               sectionEnemyTarget = indexOfTarget.slice(0, 6)
               console.log(sectionEnemyTarget)
@@ -197,19 +222,26 @@ var TerrainBattle = Backbone.View.extend({
         
         $('main').on('click', 'span > div > button', function () {
           monsterTarget = monstersWithStats[indexOfTarget].monster
+          // monsterTarget.id = sectionEnemyTarget
+          // console.log(monsterTarget)
           characterTarget = characterWithStats[turnIndex].character
           console.log(characterTarget.agility)
-          console.log(characterTarget.str, monsterTarget.def)
+          console.log(characterTarget.str * 5, monsterTarget.def)
           hpFromAttack = characterTarget.str - monsterTarget.def
           console.log(hpFromAttack)
           if (hpFromAttack > 0) {
-              monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
+            // if (monsterTarget.id === sectionEnemyTarget)
+            monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
             if (monsterTarget.currentHp >= 0) {
               console.log(monsterTarget.currentHp)
-            } 
+              console.log(monstersWithStats[indexOfTarget].monster)
+            } else {
+
               console.log('you killed ' + monsterTarget.name)
               console.log(sectionEnemyTarget)
               $('section.' + sectionEnemyTarget).remove()
+              $('div > button.' + sectionEnemyTarget + '-position').remove()
+            }
 
           } else {
             console.log('you did no damage')
@@ -253,19 +285,58 @@ var TerrainBattle = Backbone.View.extend({
           })
         }
 
+        // function runningAway() {
+        //   setTimeout(function () {
+        //     console.log('running away');
+        //     $('.battle-hero').toggleClass('run2').addClass('stop-this')
+        //     runningAway()
+        //   }, 200)   
+        // }
+
         function runClick() {
-          var runningAway
+      
+
           $('main').on('click', '#run', function (event) {
             event.preventDefault
-            if (!runningAway) {
-              $('main').children('span.sub-menu').remove()
-              $('.battle-hero').addClass('run1').removeClass('turn')
+            var ranNum = _.random(0,1)
+
+            
+            $('main').children('span.sub-menu').remove()
+            $('.battle-hero').addClass('run1').removeClass('turn')
+            if ($('.battle-hero').hasClass('stop-this')) {
+              clearInterval(runAway)
+              $('.battle-hero').removeClass('stop-this')
+              console.log('running')
+              run()
+
+            }
+            else {
+              function run() {
+                runAway = setInterval(function () {
+                  console.log('running away');
+                  $('.battle-hero').toggleClass('run2').addClass('stop-this')
+                }, 200)  
+              }
+              run()
+            }
+
+            if (ranNum) {
+              setTimeout(function () {
+                clearInterval(runAway)
+                console.log('You Ran Away!')
+                App.router.navigate('/game/', { trigger: true })
+              }, 3000)
+            }
+            else {
+              setTimeout(function () {
+                console.log('You couldn\'t escape!')
+                $('.battle-hero').removeClass('run1 run2')
+                clearInterval(runAway)
+              }, 3000)
+            }
  
-              runningAway = true
-              runningTimer = setInterval(function () {
-                $('.battle-hero').toggleClass('run2')
-              }, 200)
-            }         
+            
+                    
           })
         }
 

@@ -628,6 +628,7 @@ span > div:nth-child(7) {
 
 .run2 {
   background-position-x: -500px;
+  right: 9.5%;
 }
 
 .selected {
@@ -637,8 +638,20 @@ span > div:nth-child(7) {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 30px solid rgba(255, 255, 0, .5)
+  border-top: 30px solid rgba(255, 255, 0, .8);
+  /*opacity: 1;*/
 }
+
+.selected.fade-in {
+  opacity: 1;
+  transition: opacity 1s linear;
+}
+
+.selected.fade {
+  opacity: 0;
+  transition: opacity .5s linear;
+}
+
 
  /**
  *  Enemy Sprites

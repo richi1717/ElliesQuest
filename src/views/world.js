@@ -2,7 +2,7 @@
 
 var $ = require('jquery');
 var Backbone = require('backbone');
-var worldTmpl = require('../templates/world.hbs');
+var tmpl = require('../template.js');
 var Handlebars = require('hbsfy/runtime');
 var _ = require('lodash')
 var App = require('../app');
@@ -22,7 +22,7 @@ var GameWorld = Backbone.View.extend({
   collection: App.Collections.product,
 
   render: function () {
-    this.$el.html(worldTmpl())
+    this.$el.html(tmpl.worldTmpl())
     var character = $('span')
     var characterStats = {
       name: 'Link',
@@ -34,7 +34,6 @@ var GameWorld = Backbone.View.extend({
         y: 10
       }
     }
-
 
     var cells = [
       {"x": 0, "y": 0, "terrain": "forest", "traversable": true},
@@ -275,7 +274,7 @@ var GameWorld = Backbone.View.extend({
       {"x": 17, "y": 10, "terrain": "grass", "traversable": true},
       {"x": 18, "y": 10, "terrain": "grass", "traversable": true},
       {"x": 19, "y": 10, "terrain": "grass", "traversable": true}
-  ] 
+    ] 
 
     $('body').on('keydown', function (e) {
       $('#overworld').removeClass('top left right bottom red-boy-up1 red-boy-down1 red-boy-left1 red-boy-right1')
@@ -363,10 +362,10 @@ var GameWorld = Backbone.View.extend({
 
     buildTerrain(cells)
     // for the rain if I decide to use it
-    $('.sunny').addClass('rain')
-    setInterval(function () {
-      $('.sunny').toggleClass('rain2')
-    }, 200)
+    // $('.sunny').addClass('rain')
+    // setInterval(function () {
+    //   $('.sunny').toggleClass('rain2')
+    // }, 200)
 
 
 

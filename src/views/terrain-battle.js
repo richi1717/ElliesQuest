@@ -5,7 +5,6 @@ var Handlebars = require('hbsfy/runtime');
 
 var tmpl = require('../template.js')
 
-var battleMenuTmpl = require('../templates/battle-menu.hbs')
 var Character = require('../models/character.js')
 var Monster = require('../models/monster.js')
 
@@ -27,6 +26,7 @@ var TerrainBattle = Backbone.View.extend({
     var terrainType = terrainType
     var monstersWithStats = []
     var characterWithStats = []
+    var totalExp = []
     
     character.fetch().done(function (character) {
 
@@ -61,8 +61,9 @@ var TerrainBattle = Backbone.View.extend({
 
             
             $('main').append('<section class="enemy' + i + ' ' 
-              + randomEnemy.classes + '" data-name="' 
-              + randomEnemy.name + '"></section>')
+              + randomEnemy.classes + '"></section>')
+            $('section.enemy' + i).data('nameOf', randomEnemy.name)
+            $('section.enemy' + i).data('name', 'enemy' + i)
             
             console.log('you fight ' + randomEnemy.name)
             i++ 
@@ -101,7 +102,8 @@ var TerrainBattle = Backbone.View.extend({
 
           while (i < length) {
             i++
-            var nameOf = $('section.enemy' + i).data('name')
+            var nameOf = $('section.enemy' + i).data('nameOf')
+            console.log(nameOf)
             var target = 'enemy' + i
             monsters.push({ name: nameOf, target: target })
           }
@@ -142,7 +144,7 @@ var TerrainBattle = Backbone.View.extend({
           event.preventDefault
           $('main').children('span.sub-menu').remove()
           $('main').children('span.battle-menu-turn').remove()
-          var turn = $(this).attr('name')
+          var turn = $(this).data('name')
           turnIndex = turn - 1
 
           $('main').append(renderSubMenu(true, turn))
@@ -154,6 +156,7 @@ var TerrainBattle = Backbone.View.extend({
           runClick()
         })
 
+        // choose attack to see who you can attack
         function attackClick() {
           $('main').on('click', '#attack', function (event) {
             event.preventDefault
@@ -162,6 +165,7 @@ var TerrainBattle = Backbone.View.extend({
           })
         }
 
+        // put a cursor on the screen to show who you are attacking
         var blinkingArrow = setTimeout(blinkingSelectorArrow(), 1000) 
         function blinkingSelectorArrow() {
           setTimeout(function () {
@@ -170,9 +174,11 @@ var TerrainBattle = Backbone.View.extend({
           }, 1000)   
         }
 
-        function attackIndividualClick() {
+        // attacks who you chose and then compares stats to produce an
+        // outcome
+        (function () {
           $('main').on('click', 'span > div > button', function () {
-            var selectedName = $(this).attr('name')
+            var selectedName = $(this).data('name')
             var sectionEnemy = $('section.' + selectedName)
             var spanHero = $('span.' + selectedName)
             sectionEnemy.append('<div class="stop-this"></div>')
@@ -180,7 +186,7 @@ var TerrainBattle = Backbone.View.extend({
             if ($('div').hasClass('stop-this')) {
               clearTimeout(blinkingArrow)
               $('div.selected').remove()
-              console.log('removed')
+              // console.log('removed')
             }
             else {
               blinkingArrow
@@ -188,9 +194,10 @@ var TerrainBattle = Backbone.View.extend({
             $('div.stop-this').addClass('selected fade-in')
 
             if ($('section').hasClass(selectedName)) {
-              indexOfTarget = sectionEnemy.attr('class')
-              sectionEnemyTarget = indexOfTarget.slice(0, 6)
-              console.log(sectionEnemyTarget)
+              indexOfTarget = sectionEnemy.data('name')
+              // console.log(indexOfTarget)
+              sectionEnemyTarget = indexOfTarget
+              // console.log(sectionEnemyTarget)
               indexOfTarget = indexOfTarget.slice(5,6)
               indexOfTarget = indexOfTarget - 1
               return indexOfTarget
@@ -198,7 +205,7 @@ var TerrainBattle = Backbone.View.extend({
             }
             if ($('span.' + selectedName)) {
               spanHero.append('<div class="selected"></div>')
-              indexOfTarget = spanHero.attr('class')
+              indexOfTarget = spanHero.data('class')
               spanHeroTarget = indexOfTarget.slice(0, 5)
               indexOfTarget = indexOfTarget.slice(4,5)
               indexOfTarget = indexOfTarget - 1
@@ -208,25 +215,24 @@ var TerrainBattle = Backbone.View.extend({
             console.log(selectedName)
           })
 
-        }
-        attackIndividualClick()
-        
+        }())
+
         $('main').on('click', 'span > div > button', function () {
           monsterTarget = monstersWithStats[indexOfTarget].monster
-          // monsterTarget.id = sectionEnemyTarget
-          // console.log(monsterTarget)
           characterTarget = characterWithStats[turnIndex].character
-          console.log(characterTarget.agility)
           console.log(characterTarget.str * 5, monsterTarget.def)
           hpFromAttack = (characterTarget.str * 5) - monsterTarget.def
           console.log(hpFromAttack)
           if (hpFromAttack > 0) {
-            // if (monsterTarget.id === sectionEnemyTarget)
             monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
             if (monsterTarget.currentHp >= 0) {
               console.log(monsterTarget.currentHp)
               console.log(monstersWithStats[indexOfTarget].monster)
             } else {
+              expFromBattle = monsterTarget.expOnDefeat
+              
+              totalExp.push(expFromBattle)
+              console.log(totalExp)
 
               console.log('you killed ' + monsterTarget.name)
               console.log(sectionEnemyTarget)
@@ -240,8 +246,25 @@ var TerrainBattle = Backbone.View.extend({
           if ($('section').hasClass('enemy-sprites')) {
             console.log('continue')
           } else {
-            console.log('you win')
-          timeToTurn()
+            finalExp = 0
+            totalExp.forEach(function (exp) {
+              finalExp = finalExp + exp
+            })
+            var characterExp = 0
+            character.forEach(function (toon) {
+              characterExp = toon.exp + finalExp
+              console.log(characterExp)
+              var characterExpToLvl = toon.expLeftToLevel
+              if (characterExp > characterExpToLvl) {
+                console.log('You leveled up!')
+              } else {
+                characterExpToLvl = characterExpToLvl - characterExp
+                console.log(characterExpToLvl)
+              }
+              
+            })
+            console.log('you win and you got ', finalExp, ' exp!')
+            timeToTurn()
           }
         })
 

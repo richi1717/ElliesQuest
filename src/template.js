@@ -15,6 +15,7 @@ var magicMenu = require('./templates/magic-menu.hbs')
 var listMonsters = require('./templates/list-monsters.hbs')
 
 var listCharacters = require('./templates/list-characters.hbs')
+var worldTmpl = require('./templates/world.hbs')
 
 
 
@@ -25,5 +26,6 @@ module.exports = {
   magicSelector: magicSelector,
   magicMenu: magicMenu,
   listMonsters: listMonsters,
-  listCharacters: listCharacters
+  listCharacters: listCharacters,
+  worldTmpl: worldTmpl
 }

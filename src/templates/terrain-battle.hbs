@@ -2,9 +2,8 @@
   <div>
     <div class="battle-menu-main">NAME 
       {{#each character}}
-        <li><button class="menu-select character{{id}} character" name="{{id}}">{{name}}</button></li>
+        <li><button class="menu-select character{{id}} character" data-name="{{id}}">{{name}}</button></li>
       {{/each}}
-      {{!-- <li><button class="menu-select character{{id}} character">{{character.name}}</button></li> --}}
     
     </div>
     <div class="battle-menu-main-stats">
@@ -24,7 +23,7 @@
   </div>
 </div>
 {{#each character}}
-  <span class="hero{{id}} battle-hero" name="{{name}}"></span>
+  <span class="hero{{id}} battle-hero" data-name="{{name}}"></span>
 {{/each}}
 
 

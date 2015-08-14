@@ -362,10 +362,10 @@ var GameWorld = Backbone.View.extend({
 
     buildTerrain(cells)
     // for the rain if I decide to use it
-    // $('.sunny').addClass('rain')
-    // setInterval(function () {
-    //   $('.sunny').toggleClass('rain2')
-    // }, 200)
+    $('.sunny').addClass('rain')
+    setInterval(function () {
+      $('.sunny').toggleClass('rain2')
+    }, 200)
 
 
 

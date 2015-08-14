@@ -27,6 +27,10 @@ var TerrainBattle = Backbone.View.extend({
     var monstersWithStats = []
     var characterWithStats = []
     var totalExp = []
+    var hasBeenKilled = 0
+    var runAway
+    runAway = 0
+    clearInterval(runAway)
     
     character.fetch().done(function (character) {
 
@@ -93,18 +97,25 @@ var TerrainBattle = Backbone.View.extend({
           var html = tmpl.battleMenu({})
           return html
         }
-
-        function renderAttackMenu(monster, character) {
-          $('span.battle-menu-turn + span.menu-attack').remove()
-          var length = $('section.enemy-sprites').length
           var i = 0
           var monsters = []
 
+        function renderAttackMenu(monster, character) {
+          $('span.battle-menu-turn + span.menu-attack').remove()
+          console.log('attack')
+          length = $('section.enemy-sprites').length
+          console.log(length)
+          i = 0
+          monsters = []
+          console.log(i, monsters)
+          console.log(hasBeenKilled)
+
           while (i < length) {
             i++
-            var nameOf = $('section.enemy' + i).data('nameOf')
+            enemy = (i + hasBeenKilled)
+            nameOf = $('section.enemy' + enemy).data('nameOf')
             console.log(nameOf)
-            var target = 'enemy' + i
+            target = 'enemy' + enemy
             monsters.push({ name: nameOf, target: target })
           }
 
@@ -149,6 +160,8 @@ var TerrainBattle = Backbone.View.extend({
 
           $('main').append(renderSubMenu(true, turn))
           $('.battle-hero').removeClass('run1 run2')
+          clearInterval(runAway)
+          clearInterval(blinkingArrow)
           attackClick()
           defendClick()
           magicClick()
@@ -178,15 +191,26 @@ var TerrainBattle = Backbone.View.extend({
         // outcome
         (function () {
           $('main').on('click', 'span > div > button', function () {
-            var selectedName = $(this).data('name')
-            var sectionEnemy = $('section.' + selectedName)
-            var spanHero = $('span.' + selectedName)
+            selectedName = $(this).data('name')
+            sectionEnemy = $('section.' + selectedName)
+            spanHero = $('span.' + selectedName)
+
+            setTimeout(function () {
+              $('.turn').addClass('attack-' + selectedName)
+              setTimeout(function () {
+                $('.turn').addClass('battle-hero-attack')
+                
+              }, 200)
+              
+            }, 300)
+            setTimeout(function () {
+              $('.turn').removeClass('battle-hero-attack attack-' + selectedName)
+            }, 1200)
             sectionEnemy.append('<div class="stop-this"></div>')
             
             if ($('div').hasClass('stop-this')) {
               clearTimeout(blinkingArrow)
               $('div.selected').remove()
-              // console.log('removed')
             }
             else {
               blinkingArrow
@@ -195,9 +219,7 @@ var TerrainBattle = Backbone.View.extend({
 
             if ($('section').hasClass(selectedName)) {
               indexOfTarget = sectionEnemy.data('name')
-              // console.log(indexOfTarget)
               sectionEnemyTarget = indexOfTarget
-              // console.log(sectionEnemyTarget)
               indexOfTarget = indexOfTarget.slice(5,6)
               indexOfTarget = indexOfTarget - 1
               return indexOfTarget
@@ -216,57 +238,68 @@ var TerrainBattle = Backbone.View.extend({
           })
 
         }())
+          enemyAttacked()
+        
+        function enemyAttacked() {
+          $('main').on('click', 'span > div > button', function () {
+            monsterTarget = monstersWithStats[indexOfTarget].monster
+            characterTarget = characterWithStats[turnIndex].character
+            hpFromAttack = (characterTarget.str * 5) - monsterTarget.def
+            console.log('-hp', hpFromAttack)
+            if (hpFromAttack > 0) {
+              monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
 
-        $('main').on('click', 'span > div > button', function () {
-          monsterTarget = monstersWithStats[indexOfTarget].monster
-          characterTarget = characterWithStats[turnIndex].character
-          console.log(characterTarget.str * 5, monsterTarget.def)
-          hpFromAttack = (characterTarget.str * 5) - monsterTarget.def
-          console.log(hpFromAttack)
-          if (hpFromAttack > 0) {
-            monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
-            if (monsterTarget.currentHp >= 0) {
-              console.log(monsterTarget.currentHp)
-              console.log(monstersWithStats[indexOfTarget].monster)
-            } else {
-              expFromBattle = monsterTarget.expOnDefeat
-              
-              totalExp.push(expFromBattle)
-              console.log(totalExp)
-
-              console.log('you killed ' + monsterTarget.name)
-              console.log(sectionEnemyTarget)
-              $('section.' + sectionEnemyTarget).remove()
-              $('div > button.' + sectionEnemyTarget + '-position').remove()
-            }
-
-          } else {
-            console.log('you did no damage')
-          }
-          if ($('section').hasClass('enemy-sprites')) {
-            console.log('continue')
-          } else {
-            finalExp = 0
-            totalExp.forEach(function (exp) {
-              finalExp = finalExp + exp
-            })
-            var characterExp = 0
-            character.forEach(function (toon) {
-              characterExp = toon.exp + finalExp
-              console.log(characterExp)
-              var characterExpToLvl = toon.expLeftToLevel
-              if (characterExp > characterExpToLvl) {
-                console.log('You leveled up!')
+              if (monsterTarget.currentHp >= 0) {
+                console.log(monsterTarget.currentHp)
               } else {
-                characterExpToLvl = characterExpToLvl - characterExp
-                console.log(characterExpToLvl)
+                expFromBattle = monsterTarget.expOnDefeat
+                
+                totalExp.push(expFromBattle)
+                console.log(totalExp)
+  
+                console.log('you killed ' + monsterTarget.name)
+                hasBeenKilled = hasBeenKilled + 1
+                console.log(hasBeenKilled)
+                setTimeout(function () {
+                  $('section.' + sectionEnemyTarget).remove()
+                  $('div > button.' + sectionEnemyTarget + '-position').remove()
+                  
+                }, 1200)
               }
-              
-            })
-            console.log('you win and you got ', finalExp, ' exp!')
-            timeToTurn()
-          }
-        })
+  
+            } else {
+              console.log('you did no damage')
+            }
+            setTimeout(function () {
+              if ($('section').hasClass('enemy-sprites')) {
+                console.log('continue')
+              } else {
+                finalExp = 0
+                totalExp.forEach(function (exp) {
+                  finalExp = finalExp + exp
+                })
+                var characterExp = 0
+                character.forEach(function (toon) {
+                  characterExp = toon.exp + finalExp
+                  console.log(characterExp)
+    
+                  if (characterExp > toon.expLeftToLevel) {
+                    console.log('You leveled up!')
+                    toon.level++
+    
+                  } else {
+                    toon.expLeftToLevel = toon.expLeftToLevel - characterExp
+                    console.log(toon.expLeftToLevel)
+    
+                  }
+                })
+                console.log('you win and you got ', finalExp, ' exp!')
+                timeToTurn()
+              }
+            }, 1200)
+          $('span.battle-menu-turn').remove()
+          })
+        }
 
         function defendClick(turn, who) {
           $('main').on('click', '#defend', function (event) {
@@ -316,22 +349,23 @@ var TerrainBattle = Backbone.View.extend({
 
             
             $('main').children('span.sub-menu').remove()
-            $('.battle-hero').addClass('run1').removeClass('turn')
+            $('.battle-hero').addClass('run1 run2').removeClass('turn')
             if ($('.battle-hero').hasClass('stop-this')) {
               clearInterval(runAway)
               $('.battle-hero').removeClass('stop-this')
               console.log('running')
-              run()
+              runAway = setInterval(function () {
+                console.log('running away');
+                $('.battle-hero').toggleClass('run2').addClass('stop-this')
+              }, 200)   
 
             }
             else {
-              function run() {
-                runAway = setInterval(function () {
-                  console.log('running away');
-                  $('.battle-hero').toggleClass('run2').addClass('stop-this')
-                }, 200)  
-              }
-              run()
+
+              runAway = setInterval(function () {
+                console.log('running away');
+                $('.battle-hero').toggleClass('run2').addClass('stop-this')
+              }, 200)  
             }
 
             if (ranNum) {
@@ -343,6 +377,7 @@ var TerrainBattle = Backbone.View.extend({
             }
             else {
               setTimeout(function () {
+                clearInterval(runAway)
                 console.log('You couldn\'t escape!')
                 $('.battle-hero').removeClass('run1 run2')
                 clearInterval(runAway)

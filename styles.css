@@ -580,7 +580,6 @@ span > div:nth-child(7) {
   background-position: 2px 8px;
 }
 
-
 .battle-hero-position1 {
   position: absolute;
   top: 30%;
@@ -590,6 +589,7 @@ span > div:nth-child(7) {
 .turn {
   right: 25%;
 }
+
 
 .battle-hero-white-girl {
   background-position: 2px -85px;
@@ -663,6 +663,34 @@ span > div:nth-child(7) {
   transition: opacity .5s linear;
 }
 
+.battle-hero-attack {
+    background-position-x: -210px;
+}
+
+.attack-enemy1 {
+  top: 31%;
+  right: 55%;
+}
+
+.attack-enemy2 {
+  right: 55%;
+  top: 47%;
+}
+
+.attack-enemy3 {
+  top: 43%;
+  right: 70%;
+}
+
+.attack-enemy4 {
+  top: 30%;
+  right: 73%;
+}
+
+.attack-enemy5 {
+  top: 60%;
+  right: 72%;
+}
 
  /**
  *  Enemy Sprites

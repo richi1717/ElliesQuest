@@ -263,8 +263,19 @@ h1 {
     background-size: cover;
 }
 
-.quicksand {
-    background-color: rgba(183, 135, 20, 1);
+.rain {
+  background-image: url('src/images/rain.png');
+  /*background-size: cover;*/
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  opacity: .5;
+  background-position: 0 20px;
+
+}
+
+.rain2 {
+  background-position: 100px 0;
 }
 
  /**

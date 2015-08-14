@@ -359,45 +359,15 @@ var GameWorld = Backbone.View.extend({
       return { x: x, y: y }
     }
 
-    function battle() {
-      var random = _.random(1, 20)
-      var inRange = _.inRange(random, 10, 20)
-      if (inRange) {
-        console.log('hit')
-      } else {
-        console.log('miss')
-      }
-
-
-    }
-    
-
-    // // checks to see if enemy is defeated or if character is defeated
-    // if (enemy.hp === 0) {
-    //   if (enemyTotal === 0) {
-    //     console.log('you win')
-    //   } else {
-    //     console.log('continue the fight')
-    //   }
-    // } else if (characterStats.hp === 0) {
-    //   if (characterTotal === 0) {
-    //     console.log('Game Over')
-    //   } else {
-    //     console.log('You are dead but your buddy lives on')
-    //   }
-    // }
-
     moveTo(characterStats.position)
-    // var element = document.getElementsByTagName('span');
-    // console.log(element)
-    // var position = element.getBoundingClientRect();
-    // var x = position.left;
-    // var y = position.top;
-    // console.log(x,y)
-
 
     buildTerrain(cells)
-    // buildCharacter()
+    // for the rain if I decide to use it
+    $('.sunny').addClass('rain')
+    setInterval(function () {
+      $('.sunny').toggleClass('rain2')
+    }, 200)
+
 
 
 

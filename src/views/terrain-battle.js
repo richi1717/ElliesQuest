@@ -27,13 +27,6 @@ var TerrainBattle = Backbone.View.extend({
     var terrainType = terrainType
     var monstersWithStats = []
     var characterWithStats = []
-    var indexOfTarget
-    var turnIndex
-    var monsterTarget
-    var characterTarget
-    var hpFromAttack
-    var sectionEnemyTarget
-    var spanHeroTarget
     
     character.fetch().done(function (character) {
 
@@ -125,7 +118,7 @@ var TerrainBattle = Backbone.View.extend({
 
         }
 
-
+        // build map
         function renderTerrain(terrain, character) {
 
           var html = tmpl.terrainBattle({
@@ -135,6 +128,7 @@ var TerrainBattle = Backbone.View.extend({
           return html
         }
 
+        // build the magic sub-menu
         function renderMagicMenu(m1, m2, m3) {
           var html = tmpl.magicMenu({
             magic1: m1,
@@ -143,9 +137,7 @@ var TerrainBattle = Backbone.View.extend({
           })
           return html
         }
-
-        var runningTimer
-
+        // click event for each menu selection
         $('.character').on('click', function (event) {
           event.preventDefault
           $('main').children('span.sub-menu').remove()
@@ -155,7 +147,6 @@ var TerrainBattle = Backbone.View.extend({
 
           $('main').append(renderSubMenu(true, turn))
           $('.battle-hero').removeClass('run1 run2')
-          // clearInterval(runningTimer)
           attackClick()
           defendClick()
           magicClick()
@@ -227,7 +218,7 @@ var TerrainBattle = Backbone.View.extend({
           characterTarget = characterWithStats[turnIndex].character
           console.log(characterTarget.agility)
           console.log(characterTarget.str * 5, monsterTarget.def)
-          hpFromAttack = characterTarget.str - monsterTarget.def
+          hpFromAttack = (characterTarget.str * 5) - monsterTarget.def
           console.log(hpFromAttack)
           if (hpFromAttack > 0) {
             // if (monsterTarget.id === sectionEnemyTarget)
@@ -363,18 +354,6 @@ var TerrainBattle = Backbone.View.extend({
 
 
 
-        // if (terrain === 'desert') {
-        //     enemyCountDesert()
-        //   } else if (terrain === 'grass') {
-
-        //   } else if (terrain === 'forest') {
-
-        //   }
-        // enemyCountDesert()
-        // turnOrder(true, 1)
-        // monsterCollection.fetch().done(function (monsters) {
-        //   console.log('got monster data')
-        // })
       })
     })
   }

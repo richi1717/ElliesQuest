@@ -362,10 +362,103 @@ var GameWorld = Backbone.View.extend({
 
     buildTerrain(cells)
     // for the rain if I decide to use it
-    $('.sunny').addClass('rain')
+    // $('.sunny').addClass('rain')
+    
+    // setInterval(function () {
+    //   $('.sunny').toggleClass('rain2')
+    // }, 200)
+    // setInterval(function () {
+    //   var randomLightning = _.random(1, 20)
+    //   $('.sunny').removeClass('lightning')
+    //   if (randomLightning === 1) {
+    //     setTimeout(function () {
+    //       $('.sunny').addClass('lightning')
+    //       console.log('lightning')
+          
+    //     }, 200)
+    //   }
+      
+    // }, 200)
+    var raining = {}
+    var lightning = 0
+    var raining = 0
+    function rain () {    
+      $('.sunny').addClass('rain')
+    
+      raining = setInterval(function () {
+        $('.sunny').toggleClass('rain2')
+      }, 200)
+
+      lightning = setInterval(function () {
+        var randomLightning = _.random(1, 20)
+        $('.sunny').removeClass('lightning')
+        if (randomLightning === 1) {
+          setTimeout(function () {
+            $('.sunny').addClass('lightning')
+            console.log('lightning')
+            
+          }, 200)
+        }
+        
+      }, 200)
+      console.log('raining')
+    }
+
+    var randomRain = _.random(0)
     setInterval(function () {
-      $('.sunny').toggleClass('rain2')
-    }, 200)
+      randomRain = _.random(0, 5)
+      if (randomRain === 1) {
+        if($('.sunny').hasClass('rain')) return false
+        else {
+          object.trigger("run");
+        }  
+      }
+    }, 2000)
+
+    var randomSunny = 0
+    var sunny = 0
+
+    setInterval(function () {
+      console.log('check')
+      if ($('.sunny').hasClass('rain')) {
+        console.log('check if sunny')
+        sunny = setInterval(function () {
+          randomSunny = _.random(0, 1)
+          if (randomSunny) {
+            console.log('what')
+            object.off("run", "all", function () {
+              console.log('stop')
+            })
+            // object.off()
+            clearInterval(raining)
+            clearInterval(lightning)
+            $('.sunny').removeClass('rain rain2 lightning')
+
+          }
+        }, 10000)
+      }
+    }, 10000)
+
+    setInterval(function () {
+      if ($('.sunny').hasClass('rain') === false) {
+      clearInterval(sunny)
+      console.log('omg')
+    }
+    }, 5000)
+   
+    var object = {};
+
+    _.extend(object, Backbone.Events);
+
+    object.on("run", function() {
+      rain();
+      console.log('started raining')
+    });
+    // object.off(null, null, function () {
+    //   console.log('stopped raining')
+    // })
+
+
 
 
 

@@ -179,30 +179,6 @@ span {
     background-size: 100px;
 }
 
-span.left {
-    border-left: 2px solid rgba(0,255,0,0.75);
-}
-span.bottom {
-    border-bottom: 2px solid rgba(0,255,0,0.75);
-}
-span.right {
-    border-right: 2px solid rgba(0,255,0,0.75);
-}
-span.top {
-    border-top: 2px solid rgba(0,255,0,0.75);
-    /*position: absolute;
-    background-position: -4px -4px; 
-    margin:0;
-    padding:0;
-    height: 50px;
-    width: 50px;
-    box-sizing: border-box;
-    border: 2px solid red;
-    /*background-color: rgba(0,255,0,0.33);*/
-    /*background-image: url('src/images/advent-character-back.png');
-    background-size: 50px;*/
-}
-
 .success-button {
   background-color: #7DDD11;
 }
@@ -276,6 +252,13 @@ h1 {
 
 .rain2 {
   background-position: 100px 0;
+}
+
+.lightning {
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background-color: #fff;
 }
 
  /**
@@ -481,6 +464,13 @@ h1 {
   z-index: 1;
 }
 
+.menu-magic {
+  min-width: 600px;
+  margin-left: 200px;
+  margin-top: -230px;
+  z-index: 1;
+}
+
 .magic-attack-menu {
   margin-left: 250px;
   margin-top: -250px;
@@ -546,7 +536,14 @@ span > div:nth-child(7) {
   left: 60%;
 }
 
-
+.fire1-magic {
+  background-image: url('src/images/fire.png');
+  background-size: cover;
+  opacity: .5;
+  height: 100px;
+  width: 80px;
+  margin-left: 10px;
+}
 
 
 .attack-character {
@@ -903,6 +900,21 @@ button:focus {
 }
 
 .list-characters > li {
+  list-style-type: none; 
+}
+
+.list-magics > div {
+  width: 80px;
+  height: 80px;
+}
+
+.list-magics {
+  margin-left: 20px;
+  color: white;
+  display: inline-block;
+}
+
+.list-magics > li {
   list-style-type: none; 
 }
 

@@ -1,8 +1,8 @@
 <span class="battle-menu-turn menu-magic sub-menu">
-
-    <li><button class="menu-select" id="magic1">{{magic1}}</button></li>
-    <li><button class="menu-select" id="{{magic2}}">{{magic2}}</button></li>
-    <li><button class="menu-select" id="{{magic3}}">{{magic3}}</button></li>
+    {{#each this.magicAbilities}}
+      <li><button class="menu-select" data-magic="{{this}}">{{this}}</button></li>
+    {{/each}}
+   
 
     
 

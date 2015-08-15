@@ -6,6 +6,7 @@ var Handlebars = require('hbsfy/runtime');
 var tmpl = require('../template.js')
 
 var Character = require('../models/character.js')
+var characterCollection = require('../collections/character.js')
 var Monster = require('../models/monster.js')
 
 
@@ -28,19 +29,23 @@ var TerrainBattle = Backbone.View.extend({
     var characterWithStats = []
     var totalExp = []
     var hasBeenKilled = 0
-    var runAway
+    var runAway = 0
+    var expFromBattle = 0
     runAway = 0
     clearInterval(runAway)
     
-    character.fetch().done(function (character) {
+    characterCollection.fetch().done(function (character) {
 
       monster.fetch().done(function (monster) {
         
         _this.$el.html(renderTerrain(terrainType, character))
 
         function characterDbInfo(characters) {
-          characters.forEach(function (person) {
-            characterWithStats.push({ character: person })
+          characterCollection.forEach(function (character, index) {
+            console.log(character.attributes)
+
+            characterWithStats.push( character.attributes )
+            // console.log(characterWithStats[index])
           })
         }
         characterDbInfo(character)
@@ -52,6 +57,10 @@ var TerrainBattle = Backbone.View.extend({
             id: Date.now()
           })
         }
+
+        
+
+                  // console.log(characterCollection)
 
         function enemyCountTerrain(terrainType, monsters) {
           var count = _.random(1, 5)
@@ -238,13 +247,14 @@ var TerrainBattle = Backbone.View.extend({
           })
 
         }())
-          enemyAttacked()
+
+        enemyAttacked()
         
         function enemyAttacked() {
           $('main').on('click', 'span > div > button', function () {
             monsterTarget = monstersWithStats[indexOfTarget].monster
-            characterTarget = characterWithStats[turnIndex].character
-            hpFromAttack = (characterTarget.str * 5) - monsterTarget.def
+            characterTarget = characterWithStats[turnIndex]
+            hpFromAttack = (characterTarget.str * 20) - monsterTarget.def
             console.log('-hp', hpFromAttack)
             if (hpFromAttack > 0) {
               monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
@@ -252,10 +262,10 @@ var TerrainBattle = Backbone.View.extend({
               if (monsterTarget.currentHp >= 0) {
                 console.log(monsterTarget.currentHp)
               } else {
-                expFromBattle = monsterTarget.expOnDefeat
+                expFromBattle += monsterTarget.expOnDefeat
                 
-                totalExp.push(expFromBattle)
-                console.log(totalExp)
+                
+                console.log('total exp', expFromBattle)
   
                 console.log('you killed ' + monsterTarget.name)
                 hasBeenKilled = hasBeenKilled + 1
@@ -274,27 +284,38 @@ var TerrainBattle = Backbone.View.extend({
               if ($('section').hasClass('enemy-sprites')) {
                 console.log('continue')
               } else {
-                finalExp = 0
-                totalExp.forEach(function (exp) {
-                  finalExp = finalExp + exp
-                })
                 var characterExp = 0
-                character.forEach(function (toon) {
-                  characterExp = toon.exp + finalExp
-                  console.log(characterExp)
+                console.log(character[0])
+                characterModels = characterCollection.models
+                characterModels.forEach(function (toon) {
+
+                  toon.addExp(expFromBattle)
+                  // toon.updateStats(curr)
     
-                  if (characterExp > toon.expLeftToLevel) {
-                    console.log('You leveled up!')
-                    toon.level++
+                  // if (characterExp > toon.get('expTNL')) {
+                  //   console.log('You leveled up!')
+                  //   toon.set('level++')
     
-                  } else {
-                    toon.expLeftToLevel = toon.expLeftToLevel - characterExp
-                    console.log(toon.expLeftToLevel)
+                  // } else {
+                  //   toon.expTNL = toon.expTNL - characterExp
+                  //   console.log(toon.expTNL)
     
-                  }
+                  // }
+                  // battleEndStats = {
+                  //   "expTNL": toon.expTNL,
+                  //   "exp": toon.exp,
+                  //   "level": toon.level,
+                  //   "currentHp": toon.currentHp
+                  // }
+                  // console.log(characterModels)
+                  // characterModels[0].set(battleEndStats)
+                  // characterModels[0].save().done(function () {
+                  //   console.log('stats sent to db')
+                  // });
                 })
-                console.log('you win and you got ', finalExp, ' exp!')
+                console.log('you win and you got ', expFromBattle, ' exp!')
                 timeToTurn()
+
               }
             }, 1200)
           $('span.battle-menu-turn').remove()
@@ -332,21 +353,11 @@ var TerrainBattle = Backbone.View.extend({
           })
         }
 
-        // function runningAway() {
-        //   setTimeout(function () {
-        //     console.log('running away');
-        //     $('.battle-hero').toggleClass('run2').addClass('stop-this')
-        //     runningAway()
-        //   }, 200)   
-        // }
-
         function runClick() {
       
-
           $('main').on('click', '#run', function (event) {
             event.preventDefault
             var ranNum = _.random(0,1)
-
             
             $('main').children('span.sub-menu').remove()
             $('.battle-hero').addClass('run1 run2').removeClass('turn')

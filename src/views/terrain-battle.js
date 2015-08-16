@@ -56,7 +56,7 @@ var TerrainBattle = Backbone.View.extend({
 
           // Prevent arrow keys from scrolling
           window.addEventListener("keydown", function(e) {
-            if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            if([37, 38, 39, 40].indexOf(e.which) > -1) {
               e.preventDefault();
             }
           }, false);
@@ -252,7 +252,7 @@ var TerrainBattle = Backbone.View.extend({
           };
 
           window.addEventListener("keydown", function(e) {
-            if([90].indexOf(e.keyCode) > -1) {
+            if([90].indexOf(e.which) > -1) {
               e.preventDefault();
               console.log('z');
               if ($('span').hasClass('magic-attack-menu')) {

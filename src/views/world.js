@@ -301,34 +301,34 @@ var GameWorld = Backbone.View.extend({
         var direction = 'top'
         var classDirection = 'red-boy-up1'
         var ffSprite = 'ff-sprite'
-        if (e.keyCode === 38) {
-          $('span').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+        if (e.which === 38) {
           direction = 'top'
-          $('span').addClass('red-boy-up1')
-          $('span').toggleClass('red-boy-up2')
-        } else if (e.keyCode === 37) {
-          $('span').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          $('red-boy-up1').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          classDirection = 'red-boy-up1'
+          classDirection = $('red-boy-up1').toggleClass('red-boy-up2')
+        } else if (e.which === 37) {
           direction = 'left'
-          $('span').addClass('red-boy-left1')
-          $('span').toggleClass('red-boy-left2')
-        } else if (e.keyCode === 39) {
-          $('span').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          $('red-boy-left1').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          classDirection = 'red-boy-left1'
+          classDirection = $('red-boy-left1').toggleClass('red-boy-left2')
+        } else if (e.which === 39) {
           direction = 'right'
-          $('span').addClass('red-boy-right1')
-          $('span').toggleClass('red-boy-right2')
-        } else if (e.keyCode === 40) {
-          $('span').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          $('red-boy-right1').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          classDirection = 'red-boy-right1'
+          classDirection = $('red-boy-right1').toggleClass('red-boy-right2')
+        } else if (e.which === 40) {
           direction = 'bottom'
-          $('span').addClass('red-boy-down1')
-          $('span').toggleClass('red-boy-down2')
+          $('red-boy-down1').removeClass('red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
+          classDirection = 'red-boy-down1'
+          classDirection = $('red-boy-down1').toggleClass('red-boy-down2')
         }
           
-          var classes = [ffSprite, direction].join(' ')
+          var classes = [ffSprite, classDirection, direction].join(' ')
 
           $('#overworld').addClass(classes)
           moveTo(findDirection(direction))
           // }
-          if (_.random(3, 10) === 1) {
+          if (_.random(0, 20) === 1) {
           console.log(characterStats.position)
           var terrain = findTerrain(findCell(characterStats.position.x, characterStats.position.y))
 
@@ -387,29 +387,12 @@ var GameWorld = Backbone.View.extend({
 
       buildTerrain(cellsTerrain)
       // for the rain if I decide to use it
-      $('.sunny').addClass('rain')
-      
-      setInterval(function () {
-        $('.sunny').toggleClass('rain2')
-      }, 200)
-      setInterval(function () {
-        var randomLightning = _.random(1, 20)
-        $('.sunny').removeClass('lightning')
-        if (randomLightning === 1) {
-          setTimeout(function () {
-            $('.sunny').addClass('lightning')
-            console.log('lightning')
-            
-          }, 200)
-        }
-        
-      }, 200)
       var raining = {}
       var lightning = 0
       var raining = 0
       function rain () {    
         $('.sunny').addClass('rain')
-      
+       
         raining = setInterval(function () {
           $('.sunny').toggleClass('rain2')
         }, 200)
@@ -421,10 +404,10 @@ var GameWorld = Backbone.View.extend({
             setTimeout(function () {
               $('.sunny').addClass('lightning')
               console.log('lightning')
-              
+               
             }, 200)
           }
-          
+           
         }, 200)
         console.log('raining')
       }
@@ -465,11 +448,24 @@ var GameWorld = Backbone.View.extend({
       }, 10000)
 
       setInterval(function () {
+       
         if ($('.sunny').hasClass('rain') === false) {
-        clearInterval(sunny)
-        console.log('omg')
-      }
+          clearInterval(sunny)
+          console.log('omg')
+        }
       }, 5000)
+   
+      var object = {};
+
+      _.extend(object, Backbone.Events);
+
+      object.on("run", function() {
+        rain();
+        console.log('started raining')
+      });
+      // object.off(null, null, function () {
+      //   console.log('stopped raining')
+      // })
     })
   }
 });

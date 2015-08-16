@@ -5,6 +5,7 @@ var App = require('./app');
 var monsterCollection = require('./collections/monster');
 var characterCollection = require('./collections/character')
 var magicCollection = require('./collections/magic')
+var cellCollection = require('./collections/cell')
 
 // View: List Users
 var TerrainBattleView = require('./views/terrain-battle');
@@ -41,6 +42,8 @@ App.Router = Backbone.Router.extend({
     'monsters/:id(/)': 'showMonster',
     'magics(/)': 'listMagics',
     'magics/:id(/)': 'showMagic',
+    'cells(/)': 'listCells',
+    'cells/:id': 'showCell',
     'characters(/)': 'listCharacters',
     'characters/:id(/)': 'showCharacter',
     'game(/)': 'world',
@@ -64,6 +67,14 @@ App.Router = Backbone.Router.extend({
   showMagic: function(id) {
     App.Views.ListMagics.render(id);
     console.log(id)
+  },
+
+  listCells: function() {
+    App.Views.ListCells.render();
+  },
+
+  showCell: function(id) {
+    App.Views.ListCells.render(id);
   },
 
   listMonsters: function() {

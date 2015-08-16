@@ -13,7 +13,6 @@ function calcExpTNL(exp) {
   return calcExp(calcLevel(exp) + 1) - exp
 }
 
-console.log(calcLevel(2000))
 module.exports = {
   calcLevel: calcLevel,
   calcExp: calcExp,

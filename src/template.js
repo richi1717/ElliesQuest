@@ -8,7 +8,7 @@ var battleMenu = require('./templates/battle-menu.hbs')
 
 var attackMenu = require('./templates/attack.hbs')
 
-var magicMenu = require('./templates/magic.hbs')
+var magicAttackMenu = require('./templates/magic.hbs')
 
 var magicSelector = require('./templates/magic-selector.hbs')
 
@@ -31,7 +31,7 @@ module.exports = {
   battleMenu: battleMenu,
   attackMenu: attackMenu,
   magicSelector: magicSelector,
-  magicMenu: magicMenu,
+  magicAttackMenu: magicAttackMenu,
   listMonsters: listMonsters,
   listCharacters: listCharacters,
   worldTmpl: worldTmpl,

@@ -3,6 +3,7 @@ function calcLevel(exp) {
   if (exp > 2450250) return 100
   return Math.floor(exp / Math.sqrt(exp * 250))
 }
+
 function calcExp(level) {
   level = level
   return 250 * (level * level)
@@ -11,7 +12,8 @@ function calcExp(level) {
 function calcExpTNL(exp) {
   return calcExp(calcLevel(exp) + 1) - exp
 }
-console.log(calcLevel(1000))
+
+console.log(calcLevel(2000))
 module.exports = {
   calcLevel: calcLevel,
   calcExp: calcExp,

@@ -62,6 +62,7 @@ var TerrainBattle = Backbone.View.extend({
           }, false);
 
           _this.$el.html(renderTerrain(terrainType, character));
+          // _this.$el.append(renderStats(character))
 
           // Get all the characters data
           function characterDbInfo(characters) {
@@ -138,6 +139,11 @@ var TerrainBattle = Backbone.View.extend({
           function renderSubMenu(turn, who) {
             turnOrder(turn, who);
             var html = tmpl.battleMenu({});
+            return html
+          }
+
+          function renderStats(character) {
+            var html = tmpl.hpMp({ character: character });
             return html
           }
           
@@ -563,10 +569,13 @@ var TerrainBattle = Backbone.View.extend({
                   characterModels = characterCollection.models;
                   characterModels.forEach(function (toon) {
                     toon.addExp(expFromBattle);
-                    console.log(expUtils.calcExpTNL(toon.attributes.exp))
+                    expUtils.calcExpTNL(toon.attributes.exp)
+                    
                   });
                   console.log('you win and you got ', expFromBattle, ' exp!');
-                  timeToTurn();
+                  $('div.battle > div').append('<div class="level-up">' 
+                    + characterModels[0].attributes.name + ' Got ' + expFromBattle + 'Exp</div>')
+                  // timeToTurn();
                 };
               }, 1200);
 
@@ -575,8 +584,51 @@ var TerrainBattle = Backbone.View.extend({
           };
 
           function enemyToCharacterDamage() {
+            $('main').on('click', 'section.enemy-sprites', function () {
+              indexMonster = ($(this).data('name').slice(5, 6)) - 1
+              monsterAttack = monstersWithStats[indexMonster].monster;
+              randomIndex = _.random(0, 1);
+              if ($('span.battle-hero').hasClass('dead')) {
+                if ($('span.dead').hasClass('hero1')) { randomIndex = 1 } 
+                else { randomIndex = 0};
+              // console.log(randomIndex, 'this')
+              }
+              characterToAttack = characterWithStats[randomIndex];
+              // console.log(characterToAttack)
 
+              hpFromAttack = monsterAttack.str - characterToAttack.def + 10;
+              // console.log(hpFromAttack)
+              if (hpFromAttack > 0) {
+                if (hpFromAttack >= characterToAttack.currentHp) {
+                  characterToAttack.currentHp = 0;
+                  console.log('hp', characterToAttack.currentHp);
+                  console.log('character died');
+                  $('span.hero' + (randomIndex + 1)).addClass('dead');
+                  if ($('span.hero1').hasClass('dead') && $('span.hero2').hasClass('dead')) {
+                    characterToAttack.currentHp = 0;
+                    console.log('gameover');
+                  } else { 
+                    console.log('continue on');
+                  }
+                }
+                else {
+                  characterToAttack.currentHp = characterToAttack.currentHp - hpFromAttack;
+                };
+
+              }
+              else { 
+                hpFromAttack = 1;
+                characterToAttack.currentHp = characterToAttack.currentHp - hpFromAttack;
+
+              };
+              console.log(characterToAttack.currentHp)
+              character = characterWithStats
+              console.log(terrainType, character)
+              $('div.battle-menu-main-stats').remove()
+              $('main > div > div').append(renderStats(character))
+            })
           }
+          enemyToCharacterDamage()
 
           function defendClick(turn, who) {
             $('main').on('click', '#defend', function (event) {

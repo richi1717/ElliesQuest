@@ -22,6 +22,8 @@ var worldTmpl = require('./templates/world.hbs')
 
 var listMagics = require('./templates/list-magics.hbs')
 
+var hpMp = require('./templates/hpMp.hbs')
+
 
 
 
@@ -36,5 +38,6 @@ module.exports = {
   listCharacters: listCharacters,
   worldTmpl: worldTmpl,
   magicMenu: magicMenu,
-  listMagics: listMagics
+  listMagics: listMagics,
+  hpMp: hpMp
 }

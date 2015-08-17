@@ -43,11 +43,17 @@ App.Models.Character = Backbone.Model.extend({
     console.log('currentLvl', currentLvl)
     this.set('exp', this.get('exp') + expGained)
     var newLvl = expUtils.calcLevel(this.get('exp'))
-    console.log(newLvl)
+    console.log('newLvl', newLvl)
+    
 
     if (newLvl > currentLvl) {
       this.updateStats(newLevelStats)
       console.log('You gained a level')
+
+      $('div.level-up > ').append(' and gained a Level')
+      // setTimeout(function () {
+      //   $('div.level-up').remove()
+      // }, 10000)
     }
 
     this.save()

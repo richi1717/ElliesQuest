@@ -33,7 +33,7 @@ th {
 
 tr + tr {
   font-family: 'Istok Web', sans-serif;
-  font-size: 30px;
+  font-size: 22pt;
   height: 1px;
 }
 
@@ -130,7 +130,7 @@ button {
 }
 
 a > button {
-  font-size: 14px;
+  font-size: 14pt;
   font-weight: bold;
   line-height: 1;
   position: relative;
@@ -366,7 +366,7 @@ h1 {
   position: absolute;
   color: #C2C3C7;
   text-indent: 40px;
-  font-size: 20px;
+  font-size: 20pt;
   text-shadow: 2px 1px #8a8a7b;
   bottom: 0;
   left: 0;
@@ -393,6 +393,21 @@ h1 {
   text-shadow: 2px 1px rgba(250, 250, 250, .3);
 }
 
+.level-up {
+  font-family: 'Istok Web', sans-serif;
+  position: absolute;
+  color: #C2C3C7;
+  text-indent: 40px;
+  font-size: 20pt;
+  text-shadow: 2px 1px #8a8a7b;
+  height: 50px;
+  width: 100vw;
+  border: 2px solid rgba(255, 255, 255, .20);
+  box-shadow: 3px 3px rgb(10, 10, 10), -3px -3px rgb(10, 10, 10), -3px 3px rgb(10, 10, 10), 3px -3px rgb(10, 10, 10);
+  background-color: rgba(15, 14, 45, .65);
+  border-radius: 5px;
+}
+
  /**
  *  Menus
  */
@@ -401,7 +416,7 @@ h1 {
   position: absolute;
   color: #C2C3C7;
   text-indent: 40px;
-  font-size: 20px;
+  font-size: 20pt;
   text-shadow: 2px 1px #8a8a7b;
   bottom: 0;
   right: 0;
@@ -426,7 +441,7 @@ h1 {
 .battle-menu-turn {
   color: #C2C3C7;
   text-indent: 40px;
-  font-size: 20px;
+  font-size: 20pt;
   text-shadow: 2px 1px #8a8a7b;
   margin-top: -210px;
   margin-left: 150px;

@@ -1,0 +1,15 @@
+<div class="battle-menu-main-stats">
+  <table>
+    <tr>
+      <th>HP</th>
+      <th>MP</th>
+    </tr>
+    {{#each character}}
+      <tr>
+        <td>{{currentHp}}/{{maxHp}}</td>
+        <td>{{currentMp}}/{{maxMp}}</td>
+      </tr>
+    {{/each}}
+    
+  </table>
+</div>

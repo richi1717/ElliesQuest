@@ -18,6 +18,9 @@ App.Views.HomePage = new HomePage;
 var NewGame = require('./views/new-game')
 App.Views.NewGame = new NewGame
 
+var GameOver = require('./views/game-over.js')
+App.Views.GameOver = new GameOver
+
 var ListMonstersView = require('./views/list-monsters');
 App.Views.ListMonsters = new ListMonstersView;
 
@@ -48,6 +51,7 @@ App.Router = Backbone.Router.extend({
     'characters/:id(/)': 'showCharacter',
     'game(/)': 'world',
     'new-game(/)': 'newGame',
+    'game-over(/)': 'gameOver',
     '*actions': 'index'
   },
 
@@ -100,6 +104,10 @@ App.Router = Backbone.Router.extend({
 
   newGame: function() {
     App.Views.NewGame.render()
+  },
+
+  gameOver: function() {
+    App.Views.GameOver.render()
   },
 
   defaultRoute: function(actions) {

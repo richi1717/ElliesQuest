@@ -152,6 +152,22 @@ a > button {
   width: 1500px;*/
   
 }
+
+.game-over-screen {
+  position: relative;
+  background-color: #000;
+}
+
+.game-over-screen > div{
+  font-family: 'Orbitron', sans-serif;
+  color: #C2C3C7;
+  text-indent: 40px;
+  font-size: 40pt;
+  text-shadow: 2px 1px #8a8a7b;
+  margin-top: 25vw;
+  margin-left: 35vw;
+}
+
 .new-game-screen > div {
   position: absolute;
   top: 50px;
@@ -530,7 +546,7 @@ span > div:nth-child(7) {
 .fire1-magic {
   background-image: url('src/images/fire.png');
   background-size: cover;
-  opacity: .4;
+  opacity: .8;
   height: 100px;
   width: 80px;
   margin-left: 15px;
@@ -568,7 +584,6 @@ span > div:nth-child(7) {
   background-image: url('src/images/dark-cloud.png');
   background-size: cover;
   position: absolute;
-
   opacity: .6;
   height: 50px;
   width: 130px;
@@ -692,7 +707,6 @@ span > div:nth-child(7) {
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   border-top: 30px solid rgba(255, 255, 0, .8);
-  /*opacity: 1;*/
 }
 
 .selected.fade-in {
@@ -732,6 +746,12 @@ span > div:nth-child(7) {
 .attack-enemy5 {
   top: 60%;
   right: 72%;
+}
+
+.hero-game-over {
+  position: absolute;
+  top: 100%;
+  right: 45%;
 }
 
  /**
@@ -893,10 +913,28 @@ span > div:nth-child(7) {
   top: 55.5%;
 }
 
+.monster-attack-hero1 {
+  top: 32%;
+  left: 72%;
+}
+
+.monster-attack-hero2 {
+  top: 50%;
+  left: 72%;
+}
+
 button.menu-select {
   padding: 0 0px;
   text-align: left;
   text-shadow: 2px 1px #8a8a7b;
+}
+
+button.game-over-button {
+  padding: 0 0px;
+  margin-left: -250px;
+  text-shadow: 2px 1px #8a8a7b;
+  color: royalblue;
+  margin-top: 20px;
 }
 
 .damage-display {

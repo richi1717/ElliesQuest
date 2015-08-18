@@ -167,7 +167,7 @@ var GameWorld = Backbone.View.extend({
             }, 200)
           }
            
-        }, 200)
+        }, 300)
         console.log('raining')
       }
 

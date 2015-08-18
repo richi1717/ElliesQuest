@@ -18,19 +18,3 @@ module.exports = {
   calcExp: calcExp,
   calcExpTNL: calcExpTNL
 }
-var _ = require('lodash')
-
-var turns = [
-  { 'turn': 1,  'name': 'a' },
-  { 'turn': 3,    'name': 'b' },
-  { 'turn': 2, 'name': 'c' }
-];
-
-var turn = _.chain(turns)
-  .sortBy('turn').reverse()
-  .map(function(chr) {
-    console.log( chr.name + ' is ' + chr.turn )
-  })
-  // .first()
-  .value();
-// → 'pebbles is 1'

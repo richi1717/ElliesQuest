@@ -12,6 +12,9 @@ var GameOver = Backbone.View.extend({
   render: function () {
     this.$el.html(gameOver());
     $('div.game-over-screen > div').append('<button class="game-over-button">Click to continue from last save</button>')
+    setInterval(function () {
+      $('button').toggleClass('fadedOut')
+    }, 1000)
     $('button').on('click', function () {
       App.router.navigate('/game/', { trigger: true });
     })

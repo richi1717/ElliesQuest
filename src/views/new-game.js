@@ -71,7 +71,13 @@ var NewGame = Backbone.View.extend({
       if(!$(this).is('#shift')) {
         if(!$(this).is('#clear')) {
           if (!$(this).is('#backspace')) {
-            if($('div.new-game-input').text() === 'Enter Your Name') {
+            if($('div.new-game-input').text() === 'Enter Your Name' || $('div.new-game-input').text() === 'Enter Your Name Please...' || $('div.new-game-input').text() === 'Enter Your Password') {
+              if ($('div.new-game-input').text().length > 0 || $('div.new-game-input').text('')) {
+                if ($('div').hasClass('new-game-start')) {
+                } else {
+                  $('main').append('<div class="new-game-start"><button id="start">Start</button></div>')
+                }
+              }
               if ($(this).text() === '⏘') {
                 $('div.new-game-input').text(' ')
               } else {
@@ -82,6 +88,12 @@ var NewGame = Backbone.View.extend({
                 }
               }
             } else {
+              if ($('div.new-game-input').text().length > 0) {
+                if ($('div').hasClass('new-game-start')) {
+                } else {
+                  $('main').append('<div class="new-game-start"><button id="start">Start</button></div>')
+                }
+              }
               if ($('button#shift').data('name') === 'click') {
                 if ($(this).text() === '⏘') {
                   $('div.new-game-input').append(' ')
@@ -97,13 +109,57 @@ var NewGame = Backbone.View.extend({
               }
             }
           } else {
-            strLength = $('div.new-game-input').text().length - 1
-            str = $('div.new-game-input').text().slice(0, strLength)
-            $('div.new-game-input').text(str)
+            if ($('button').hasClass('click') && $('div.new-game-input').text().length < 2) {
+                console.log('hey')
+                $('div.new-game-input').text('Enter Your Password')
+              
+            } else {
+              if ($('div.new-game-input').text().length < 2) {
+                $('div.new-game-start').remove()
+                $('div.new-game-input').text('Enter Your Name')
+
+              } else if ($('div.new-game-input').text() === 'Enter Your Name') {
+                $('div.new-game-input').append(' Please...')
+              } else if ($('div.new-game-input').text() === 'Enter Your Name Please...') {
+                $('div.new-game-input').text('Enter Your Name')
+              } else if ($('div.new-game-input').text() === 'Enter Your Password') {
+                $('div.new-game-start').remove()
+                $('div.new-game-input').text('Enter Your Name')
+                $('button.click').removeClass('click')
+              } else {
+                strLength = $('div.new-game-input').text().length - 1
+                str = $('div.new-game-input').text().slice(0, strLength)
+                $('div.new-game-input').text(str)
+              }
+            }
           }
         } else {
-          $('div.new-game-input').text('Enter Your Name')
+          if ($('div.new-game-input').text() === 'Enter Your Password') {
+            $('div.new-game-input').text('Enter Your Password')
+          } else {
+            if ($('button#start').hasClass('click')) {
+              $('div.new-game-input').text('Enter Your Password')
+            } else {
+              $('div.new-game-input').text('Enter Your Name')
+              $('div.new-game-start').remove()
+
+              // $('div.new-game-input').text('Enter Your Name')
+            }
+          }
         }
+      }
+    })
+
+    $('main').on('click', 'button#start', function () {
+      if ($('button#start').hasClass('click')) {
+        if ($('div.new-game-input').text() === 'Enter Your Password') {
+          console.log('do nothing')
+        } else {
+          console.log($('div.new-game-input').text())
+        }
+      } else { 
+        $('div.new-game-input').text('Enter Your Password')
+        $('button#start').addClass('click')
       }
     })
     function myFunction(e) {
@@ -111,7 +167,7 @@ var NewGame = Backbone.View.extend({
       var x = e.which;
       if (x == 37) {  // 27 is the ESC key
         console.log("You pressed the Escape key!");
-        $('button:focus').next()
+        $('button:focus').next().focus()
       }
     }
     $('html').on('keydown', function (e) {

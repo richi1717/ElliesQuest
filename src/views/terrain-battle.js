@@ -42,13 +42,14 @@ var TerrainBattle = Backbone.View.extend({
     var hasBeenKilled = 0;
     var runAway = 0;
     var expFromBattle = 0;
-    runAway = 0;
     var i = 0;
     var monsters = [];
     var readyForArray = []
     var speedArray = []
+    var gotAway = 0
 
     clearInterval(runAway);
+
     
     characterCollection.fetch().done(function (character) {
 
@@ -72,6 +73,10 @@ var TerrainBattle = Backbone.View.extend({
               // console.log(character.attributes)
 
               characterWithStats.push( character.attributes );
+              if (character.attributes.currentHp === 0) {
+                $('span.hero' + character.attributes.id).addClass('dead')
+                console.log('dead')
+              }
               // console.log(characterWithStats[index])
             })
           }
@@ -96,6 +101,8 @@ var TerrainBattle = Backbone.View.extend({
               id: Date.now()
             })
           }
+
+
 
           // Check to see how may enemies join the battle based
           // on what terrain the battle takes place on and then 
@@ -183,12 +190,13 @@ var TerrainBattle = Backbone.View.extend({
             while (i < length) {
               i++;
               enemy = (i + hasBeenKilled);
+              console.log('Work on this today!!!!!!!!!!!!!!!!!!!!!')
               nameOf = $('section.enemy' + enemy).data('nameOf');
               // console.log(nameOf)
               target = 'enemy' + enemy;
               monsters.push({ name: nameOf, target: target });
             };
-            // console.log(monsters);
+            console.log(monsters);
             var html = tmpl.attackMenu({
               monster: monsters,
               character: character
@@ -647,6 +655,8 @@ var TerrainBattle = Backbone.View.extend({
                 else {
                   var characterExp = 0;
                   console.log(character[0]);
+                  var endBattleMsgs = []
+                  var lvldUp = false
                   characterModels = characterCollection.models;
                   characterModels.forEach(function (toon) {
                     var toonExp = toon.addExp(expFromBattle, toon);
@@ -659,25 +669,64 @@ var TerrainBattle = Backbone.View.extend({
                     var magic1 = toonExp.magic
                     var evade1 = toonExp.evade
                     var agility1 = toonExp.agility
-                    if (!toonExp === false) {
-                      $('div.level-up').append(' and gained a Level')
-                      $('main').one('click', function () {
-                        $('div.level-up').text('and gained a level!')
-                        $('main').one('click', function () {
-                          $('div.level-up').text('+' + str1 + 'Str +' + def1 + 'Def +' + maxHp1 + 'MaxHp +' + maxMp1 + 'MaxMp')
-                          $('main').one('click', function () {
-                            $('div.level-up').text('+' + accuracy1 + 'Accuracy +' + magic1 + 'Magic +' + evade1 + 'Evade +' + agility1 + 'Agility')
-                          })
-                        })
-                      })
+                    if (toonExp !== false) {
+                      lvldUp = true
+                      endBattleMsgs.push(
+                        toon.get('name') + ' got ' + expFromBattle + 'Exp',
+                        ' and gained a level', 
+                        '+' + str1 + 'Str +' + def1 + 'Def +' + maxHp1 + 'MaxHp +' + maxMp1 + 'MaxMp',
+                        '+' + accuracy1 + 'Accuracy +' + magic1 + 'Magic +' + evade1 + 'Evade +' + agility1 + 'Agility'
+                      )
+
+                      // $('main').one('click', function () {
+                      //   $('div.level-up').text('and gained a level!')
+                      //   $('main').one('click', function () {
+                      //     $('div.level-up').text('+' + str1 + 'Str +' + def1 + 'Def +' + maxHp1 + 'MaxHp +' + maxMp1 + 'MaxMp')
+                      //     $('main').one('click', function () {
+                      //       $('div.level-up').text('+' + accuracy1 + 'Accuracy +' + magic1 + 'Magic +' + evade1 + 'Evade +' + agility1 + 'Agility')
+                      //     })
+                      //   })
+                      // })
+                    } else {
+                      endBattleMsgs.push(toon.get('name') + ' got ' + expFromBattle + 'Exp')
                     }
                     
                   });
+                  if (lvldUp) {
+                    $('div.battle > div').append('<div class="level-up">' + endBattleMsgs.shift() + '</div>')
+                    $('div.battle').on('click', function () {
+                      var nextLine = endBattleMsgs.shift()
+                      if (nextLine) {
+                        $('div.level-up').text(nextLine)
+                      } else {
+                        console.log('ended')
+                        clearInterval(runAway)
+                        clearTimeout(gotAway)
+                        App.router.navigate('/game/', { trigger: true })
+                      }
+                    })
+                    
+                    
+                  } else {
+                    $('div.battle > div').append('<div class="level-up">' + endBattleMsgs.shift() + '</div>')
+                    $('div.battle').on('click', function () {
+                      var nextLine = endBattleMsgs.shift()
+                      if (nextLine) {
+                        $('div.level-up').text(nextLine)
+                      } else {
+                        console.log('ended')
+                        clearInterval(runAway)
+                        clearTimeout(gotAway)
+                        App.router.navigate('/game/', { trigger: true })
+                      }
+                    })
+                  }
+                  console.log(endBattleMsgs)
                   console.log('you win and you got ', expFromBattle, ' exp!');
                   hero1Model = characterModels[0].attributes
                   hero2Model = characterModels[1].attributes
-                  $('div.battle > div').append('<div class="level-up">' 
-                    + hero1Model.name + ' got ' + expFromBattle + 'Exp</div>')
+                  // $('div.battle > div').append('<div class="level-up">' 
+                  //   + hero1Model.name + ' got ' + expFromBattle + 'Exp</div>')
                   
                   oldExp = hero1Model.exp - expFromBattle
                   oldLvlCalc = expUtils.calcLevel(oldExp)
@@ -708,6 +757,7 @@ var TerrainBattle = Backbone.View.extend({
                 $(enemyTurn).addClass('turn')
                 // console.log(enemyTurn)
                 indexMonster = ($(enemyTurn).data('name').slice(5, 6)) - 1
+                console.log(indexMonster + ' !!759')
                 monsterAttack = monstersWithStats[indexMonster].monster;
                 randomIndex = _.random(0, 1);
                 if ($('span.battle-hero').hasClass('dead')) {
@@ -720,7 +770,7 @@ var TerrainBattle = Backbone.View.extend({
                     // console.log("heryeoeeee")
                   };
                 // console.log(randomIndex, 'this')
-                }
+                };
                 $(enemyTurn).addClass('monster-attack-hero' + (randomIndex + 1))
                 setTimeout(function () {
                   $(enemyTurn).removeClass('monster-attack-hero' + (randomIndex + 1))
@@ -751,6 +801,7 @@ var TerrainBattle = Backbone.View.extend({
                         $('div.battle > div').append('<div class="level-up">You Lose!</div>')
                       }, 1000)
                       setTimeout(function () {
+                        clearInterval(runAway)
                         App.router.navigate('/game-over/', { trigger: true });
                       }, 4000)
                     } else { 
@@ -888,7 +939,7 @@ var TerrainBattle = Backbone.View.extend({
               };
 
               if (ranNum) {
-                setTimeout(function () {
+                gotAway = setTimeout(function () {
                   clearInterval(runAway);
                   console.log('You Ran Away!');
                   App.router.navigate('/game/', { trigger: true });
@@ -896,7 +947,7 @@ var TerrainBattle = Backbone.View.extend({
               }
               else {
                 setTimeout(function () {
-                  clearInterval(runAway);
+                  // clearInterval(runAway);
                   console.log('You couldn\'t escape!');
                   $('.battle-hero').removeClass('run1 run2');
                   clearInterval(runAway);
@@ -904,14 +955,14 @@ var TerrainBattle = Backbone.View.extend({
               };
           };
 
-          function timeToTurn() {
-            var time = characterTarget.agility;
-            time = (100 - time) * 30;
-            setTimeout(function () {
-              console.log('heyo');
-              App.router.navigate('/game/', { trigger: true });
-            }, time);
-          };
+          // function timeToTurn() {
+          //   var time = characterTarget.agility;
+          //   time = (100 - time) * 30;
+          //   setTimeout(function () {
+          //     console.log('heyo');
+          //     // App.router.navigate('/game/', { trigger: true });
+          //   }, time);
+          // };
         });
       });
     });

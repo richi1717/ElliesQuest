@@ -47,8 +47,8 @@ App.Models.Character = Backbone.Model.extend({
 
     if (newLvl > currentLvl) {
       var _this = this
-      $('div.battle > div').append('<div class="level-up">' 
-        + this.get('name') + ' got ' + expGained + 'Exp</div>')
+      // $('div.battle > div').append('<div class="level-up">' 
+      //   + this.get('name') + ' got ' + expGained + 'Exp</div>')
 
       var newLevelStats = {
         str: _.random(1, 10),

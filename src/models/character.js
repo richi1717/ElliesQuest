@@ -51,8 +51,8 @@ App.Models.Character = Backbone.Model.extend({
       //   + this.get('name') + ' got ' + expGained + 'Exp</div>')
 
       var newLevelStats = {
-        str: _.random(1, 10),
-        def: _.random(1, 10),
+        str: _.random(5, 10),
+        def: _.random(5, 10),
         maxMp: _.random(8, 15),
         maxHp: _.random(80, 140),
         accuracy: _.random(1, 5),

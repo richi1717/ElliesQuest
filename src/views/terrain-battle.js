@@ -66,6 +66,9 @@ var TerrainBattle = Backbone.View.extend({
           }, false);
 
           _this.$el.html(renderTerrain(terrainType, character));
+          $('div.battle').hide()
+          $('div.battle').fadeIn(2500)
+          
           // _this.$el.append(renderStats(character))
 
           // Get all the characters data
@@ -141,6 +144,9 @@ var TerrainBattle = Backbone.View.extend({
             })
           };
           enemyCountTerrain(terrainType, monster);
+
+          $('section.enemy-sprites').hide()
+          $('section.enemy-sprites').fadeIn(2500)
           // console.log(monstersWithStats)
           
           $('span.hero1').addClass('battle-hero-position1-back battle-ff-sprite battle-sprite-size battle-hero-red-boy');
@@ -782,6 +788,7 @@ var TerrainBattle = Backbone.View.extend({
                         clearInterval(runAway)
                         clearTimeout(gotAway)
                         $('#victory').animate({volume: 0}, 2000)
+                        $('div.battle').fadeOut(2000)
                         setTimeout(function () {
                           $('#victory').trigger('leave')
                           App.router.navigate('/game/', { trigger: true })
@@ -801,6 +808,7 @@ var TerrainBattle = Backbone.View.extend({
                         clearInterval(runAway)
                         clearTimeout(gotAway)
                         $('#victory').animate({volume: 0}, 2000)
+                        $('div.battle').fadeOut(2000)
                         setTimeout(function () {
                           $('#victory').trigger('leave')
                           App.router.navigate('/game/', { trigger: true })
@@ -900,11 +908,12 @@ var TerrainBattle = Backbone.View.extend({
                       $('div.battle > div').append('<div class="level-up">You Lose!</div>')
                     }, 1000)
                     $('#battle').animate({volume: 0}, 2000)
+                    $('div.battle').fadeOut(2000)
                     setTimeout(function () {
                       clearInterval(runAway)
                       $('#battle').trigger('leave')
                       App.router.navigate('/game-over/', { trigger: true });
-                    }, 3000)
+                    }, 2000)
                   } else { 
                     
                     // console.log('continue on');
@@ -1041,12 +1050,13 @@ var TerrainBattle = Backbone.View.extend({
 
               if (ranNum) {
                 $('#battle').animate({volume: 0}, 2000)
+                $('div.battle').fadeOut({volume: 0}, 2000)
                 gotAway = setTimeout(function () {
                   clearInterval(runAway);
                   // console.log('You Ran Away!');
                   $('#battle').trigger('leave')
                   App.router.navigate('/game/', { trigger: true });
-                }, 3000);
+                }, 2000);
               }
               else {
                 setTimeout(function () {

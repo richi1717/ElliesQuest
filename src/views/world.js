@@ -49,6 +49,8 @@ var GameWorld = Backbone.View.extend({
         cellDb()
 
         _this.$el.html(tmpl.worldTmpl(cellsTerrain))
+        $('div.sunny').hide()
+        $('div.sunny').fadeIn(2000)
         var character = $('span')
         var characterStats = characterCollection.models[0].attributes
 
@@ -103,6 +105,7 @@ var GameWorld = Backbone.View.extend({
             console.log(characterModels)
             // console.log(wtf)
             $('#world').animate({volume: 0}, 2000)
+            $('div.sunny').fadeOut(2000)
             setTimeout(function () {
               $('#world').trigger('leave')
               App.router.navigate('battle/' + terrain, { trigger: true })

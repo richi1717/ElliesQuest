@@ -21,8 +21,11 @@ var GameOver = Backbone.View.extend({
       $('button.game-over-button').toggleClass('fadedOut')
     }, 1000)
     $('button.game-over-button').on('click', function () {
-      $('#game-over').trigger('leave')
-      App.router.navigate('/game/', { trigger: true });
+      $('#game-over').animate({volume: 0}, 1000)
+      setTimeout(function () {
+        $('#game-over').trigger('leave')
+        App.router.navigate('/game/', { trigger: true });
+      }, 1000)
     })
     $('button#home').on('click', function () {
       $('span.hero-game-over').addClass('game-over-start1')
@@ -30,6 +33,7 @@ var GameOver = Backbone.View.extend({
         $('span.hero-game-over').toggleClass('game-over-start2')
       }, 200)
       $('span.hero-game-over').addClass('game-over-animate').delay(600)
+      $('#game-over').animate({volume: 0}, 3000)
       setTimeout(function () {
         clearInterval(continueGame);
         clearInterval(newGame);

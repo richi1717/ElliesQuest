@@ -102,8 +102,12 @@ var GameWorld = Backbone.View.extend({
             characterModels[0].addPosition(characterStats.currentPosition)
             console.log(characterModels)
             // console.log(wtf)
-            $('#world').trigger('leave')
-            App.router.navigate('battle/' + terrain, { trigger: true })
+            $('#world').animate({volume: 0}, 2000)
+            setTimeout(function () {
+              $('#world').trigger('leave')
+              App.router.navigate('battle/' + terrain, { trigger: true })
+              
+            }, 2000)
             // enemyNameByArea()
           }
 

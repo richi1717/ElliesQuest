@@ -48,6 +48,7 @@ var TerrainBattle = Backbone.View.extend({
     var speedArray = []
     var gotAway = 0
 
+
     clearInterval(runAway);
 
     
@@ -144,13 +145,14 @@ var TerrainBattle = Backbone.View.extend({
           
           $('span.hero1').addClass('battle-hero-position1-back battle-ff-sprite battle-sprite-size battle-hero-red-boy');
           $('span.hero2').addClass('battle-hero-position2-back battle-ff-sprite battle-sprite-size battle-hero-white-girl');
-          characterWithStats.forEach(function (hero, index) {
+          characterWithStats.forEach(function (hero) {
             speed = hero.agility
             // speed = 8000 - (speed * .71428571)
             speed = 1000 - speed
             setTimeout(function () {
-              index += 1
-              turnArray.push('hero' + index)
+              // index += 1
+              console.log(hero)
+              turnArray.push(hero.battleName)
             }, speed)
           })
           
@@ -226,7 +228,7 @@ var TerrainBattle = Backbone.View.extend({
             //   }
             //   console.log('Work on this today!!!!!!!!!!!!!!!!!!!!!')
             // };
-            console.log(monsters);
+            // console.log(monsters);
             var html = tmpl.attackMenu({
               monster: monsters,
               character: character
@@ -280,7 +282,7 @@ var TerrainBattle = Backbone.View.extend({
           function ifArrayValue() {
             if (turnArray.length === 0) {
               // console.log('wtfdude')
-              // console.log(turnArray)
+              console.log(turnArray)
               setTimeout(function () {
                 ifArrayValue()
               }, 1000)
@@ -288,6 +290,7 @@ var TerrainBattle = Backbone.View.extend({
             else {
               if (!$('span').hasClass('turn')) {
                 turnNow = turnArray.shift()
+                console.log(turnNow)
                 if (_.find($('.' + turnNow)) === undefined || $('.' + turnNow).hasClass('dead')) {
                   // turnNow = turnArray.shift()
                   // console.log(turnNow)
@@ -317,7 +320,7 @@ var TerrainBattle = Backbone.View.extend({
               event.preventDefault;
               $('main').children('span.sub-menu').remove();
               $('main').children('span.battle-menu-turn').remove();
-              var turn = $(this).data('name');
+              var turn = $(this).data('name').slice(4, 5);
               turnIndex = turn - 1;
               $('main').append(renderSubMenu(true, turn));
               if (!_.has(characterWithStats[turnIndex], 'magicAbilities')) {
@@ -392,8 +395,8 @@ var TerrainBattle = Backbone.View.extend({
                 $('span.battle-hero').removeClass('turn battle-hero-position1 battle-hero-position2 hero-turn')
                 // $('span.battle-hero').removeClass('battle-hero-position1 battle-hero-position2 turn');
                 $('li').removeClass('character-turn');
-                turnArray.push(waitToBePushed)
                 ifArrayValue()
+                turnArray.unshift(waitToBePushed)
               };
             };
           }, false)

@@ -13,7 +13,7 @@ var Character = require('../models/character');
 *****************************************/
 
 var CharacterCollection = Backbone.Collection.extend({
-  url: App.Settings.apiRoot + '/characters?userId=' + 1,
+  url: App.Settings.apiRoot + '/characters?userId=1',
   model: Character
 });
 

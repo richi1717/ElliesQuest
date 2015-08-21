@@ -30,6 +30,7 @@ var GameWorld = Backbone.View.extend({
 
   render: function () {
     var _this = this;
+    var characterModels = 0
 
     characterCollection.fetch().done(function (character) {
       cellCollection.fetch().done(function (cell) {
@@ -99,6 +100,8 @@ var GameWorld = Backbone.View.extend({
             clearInterval(sunny)
             characterModels = characterCollection.models;
             characterModels[0].addPosition(characterStats.currentPosition)
+            console.log(characterModels)
+            // console.log(wtf)
             App.router.navigate('battle/' + terrain, { trigger: true })
             // enemyNameByArea()
           }

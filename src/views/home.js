@@ -15,10 +15,7 @@ var HomePage = Backbone.View.extend({
     var character = new Character({ id: 1 })
     character.fetch().done(function (character) {
       _this.$el.html(homeTemplate(character));
-      $('body').removeClass().addClass('home');
-      setInterval(function () {
-        $('span.red-boy-down1').toggleClass('red-boy-down2')
-      }, 400)
+      // $('body').removeClass().addClass('home');
 
     })
   }

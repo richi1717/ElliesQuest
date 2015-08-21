@@ -23,13 +23,15 @@ var App = require('../app');
 
 App.Models.Character = Backbone.Model.extend({
   url: function () { 
-    var base = App.Settings.apiRoot + '/characters?userId=' + 1;
+    var base = App.Settings.apiRoot + '/characters';
     if (this.isNew()) return base;
     return base + '/' + this.id
   },
 
   addPosition: function (position) {
     this.set('currentPosition', position)
+    console.log(this.get('currentPosition'))
+    this.save()
   },
 
   addExp: function (expGained, stats) {
@@ -48,14 +50,14 @@ App.Models.Character = Backbone.Model.extend({
         evade: _.random(1, 5),
         agility: _.random(0, 2)
       }
-      _this.addLevel(newLevelStats)
-
+      this.addLevel(newLevelStats)
+      this.save()
     }
     else {
       var newLevelStats = false
+      this.save()
     }
 
-    this.save()
     return newLevelStats
   },
 

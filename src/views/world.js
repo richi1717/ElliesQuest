@@ -102,11 +102,16 @@ var GameWorld = Backbone.View.extend({
             characterModels[0].addPosition(characterStats.currentPosition)
             console.log(characterModels)
             // console.log(wtf)
+            $('#world').trigger('leave')
             App.router.navigate('battle/' + terrain, { trigger: true })
             // enemyNameByArea()
           }
 
         })
+        
+        $('#world').on('leave', function () {
+          this.pause();
+        });
 
         function findCell(x, y) {
           // console.log(x, y)

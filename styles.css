@@ -139,7 +139,7 @@ div:nth-child(2) > p.opening > span {
 
 div:nth-child(1) > a:nth-child(1) > i.fa-angle-double-up {
   font-size: 26pt;
-  margin-left: 47.5vw;
+  margin-left: 46.5vw;
   color: #0B3C56;
 }
 
@@ -151,7 +151,7 @@ i.fa-home {
 
 div:nth-child(1) > a:nth-child(6) > i.fa-angle-double-down {
   font-size: 26pt;
-  margin-left: 50vw;
+  margin-left: 49vw;
   color: #0B3C56;
   margin-top: 15px;
 }
@@ -171,13 +171,13 @@ div:nth-child(2) > p.opening {
 
 div:nth-child(2) > a:nth-child(1) > i.fa-angle-double-up {
   font-size: 26pt;
-  margin-left: 47.5vw;
+  margin-left: 46.5vw;
   color: #0B3C56;
 }
 
 div:nth-child(2) > a:nth-child(6) > i.fa-angle-double-down {
   font-size: 26pt;
-  margin-left: 50vw;
+  margin-left: 49vw;
   color: #0B3C56;
   margin-bottom: 10vw;
   position: absolute;
@@ -186,7 +186,7 @@ div:nth-child(2) > a:nth-child(6) > i.fa-angle-double-down {
 
 div:nth-child(3) > a > i.fa-angle-double-up {
   font-size: 26pt;
-  margin-left: 47.5vw;
+  margin-left: 46.5vw;
   color: #0B3C56;
 }
 
@@ -195,6 +195,10 @@ div:nth-child(3) > a > i.fa-angle-double-up {
   width: 200px;
   float: left;
   margin-top: 200px;
+}
+
+audio {
+  display: none;
 }
 
 .main-section > div:nth-child(2) > img {
@@ -207,14 +211,14 @@ div:nth-child(3) > a > i.fa-angle-double-up {
 ul.opening-left {
   font-size: 20pt;
   text-align: right;
-  margin-left: -630px;
+  margin-left: -646px;
 }
 
 ul.opening-right {
   font-size: 20pt;
   text-align: left;
   margin-top: -332px;
-  margin-left: 638px;
+  margin-left: 625px;
   list-style-type: none;
   width: 50vw;
 }
@@ -306,7 +310,6 @@ a > button {
 
 .game-over-screen {
   position: relative;
-  background-color: #000;
 }
 
 .game-over-screen > div{

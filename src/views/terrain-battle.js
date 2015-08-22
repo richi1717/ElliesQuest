@@ -6,7 +6,6 @@ var Handlebars = require('hbsfy/runtime');
 var tmpl = require('../template.js');
 
 // Collections
-var characterCollection = require('../collections/character.js');
 var magicCollection = require('../collections/magic.js');
 
 // Models
@@ -29,6 +28,7 @@ var TerrainBattle = Backbone.View.extend({
   collection: App.Collections.monster,
 
   render: function (terrainType) {
+    var characterCollection = require('../collections/character.js');
     var _this = this;
     var monsterCollection = this.collection;
     var character = new Character;
@@ -47,6 +47,28 @@ var TerrainBattle = Backbone.View.extend({
     var readyForArray = []
     var speedArray = []
     var gotAway = 0
+    var monsterSpeed = 0
+    var heroSpeed = 0
+    var turnNow = 0
+    var arrayCheck = 0
+    var goingNext = 0
+    var blinkingArrow = 0
+    var arrowBlink = 0
+    var attackMonster = 0
+    var attackHero = 0
+    var afterAttack = 0
+    var enemyDead = 0
+    var enemySprites = 0
+    var leaveBattle = 0
+    var characterExp = 0;
+    var newStats = 0
+    var enemyToHero = 0
+    var heroAttacked = 0
+    var remHeroAttacked = 0
+    var lvlUpScreen = 0
+    var gameDead = 0
+    var remTurn = 0
+    var didntGetAway = 0
 
 
     clearInterval(runAway);
@@ -114,7 +136,6 @@ var TerrainBattle = Backbone.View.extend({
           function enemyCountTerrain(terrainType, monsters) {
             var count = _.random(1, 5);
             var i = 1;
-            var position = 0;
             while (count >= i) {
               var randomEnemy = getRandomEnemy(terrainType, monsters);
               monstersWithStats.push({ monster: randomEnemy });
@@ -138,9 +159,10 @@ var TerrainBattle = Backbone.View.extend({
             readyForArray.forEach(function (monster) {
               speed = speedArray.shift()
               speed = 1000 - speed
-              setTimeout(function () {
+              monsterSpeed = setTimeout(function () {
                 turnArray.push(monster)
               }, speed)
+              timerArray.push(monsterSpeed)
             })
           };
           enemyCountTerrain(terrainType, monster);
@@ -155,11 +177,12 @@ var TerrainBattle = Backbone.View.extend({
             speed = hero.agility
             // speed = 8000 - (speed * .71428571)
             speed = 1000 - speed
-            setTimeout(function () {
+            heroSpeed = setTimeout(function () {
               // index += 1
               console.log(hero)
               turnArray.push(hero.battleName)
             }, speed)
+            timerArray.push(heroSpeed)
           })
           
           var turnOrder = function (turn, who) {
@@ -279,7 +302,6 @@ var TerrainBattle = Backbone.View.extend({
             return html;
           };
           var turnArray = []
-          var turnNow = 0
           // turnArray.push('hero1', 'hero2')
           // console.log(turnArray)
           // turnNow = turnArray.shift()
@@ -289,9 +311,10 @@ var TerrainBattle = Backbone.View.extend({
             if (turnArray.length === 0) {
               // console.log('wtfdude')
               console.log(turnArray)
-              setTimeout(function () {
+              arrayCheck = setTimeout(function () {
                 ifArrayValue()
               }, 1000)
+              timerArray.push(arrayCheck)
             }
             else {
               if (!$('span').hasClass('turn')) {
@@ -303,10 +326,11 @@ var TerrainBattle = Backbone.View.extend({
                   ifArrayValue()
                 } else {
                   // console.log(turnNow)
-                  setTimeout(function () { 
+                  goingNext = setTimeout(function () { 
                     $('.' + turnNow).addClass('turn')
                     $('.' + turnNow).trigger('click') 
                   }, 700)
+                  timerArray.push(goingNext)
                 }
               } else {
                 turnNow = turnArray.shift()
@@ -345,16 +369,16 @@ var TerrainBattle = Backbone.View.extend({
               $('div.stop-this').addClass('selected fade-in');
               clearInterval(runAway);
               clearInterval(blinkingArrow);
-              $('main').one('click', '#attack', function (event) {
+              $('main').on('click', '#attack', function (event) {
                 attackClick();
               });
-              $('main').one('click', '#defend', function (event) {
+              $('main').on('click', '#defend', function (event) {
                 defendClick();
               });
               $('main').on('click', '#magic', function (event) {
                 magicClick();
               });
-              $('main').one('click', '#run', function (event) {
+              $('main').on('click', '#run', function (event) {
                 runClick();
               });
             }
@@ -369,12 +393,14 @@ var TerrainBattle = Backbone.View.extend({
           };
 
           // put a cursor on the screen to show who you are attacking
-          var blinkingArrow = setTimeout(blinkingSelectorArrow(), 1000); 
+          blinkingArrow = setTimeout(blinkingSelectorArrow(), 1000); 
+          timerArray.push(blinkingArrow)
           function blinkingSelectorArrow() {
-            setTimeout(function () {
+            arrowBlink = setTimeout(function () {
               $('div.selected').toggleClass('fade').addClass('stop-this');
               blinkingSelectorArrow();
             }, 1000);
+            timerArray.push(arrowBlink)
           };
 
           window.addEventListener("keydown", function(e) {
@@ -428,22 +454,24 @@ var TerrainBattle = Backbone.View.extend({
               sectionEnemy = $('section.' + selectedName);
               spanHero = $('span.' + selectedName);
               console.log(selectedName)
-
               if (!$('span.menu-attack').hasClass('magic-attack-menu')) {
-                setTimeout(function () {
+                attackMonster = setTimeout(function () {
                   $('.turn').addClass('attack-' + selectedName);
-                  setTimeout(function () {
+                  attackHero = setTimeout(function () {
                     $('.turn').addClass('battle-hero-attack');
                   }, 200);
+                  timerArray.push(attackMonster)
                 }, 300);
+                timerArray.push(attackHero)
               };
 
-              setTimeout(function () {
+              afterAttack = setTimeout(function () {
                 $('.turn').removeClass('battle-hero-attack attack-' + selectedName);
                 $('.turn').removeClass('battle-hero-position1 battle-hero-position2 hero-turn turn');
                 $('li').removeClass('character-turn');
                 $('div.stop-this').remove();
               }, 1200);
+              timerArray.push(afterAttack)
               
               if ($('section').hasClass(selectedName)) {
                 indexOfTarget = sectionEnemy.data('name');
@@ -517,152 +545,175 @@ var TerrainBattle = Backbone.View.extend({
               // monsterTarget = monstersWithStats[indexOfTarget].monster;
               characterTarget = characterWithStats[turnIndex];
               characterToAttack = characterWithStats[indexOfTarget];
-              hpFromAttack = (characterTarget.str * 20) - (monsterTarget.def * 5);
+              // hpFromAttack = (characterTarget.str * 20) - (monsterTarget.def * 5);
               // console.log(characterToAttack);
               // console.log('damage = ', hpFromAttack);
-
+              var fireMagic = 0
+              var remFire = 0
+              var dmgDisplay = 0
+              var remDmgDis = 0
+              var cureMagic = 0
+              var remCureMagic = 0
+              var lightningMagic = 0
+              var remLightningMagic = 0
               if ($('[data-magic="Fire1"]').hasClass('fire1')) {
-
                 sectionEnemy.append('<div class="fire1-magic"></div>').delay(400)
-                setTimeout(function () {
+                fireMagic = setTimeout(function () {
                   $('div.fire1-magic').addClass('fire1-magic-move');
                 }, 600);
-                setTimeout(function () {
+                timerArray.push(fireMagic)
+                remFire = setTimeout(function () {
                   $('div.fire1-magic').remove();
                 }, 1000);
+                timerArray.push(remFire)
                 // console.log(characterTarget.magic, fireAttack);
                 if ($('section').hasClass(selectedName)) {
                   hpFromAttack = (characterTarget.magic + fireAttack.str) - monsterTarget.def;
                   characterTarget.currentMp = characterTarget.currentMp - mpFromAttack
                   // console.log('fire does ' + hpFromAttack + ' damage');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('section.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
-                }
-                else if ($('span.' + selectedName)) {
+                  timerArray.push(dmgDisplay)
+                } else if ($('span.' + selectedName)) {
                   hpFromAttack = (characterTarget.magic + fireAttack.str) - characterToAttack.def;
                   characterTarget.currentMp = characterTarget.currentMp - mpFromAttack
                   // console.log('fire does ' + hpFromAttack + ' damage');
-                  setTimeout(function () {
+
+                  dmgDisplay = setTimeout(function () {
                     $('span.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
+                  timerArray.push(dmgDisplay)
                 }
 
-              } 
-              else if ($('[data-magic="Cure1"]').hasClass('cure1')) {
+              } else if ($('[data-magic="Cure1"]').hasClass('cure1')) {
                 $('button').removeClass('fire1 lightning1');
                 sectionEnemy.append('<div class="cure1-magic"></div>');
-                setTimeout(function () {
+                cureMagic = setTimeout(function () {
                   $('div.cure1-magic').addClass('cure1-magic-move');
                 }, 500);
-                setTimeout(function () {
+                timerArray.push(cureMagic)
+                remCureMagic = setTimeout(function () {
                   $('div.cure1-magic').remove();
                 }, 1000);
+                timerArray.push(remCureMagic)
                 // console.log(characterTarget.magic, cureHp.str);
                 if ($('section').hasClass(selectedName)) {
                   hpFromAttack = (characterTarget.magic + cureHp.str) + monsterTarget.def;
                   characterTarget.currentMp = characterTarget.currentMp - mpFromAttack
                   // console.log('Cure heals ' + hpFromAttack + ' HP');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('section.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(dmgDisplay)
                   }, 400)
-                }
-                else if ($('span.' + selectedName)) {
+                  timerArray.push(remDmgDis)
+                } else if ($('span.' + selectedName)) {
                   hpFromAttack = (characterTarget.magic + cureHp.str) + characterToAttack.def;
                   characterTarget.currentMp = characterTarget.currentMp - mpFromAttack
                   // console.log('Cure heals ' + hpFromAttack + ' HP');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('span.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
+                  timerArray.push(dmgDisplay)
                 }
-              }
-              else if ($('[data-magic="Lightning1"]').hasClass('lightning1')) {
+              } else if ($('[data-magic="Lightning1"]').hasClass('lightning1')) {
                 $('button').removeClass('fire1 cure1');
                 sectionEnemy.append('<div class="lightning1-magic"></div>');
                 sectionEnemy.append('<div class="cloud-magic"></div>');
-                setTimeout(function () {
+                lightningMagic = setTimeout(function () {
                   $('div.lightning1-magic').addClass('lightning1-magic-move');
                 }, 500);
-                setTimeout(function () {
-                  setTimeout(function () {
+                timerArray.push(lightningMagic)
+                remLightningMagic = setTimeout(function () {
+                  remLightMagic = setTimeout(function () {
                     $('div.lightning1-magic').remove();
                     $('div.cloud-magic').remove();
                   }, 500);
+                  timerArray.push(remLightMagic)
                   $('div.lightning1-magic').removeClass('lightning1-magic-move');
                 }, 1000);
+                timerArray.push(remLightningMagic)
                 if ($('section').hasClass(selectedName)) {
                   hpFromAttack = (characterTarget.magic + lightningAttack.str) - monsterTarget.def;
                   characterTarget.currentMp = characterTarget.currentMp - mpFromAttack
                   // console.log('lightning deals ' + hpFromAttack + ' damage');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('section.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
-                }
-                else if ($('span.' + selectedName)) {
+                  timerArray.push(dmgDisplay)
+                } else if ($('span.' + selectedName)) {
                   hpFromAttack = (characterTarget.magic + lightningAttack.str) - characterToAttack.def;
                   characterTarget.currentMp = characterTarget.currentMp - mpFromAttack
                   // console.log('Lightning deals ' + hpFromAttack + ' damage');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('span.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
+                  timerArray.push(dmgDisplay)
                 }
-              }
-              else {
+              } else {
                 // console.log('normal damage');
                 if ($('section').hasClass(selectedName)) {
                   hpFromAttack = (characterTarget.str * 20) - (monsterTarget.def * 5);
                   // console.log('normal deals ' + hpFromAttack + ' damage');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('section.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
-                }
-                else if ($('span.' + selectedName)) {
+                  timerArray.push(dmgDisplay)
+                } else if ($('span.' + selectedName)) {
                   hpFromAttack = (characterTarget.str) - characterToAttack.def;
                   // console.log('normal deals ' + hpFromAttack + ' damage');
-                  setTimeout(function () {
+                  dmgDisplay = setTimeout(function () {
                     $('span.' + selectedName).append('<div class="damage-display">' + 
                       hpFromAttack + '</div>')
-                    setTimeout(function () {
+                    remDmgDis = setTimeout(function () {
                       $('div.damage-display').remove()
                     }, 1000)
+                    timerArray.push(remDmgDis)
                   }, 400)
+                  timerArray.push(dmgDisplay)
                 }
                 
-                setTimeout(function () {
-                  $('section.' + selectedName).append('<div class="damage-display">' + 
-                    hpFromAttack + '</div>')
-                  setTimeout(function () {
-                    $('div.damage-display').remove()
-                  }, 1000)
-                }, 400)
+                // setTimeout(function () {
+                //   $('section.' + selectedName).append('<div class="damage-display">' + 
+                //     hpFromAttack + '</div>')
+                //   setTimeout(function () {
+                //     $('div.damage-display').remove()
+                //   }, 1000)
+                // }, 400)
 
               };
 
@@ -699,10 +750,11 @@ var TerrainBattle = Backbone.View.extend({
                       // console.log('you killed ' + monsterTarget.name);
                       hasBeenKilled = hasBeenKilled + 1;
                       // console.log(hasBeenKilled);
-                      setTimeout(function () {
+                      enemyDead = setTimeout(function () {
                         $('section.' + sectionEnemyTarget).remove();
                         $('div > button.' + sectionEnemyTarget + '-position').remove();
                       }, 1200);
+                      timerArray.push(enemyDead)
                     };
                   }
                   else if ($('span.' + selectedName)) {
@@ -727,18 +779,18 @@ var TerrainBattle = Backbone.View.extend({
                 turnArray.push(waitToBePushed)
                 // console.log(turnArray)
               // }, speed)
-              setTimeout(function () {
+              enemySprites = setTimeout(function () {
                 if ($('section').hasClass('enemy-sprites')) {
                   // console.log('continue');
                   ifArrayValue()
                 } 
                 else {
                   $('#battle').trigger('leave')
-                  setTimeout(function () {
+                  leaveBattle = setTimeout(function () {
                     $('#victory').trigger('win')
                   }, 200)
+                  timerArray.push(leaveBattle)
 
-                  var characterExp = 0;
                   // console.log(character[0]);
                   var endBattleMsgs = []
                   var lvldUp = false
@@ -789,10 +841,11 @@ var TerrainBattle = Backbone.View.extend({
                         clearTimeout(gotAway)
                         $('#victory').animate({volume: 0}, 2000)
                         $('div.battle').fadeOut(2000)
-                        setTimeout(function () {
+                        leaveBattle = setTimeout(function () {
                           $('#victory').trigger('leave')
                           App.router.navigate('/game/', { trigger: true })
                         }, 2000)
+                        timerArray.push(leaveBattle)
                       }
                     })
                     
@@ -809,10 +862,11 @@ var TerrainBattle = Backbone.View.extend({
                         clearTimeout(gotAway)
                         $('#victory').animate({volume: 0}, 2000)
                         $('div.battle').fadeOut(2000)
-                        setTimeout(function () {
+                        leaveBattle = setTimeout(function () {
                           $('#victory').trigger('leave')
                           App.router.navigate('/game/', { trigger: true })
                         }, 2000)
+                        timerArray.push(leaveBattle)
                       }
                     })
                   }
@@ -834,9 +888,14 @@ var TerrainBattle = Backbone.View.extend({
                   // timeToTurn();
                 };
               }, 1800);
-              $('div.battle-menu-main-stats').remove()
+              timerArray.push(enemySprites)
               // console.log(character)
-              $('main > div > div').append(renderStats(character))
+              newStats = setTimeout(function () {
+                $('div.battle-menu-main-stats').remove()
+                $('main > div > div').append(renderStats(character))
+                
+              }, 1000)
+              timerArray.push(newStats)
               $('span.battle-menu-turn').remove();
           };
 
@@ -879,19 +938,22 @@ var TerrainBattle = Backbone.View.extend({
               // console.log(randomIndex, 'this')
               };
               $(enemyTurn).addClass('monster-attack-hero' + (randomIndex + 1))
-              setTimeout(function () {
+              enemyToHero = setTimeout(function () {
                 $(enemyTurn).removeClass('monster-attack-hero' + (randomIndex + 1))
               }, 1000)
+              timerArray.push(enemyToHero)
               // console.log(randomIndex, ' this is randomIndex')
               characterToAttack = characterWithStats[randomIndex];
               // console.log(characterToAttack)
-              setTimeout(function () {
+              heroAttacked = setTimeout(function () {
                 $('span.hero' + (randomIndex + 1)).append('<div class="damage-display">' + 
                   hpFromAttack + '</div>')
-                setTimeout(function () {
+                remHeroAttacked = setTimeout(function () {
                   $('div.damage-display').remove()
                 }, 1000)
+                timerArray.push(remHeroAttacked)
               }, 400)
+              timerArray.push(heroAttacked)
               // console.log(characterToAttack.name, 'thisname')
               hpFromAttack = _.ceil((monsterAttack.str * 5) - (characterToAttack.def * 1.6));
               // console.log(hpFromAttack)
@@ -904,16 +966,18 @@ var TerrainBattle = Backbone.View.extend({
                   if ($('span.hero1').hasClass('dead') && $('span.hero2').hasClass('dead')) {
                     characterToAttack.currentHp = 0;
                     // console.log('gameover');
-                    setTimeout(function () {
+                    lvlUpScreen = setTimeout(function () {
                       $('div.battle > div').append('<div class="level-up">You Lose!</div>')
                     }, 1000)
+                    timerArray.push(lvlUpScreen)
                     $('#battle').animate({volume: 0}, 2000)
                     $('div.battle').fadeOut(2000)
-                    setTimeout(function () {
+                    gameDead = setTimeout(function () {
                       clearInterval(runAway)
                       $('#battle').trigger('leave')
                       App.router.navigate('/game-over/', { trigger: true });
                     }, 2000)
+                    timerArray.push(gameDead)
                   } else { 
                     
                     // console.log('continue on');
@@ -922,10 +986,11 @@ var TerrainBattle = Backbone.View.extend({
                     // setTimeout(function () {
                     turnArray.push(waitToBePushed)
                     // console.log(turnArray)
-                    setTimeout(function () {
+                    remTurn = setTimeout(function () {
                       $('.turn').removeClass('turn')
                       ifArrayValue()
                     }, 2000)
+                    timerArray.push(remTurn)
                   }
                 } else {
                   characterToAttack.currentHp = characterToAttack.currentHp - hpFromAttack;
@@ -934,10 +999,11 @@ var TerrainBattle = Backbone.View.extend({
                   // setTimeout(function () {
                   turnArray.push(waitToBePushed)
                   // console.log(turnArray)
-                  setTimeout(function () {
+                  remTurn = setTimeout(function () {
                     $('.turn').removeClass('turn')
                     ifArrayValue()
                   }, 2000)
+                  timerArray.push(remTurn)
                 };
               } else { 
                 hpFromAttack = 1;
@@ -947,10 +1013,11 @@ var TerrainBattle = Backbone.View.extend({
                 // setTimeout(function () {
                 turnArray.push(waitToBePushed)
                 // console.log(turnArray)
-                setTimeout(function () {
+                remTurn = setTimeout(function () {
                   $('.turn').removeClass('turn')
                   ifArrayValue()
                 }, 2000)
+                timerArray.push(remTurn)
               };
               // console.log(characterToAttack.currentHp)
               character = characterWithStats
@@ -965,17 +1032,18 @@ var TerrainBattle = Backbone.View.extend({
           function defendClick(turn, who) {
               var turn = $('.turn');
               if (turn) {
-                // console.log($('span.turn').attr('class'))
+                console.log($('span.turn').attr('class').slice(0, 5))
                 waitToBePushed = $('span.turn').attr('class').slice(0, 5)
                 turn.removeClass('hero-turn turn').addClass('defense');
                 $('span.battle-menu-turn').remove()
                 // setTimeout(function () {
                   turnArray.push(waitToBePushed)
                   // console.log(turnArray)
-                  setTimeout(function () {
+                  remTurn = setTimeout(function () {
                     $('span.turn').removeClass('turn')
                     ifArrayValue()
                   }, 2000)
+                  timerArray.push(remTurn)
                 // }, 3000)
               };
               event.preventDefault;
@@ -1040,31 +1108,36 @@ var TerrainBattle = Backbone.View.extend({
                   // console.log('running away');
                   $('.battle-hero').toggleClass('run2').addClass('stop-this');
                 }, 200);
+                timerArray.push(runAway)
               }
               else {
                 runAway = setInterval(function () {
                   // console.log('running away');
                   $('.battle-hero').toggleClass('run2').addClass('stop-this');
                 }, 200) ; 
+                timerArray.push(runAway)
               };
 
               if (ranNum) {
-                $('#battle').animate({volume: 0}, 2000)
-                $('div.battle').fadeOut({volume: 0}, 2000)
                 gotAway = setTimeout(function () {
+                  $('#battle').animate({volume: 0}, 2000)
+                  $('div.battle').fadeOut({volume: 0}, 2000)
                   clearInterval(runAway);
                   // console.log('You Ran Away!');
                   $('#battle').trigger('leave')
                   App.router.navigate('/game/', { trigger: true });
-                }, 2000);
+                }, 3000);
+                timerArray.push(gotAway)
               }
               else {
-                setTimeout(function () {
+                didntGetAway = setTimeout(function () {
                   // clearInterval(runAway);
                   // console.log('You couldn\'t escape!');
-                  $('.battle-hero').removeClass('run1 run2');
+                  $('.battle-hero').removeClass('run1 run2 turn');
+                  ifArrayValue()
                   clearInterval(runAway);
                 }, 3000);
+                timerArray.push(didntGetAway)
               };
           };
 

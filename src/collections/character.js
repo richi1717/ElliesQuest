@@ -1,4 +1,5 @@
 var Backbone = require('backbone');
+var $ = require('jquery')
 
 
 /****************************************
@@ -11,9 +12,8 @@ var Character = require('../models/character');
 /****************************************
   Collection: Character
 *****************************************/
-
 var CharacterCollection = Backbone.Collection.extend({
-  url: App.Settings.apiRoot + '/characters?userId=1',
+  url: App.Settings.apiRoot + '/characters?userId=' + App.currentUser.id,
   model: Character
 });
 

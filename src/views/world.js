@@ -8,8 +8,8 @@ var _ = require('lodash')
 var App = require('../app');
 var cellCollection = require('../collections/cell.js');
 var cellTerrain = require('../models/cell.js');
-var characterCollection = require('../collections/character.js');
 var Character = require('../models/character.js');
+
 
 var cellsTerrain = [];
 
@@ -29,6 +29,7 @@ var GameWorld = Backbone.View.extend({
   collection: App.Collections.product,
 
   render: function () {
+    var characterCollection = require('../collections/character.js');
     var _this = this;
     var characterModels = 0
 
@@ -106,11 +107,12 @@ var GameWorld = Backbone.View.extend({
             // console.log(wtf)
             $('#world').animate({volume: 0}, 2000)
             $('div.sunny').fadeOut(2000)
-            setTimeout(function () {
+            var leaveBattle = setTimeout(function () {
               $('#world').trigger('leave')
               App.router.navigate('battle/' + terrain, { trigger: true })
               
             }, 2000)
+            timerArray.push(leaveBattle)
             // enemyNameByArea()
           }
 
@@ -178,6 +180,7 @@ var GameWorld = Backbone.View.extend({
           raining = setInterval(function () {
             $('.sunny').toggleClass('rain2')
           }, 200)
+          timerArray.push(raining)
 
           lightning = setInterval(function () {
             var randomLightning = _.random(1, 20)
@@ -188,9 +191,11 @@ var GameWorld = Backbone.View.extend({
                 console.log('lightning')
                  
               }, 200)
+              timerArray.push(lightningStrike)
             }
              
           }, 300)
+          timerArray.push(lightning)
           console.log('raining')
         }
 
@@ -205,6 +210,8 @@ var GameWorld = Backbone.View.extend({
             }  
           }
         }, 2000)
+        console.log(timerArray)
+        timerArray.push(rainOrNot)
 
         var randomSunny = 0
         var sunny = 0
@@ -229,8 +236,10 @@ var GameWorld = Backbone.View.extend({
 
               }
             }, 10000)
+            timerArray.push(sunny)
           }
         }, 10000)
+        timerArray.push(rainedOn)
 
         checkSunny = setInterval(function () {
          
@@ -239,6 +248,7 @@ var GameWorld = Backbone.View.extend({
             console.log('omg')
           }
         }, 5000)
+        timerArray.push(checkSunny)
      
         var object = {};
 

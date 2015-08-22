@@ -13,13 +13,15 @@ var GameOver = Backbone.View.extend({
 
     var continueGame = 0;
     var newGame = 0;
-    clearInterval(continueGame);
-    clearInterval(newGame);
+    var homePage
+    // clearInterval(continueGame);
+    // clearInterval(newGame);
     this.$el.html(gameOver());
     $('div.game-over-screen > div').append('<button class="game-over-button">Click to continue from last save</button>')
     continueGame = setInterval(function () {
       $('button.game-over-button').toggleClass('fadedOut')
     }, 1000)
+    timerArray.push(continueGame)
     $('button.game-over-button').on('click', function () {
       $('#game-over').animate({volume: 0}, 1500)
       $('div.game-over-screen').fadeOut(1500)
@@ -33,15 +35,17 @@ var GameOver = Backbone.View.extend({
       newGame = setInterval(function () {
         $('span.hero-game-over').toggleClass('game-over-start2')
       }, 200)
+      timerArray.push(newGame)
       $('span.hero-game-over').addClass('game-over-animate').delay(600)
       $('#game-over').animate({volume: 0}, 3000)
       $('div.game-over-screen').fadeOut(3000)
-      setTimeout(function () {
+      homePage = setTimeout(function () {
         clearInterval(continueGame);
         clearInterval(newGame);
         $('#game-over').trigger('leave')
         App.router.navigate('/', { trigger: true });
       }, 3000)
+      timerArray.push(homePage)
 
     })
     $('#game-over').on('leave', function () {

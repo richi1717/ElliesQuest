@@ -1,7 +1,7 @@
 var $ = require('jquery');
 var Backbone = require('backbone');
 var homeTemplate = require('../templates/home.hbs');
-var Character = require('../models/character.js')
+// var Character = require('../models/character.js')
 
 // App
 var App = require('../app');
@@ -12,12 +12,10 @@ var HomePage = Backbone.View.extend({
 
   render: function () {
     var _this = this
-    var character = new Character({ id: 1 })
-    character.fetch().done(function (character) {
-      _this.$el.html(homeTemplate(character));
+      
+        _this.$el.html(homeTemplate());
       // $('body').removeClass().addClass('home');
 
-    })
   }
 });
 

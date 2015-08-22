@@ -108,16 +108,19 @@ div:nth-child(2) > p.opening > span {
 
 .main-section > div:nth-child(1) {
   background-color: #DDF3FF;
+  position: relative;
   height: 100vh;
 }
 
 .main-section > div:nth-child(2) {
   background-color: #F0FBE5;
+  position: relative;
   height: 100vh;  
 }
 
 .main-section > div:nth-child(3) {
   background-color: #CCD1D4;
+  position: relative;
   height: 100vh;  
 }
 
@@ -153,7 +156,8 @@ div:nth-child(1) > a:nth-child(6) > i.fa-angle-double-down {
   font-size: 26pt;
   margin-left: 49vw;
   color: #0B3C56;
-  margin-top: 15px;
+  bottom: 0vh;
+  position: absolute;
 }
 
 div:nth-child(1) > p.opening {
@@ -179,9 +183,8 @@ div:nth-child(2) > a:nth-child(6) > i.fa-angle-double-down {
   font-size: 26pt;
   margin-left: 49vw;
   color: #0B3C56;
-  margin-bottom: 10vw;
   position: absolute;
-  margin-top: -10px;
+  bottom: 0vh;
 }
 
 div:nth-child(3) > a > i.fa-angle-double-up {

@@ -1,16 +1,7 @@
 var Backbone = require('backbone');
 var expUtils = require('../../utility/calcLevel.js')
 var _ = require('lodash')
-// var newLevelStats = {
-//   str: _.random(1, 10),
-//   def: _.random(1, 10),
-//   maxMp: _.random(8, 15),
-//   maxHp: _.random(80, 140),
-//   accuracy: _.random(1, 5),
-//   magic: _.random(0, 2),
-//   evade: _.random(1, 5),
-//   agility: _.random(0, 2)
-// }
+
 /****************************************
   App
 *****************************************/
@@ -18,7 +9,7 @@ var _ = require('lodash')
 var App = require('../app');
 
 /****************************************
-  Model: characters
+  Model: Characters
 *****************************************/
 
 App.Models.Character = Backbone.Model.extend({

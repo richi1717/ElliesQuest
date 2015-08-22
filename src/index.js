@@ -2,8 +2,10 @@ var Backbone = require('backbone');
 
 // App
 var App = require('./app');
+var HomePage = require('./views/home');
+App.Views.HomePage = new HomePage;
 var monsterCollection = require('./collections/monster');
-var characterCollection = require('./collections/character')
+// var characterCollection = require('./collections/character')
 var magicCollection = require('./collections/magic')
 var cellCollection = require('./collections/cell')
 
@@ -12,8 +14,6 @@ var TerrainBattleView = require('./views/terrain-battle');
 App.Views.TerrainBattle  = new TerrainBattleView;
 
 // View: Home Page
-var HomePage = require('./views/home');
-App.Views.HomePage = new HomePage;
 
 var NewGame = require('./views/new-game')
 App.Views.NewGame = new NewGame
@@ -61,15 +61,27 @@ App.Router = Backbone.Router.extend({
   },
 
   terrainBattle: function(terrain) {
+    $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+      App.currentUser = currentUser;
+      console.log(currentUser.id)
       App.Views.TerrainBattle.render(terrain);
+    })
   },
 
   listMagics: function() {
-    App.Views.ListMagics.render();
+    $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+      App.currentUser = currentUser;
+      console.log(currentUser.id)
+      App.Views.ListMagics.render();
+    })
   },
 
   showMagic: function(id) {
-    App.Views.ListMagics.render(id);
+    $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+      App.currentUser = currentUser;
+      console.log(currentUser.id)
+      App.Views.ListMagics.render(id);
+    })
     console.log(id)
   },
 
@@ -91,15 +103,27 @@ App.Router = Backbone.Router.extend({
   },
 
   listCharacters: function() {
-    App.Views.ListCharacters.render();
+    $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+      App.currentUser = currentUser;
+      console.log(currentUser.id)
+      App.Views.ListCharacters.render();
+    })
   },
 
   showCharacter: function(id) {
-    App.Views.ListCharacters.render(id);
+    $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+      App.currentUser = currentUser;
+      console.log(currentUser.id)
+      App.Views.ListCharacters.render(id);
+    })
   },
 
   world: function(id) {
-    App.Views.GameWorld.render();
+    $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+      App.currentUser = currentUser;
+      console.log(currentUser.id)
+      App.Views.GameWorld.render();
+    })
   },
 
   newGame: function() {
@@ -123,3 +147,20 @@ App.Router = Backbone.Router.extend({
 App.router = new App.Router;
 
 Backbone.history.start();
+$.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
+  App.currentUser = currentUser;
+  console.log(currentUser.id)
+})
+timerArray = []
+$(window).on('hashchange', function(){
+console.log(timerArray)
+  var length = timerArray.length
+  var i = 0
+  while (i < length) {
+    timer = timerArray.pop()
+    clearInterval(timer)
+    clearTimeout(timer)
+    console.log(timer)
+    i++
+  }
+})

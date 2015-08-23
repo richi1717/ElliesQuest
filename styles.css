@@ -537,8 +537,8 @@ h1 {
 
 .grass > div {
   background-image: url('src/images/grass-battle.png');
-  height: 675px;
-  width: 1280px;
+  height: 100vh;
+  width: 100vw;
   background-size: cover;
   position: relative;
 }
@@ -643,6 +643,12 @@ h1 {
   margin-bottom: -5px;
   text-indent: 10px;
   text-shadow: 2px 1px #8a8a7b;
+}
+
+.battle-menu-turn > li:nth-child(6) {
+    position: absolute;
+    top: 0;
+    right: 10px;
 }
 
 .battle-menu-turn > ul > li{
@@ -1462,16 +1468,38 @@ button:focus {
  *  Items
  */
 
- .items {
+.items {
   background-image: url('src/images/weapons.png');
-  background-size: 500px;
- }
+  background-size: 1300px;
+  height: 50px;
+  width: 50px;
+  background-position-y: -950px;
+}
 
- .item-sprite {
-  height: 100px;
-  width: 100px;
- }
+.health-tonic {
+  background-position-x: -540px;
+}
 
- .item-sword {
+.super-health-tonic {
+  background-position-x: -775px;
+}
+
+.magic-tonic {
+  background-position-x: -590px;
+}
+
+.super-magic-tonic {
+  background-position-x: -710px;
+}
+
+.elixir {
+  background-position-x: -240px;
+}
+
+.revive {
+  background-position-y: -1010px;
+}
+
+.item-sword {
   background-position: 0 0;
- }
+}

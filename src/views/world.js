@@ -34,17 +34,13 @@ var GameWorld = Backbone.View.extend({
     var characterModels = 0
 
     characterCollection.fetch().done(function (character) {
-      cellCollection.fetch().done(function (cell) {
-        console.log()  
+      cellCollection.fetch().done(function (cell) {  
         // characterCollection.forEach(function (character) {
-        //   console.log(character.attributes.currentPosition)
         // })
         function cellDb(cells) {
           cellCollection.forEach(function (cell, index) {
-            // console.log(cell.attributes)
 
             cellsTerrain.push( cell.attributes );
-            // console.log(cellsTerrain[index])
           })
         }
         cellDb()
@@ -60,7 +56,6 @@ var GameWorld = Backbone.View.extend({
           // check each step for a battle event
 
           var direction = 'top'
-          var classDirection = 0
           // var ffSprite = 'ff-sprite'
           if (e.which === 38) {
             direction = 'top'
@@ -84,14 +79,13 @@ var GameWorld = Backbone.View.extend({
             $('span.ff-sprite').toggleClass('red-boy-down2')
           }
             
-            var classes = [direction].join(' ')
+            var classes = direction
 
             $('#overworld').addClass(classes)
             moveTo(findDirection(direction))
             // }
-            if (_.random(0, 20) === 1) {
-            console.log(characterStats.currentPosition)
-            var terrain = findTerrain(findCell(characterStats.currentPosition.x, characterStats.currentPosition.y))
+            if (_.random(0, 30) === 1) {
+            var terrain = findTerrain(findCell(characterStats.currentPositionX, characterStats.currentPositionY))
 
             $('body').off()
             clearInterval(checkSunny)
@@ -102,9 +96,7 @@ var GameWorld = Backbone.View.extend({
             clearInterval(rainOrNot)
             clearInterval(sunny)
             characterModels = characterCollection.models;
-            characterModels[0].addPosition(characterStats.currentPosition)
-            console.log(characterModels)
-            // console.log(wtf)
+            characterModels[0].addPosition(characterStats.currentPositionX, characterStats.currentPositionY)
             $('#world').animate({volume: 0}, 2000)
             $('div.sunny').fadeOut(2000)
             var leaveBattle = setTimeout(function () {
@@ -123,7 +115,6 @@ var GameWorld = Backbone.View.extend({
         });
 
         function findCell(x, y) {
-          // console.log(x, y)
           return $('.row:nth-child(' + y + ') > div:nth-child(' + x + ')')
 
         }
@@ -134,15 +125,15 @@ var GameWorld = Backbone.View.extend({
           })
         }
 
-        function moveTo(cell) {
-          var coords = findCell(cell.x, cell.y).offset()
+        function moveTo(cells) {
+          var coords = findCell(cells.x, cells.y).offset()
           character.css({
             top: coords.top,
             left: coords.left
           })
-          characterStats.currentPosition = { x: cell.x, y: cell.y }
-          console.log(characterStats.currentPosition)
-          return characterStats.currentPosition
+          characterStats.currentPositionX = cells.x
+          characterStats.currentPositionY = cells.y
+          return {x: characterStats.currentPositionX, y: characterStats.currentPositionY}
         }
 
         function findTerrain(cell) {
@@ -150,10 +141,8 @@ var GameWorld = Backbone.View.extend({
         }
 
         function findDirection(direction) {
-
-          var x = characterStats.currentPosition.x
-          var y = characterStats.currentPosition.y
-
+          var x = characterStats.currentPositionX
+          var y = characterStats.currentPositionY
           if (direction === 'top') {
             y--
           } else if (direction === 'bottom') {
@@ -165,8 +154,7 @@ var GameWorld = Backbone.View.extend({
           }
           return { x: x, y: y }
         }
-
-        moveTo(characterStats.currentPosition)
+        moveTo({x: characterStats.currentPositionX, y: characterStats.currentPositionY})
 
         buildTerrain(cellsTerrain)
         // for the rain if I decide to use it
@@ -188,7 +176,6 @@ var GameWorld = Backbone.View.extend({
             if (randomLightning === 1) {
               lightningStrike = setTimeout(function () {
                 $('.sunny').addClass('lightning')
-                console.log('lightning')
                  
               }, 200)
               timerArray.push(lightningStrike)
@@ -196,7 +183,6 @@ var GameWorld = Backbone.View.extend({
              
           }, 300)
           timerArray.push(lightning)
-          console.log('raining')
         }
 
         var randomRain = _.random(0)
@@ -210,7 +196,6 @@ var GameWorld = Backbone.View.extend({
             }  
           }
         }, 2000)
-        console.log(timerArray)
         timerArray.push(rainOrNot)
 
         var randomSunny = 0
@@ -219,15 +204,11 @@ var GameWorld = Backbone.View.extend({
         var checkSunny = 0
 
         rainedOn = setInterval(function () {
-          console.log('check')
           if ($('.sunny').hasClass('rain')) {
-            console.log('check if sunny')
             sunny = setInterval(function () {
               randomSunny = _.random(0, 1)
               if (randomSunny) {
-                console.log('what')
                 object.off("run", "all", function () {
-                  console.log('stop')
                 })
                 // object.off()
                 clearInterval(raining)
@@ -245,7 +226,6 @@ var GameWorld = Backbone.View.extend({
          
           if ($('.sunny').hasClass('rain') === false) {
             clearInterval(sunny)
-            console.log('omg')
           }
         }, 5000)
         timerArray.push(checkSunny)
@@ -256,10 +236,8 @@ var GameWorld = Backbone.View.extend({
 
         object.on("run", function() {
           rain();
-          console.log('started raining')
         });
         // object.off(null, null, function () {
-        //   console.log('stopped raining')
         // })
       })
     })

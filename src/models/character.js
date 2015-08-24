@@ -19,9 +19,9 @@ App.Models.Character = Backbone.Model.extend({
     return base + '/' + this.id
   },
 
-  addPosition: function (position) {
-    this.set('currentPosition', position)
-    console.log(this.get('currentPosition'))
+  addPosition: function (x, y) {
+    this.set('currentPosition[x]', x)
+    this.set('currentPosition[y]', y)
     this.save()
   },
 

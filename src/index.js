@@ -8,6 +8,7 @@ var monsterCollection = require('./collections/monster');
 // var characterCollection = require('./collections/character')
 var magicCollection = require('./collections/magic')
 var cellCollection = require('./collections/cell')
+var userCollection = require('./collections/user')
 
 // View: List Users
 var TerrainBattleView = require('./views/terrain-battle');
@@ -17,6 +18,9 @@ App.Views.TerrainBattle  = new TerrainBattleView;
 
 var NewGame = require('./views/new-game')
 App.Views.NewGame = new NewGame
+
+var Login = require('./views/login')
+App.Views.Login = new Login
 
 var GameOver = require('./views/game-over.js')
 App.Views.GameOver = new GameOver
@@ -49,6 +53,10 @@ App.Router = Backbone.Router.extend({
     'cells/:id': 'showCell',
     'characters(/)': 'listCharacters',
     'characters/:id(/)': 'showCharacter',
+    'users(/)': 'listUsers',
+    'user/add(/)': 'addUser',
+    'user/:id/edit(/)': 'addUser',
+    'user/:id/delete(/)': 'deleteUser',
     'game(/)': 'world',
     'new-game(/)': 'newGame',
     'game-over(/)': 'gameOver',
@@ -116,6 +124,22 @@ App.Router = Backbone.Router.extend({
       console.log(currentUser.id)
       App.Views.ListCharacters.render(id);
     })
+  },
+
+  addUser: function(id) {
+    App.Views.NewGame.render(id);
+  },
+
+  listUsers: function() {
+    App.Views.Login.render();
+  },
+
+  deleteUser: function(id) {
+    var user = userCollection.get(id);
+
+    user.destroy().done(function (user) {
+      console.log('deleted')
+    });
   },
 
   world: function(id) {

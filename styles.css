@@ -338,18 +338,31 @@ a > button {
   
 }
 
+.login-screen > div {
+  position: absolute;
+  top: 150px;
+  left: 20%;
+  height: 400px;
+  width: 800px;
+  border: 2px solid rgb(216, 237, 255);
+  box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
+  background-color: rgb(12, 45, 74);
+  border-radius: 5px;
+  
+}
+
 span {
-    position: absolute;
-    background-position: -23px -23px; 
-    margin:0;
-    padding:0;
-    height: 50px;
-    width: 50px;
-    box-sizing: border-box;
-    /*border: 2px solid red;*/
-    /*background-color: rgba(0,255,0,0.33);*/
-    /*background-image: url('src/images/advent-character.png');*/
-    background-size: 100px;
+  position: absolute;
+  background-position: -23px -23px; 
+  margin:0;
+  padding:0;
+  height: 50px;
+  width: 50px;
+  box-sizing: border-box;
+  /*border: 2px solid red;*/
+  /*background-color: rgba(0,255,0,0.33);*/
+  /*background-image: url('src/images/advent-character.png');*/
+  background-size: 100px;
 }
 
 .success-button {
@@ -1153,6 +1166,16 @@ div.new-game-screen > div > button {
   position: absolute;
 }
 
+div.login-screen > div > button {
+  font-family: 'Istok Web', sans-serif;
+  color: rgba(204, 237, 255, 0.73);
+  text-shadow: 2px 1px rgba(0, 0, 0, 0.75);
+  font-size: 50pt;
+  min-width: 50px;
+  display: block;
+  padding: 0 10px;
+}
+
 .new-game-input {
     font-family: 'Istok Web', sans-serif;
     color: rgba(204, 237, 255, 0.73);
@@ -1188,6 +1211,10 @@ div.new-game-screen > div > button {
 }
 
 div.new-game-screen > div > button:focus {
+  color: rgba(93, 130, 162, 0.5);
+}
+
+div.login-screen > div > button:focus {
   color: rgba(93, 130, 162, 0.5);
 }
 

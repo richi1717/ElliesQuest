@@ -28,6 +28,10 @@ var gameOver = require('./templates/game-over.hbs')
 
 var itemMenu = require('./templates/items.hbs')
 
+var newGame = require('./templates/new-game.hbs')
+
+var login = require('./templates/login.hbs')
+
 
 
 
@@ -45,5 +49,7 @@ module.exports = {
   listMagics: listMagics,
   hpMp: hpMp,
   gameOver: gameOver,
-  itemMenu: itemMenu
+  itemMenu: itemMenu,
+  newGame: newGame,
+  login: login
 }

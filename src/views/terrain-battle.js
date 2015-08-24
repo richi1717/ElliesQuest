@@ -354,6 +354,7 @@ var TerrainBattle = Backbone.View.extend({
                 var turn = $(this).data('name').slice(4, 5);
                 turnIndex = turn - 1;
                 $('main').append(renderSubMenu(true, turn));
+                $('button#attack').focus()
                 if (!_.has(characterWithStats[turnIndex], 'magicAbilities')) {
                   $('button#magic').removeAttr('id').addClass('no-moves')
                 }
@@ -392,6 +393,7 @@ var TerrainBattle = Backbone.View.extend({
             function attackClick() {
               event.preventDefault();
               $('main').append(renderAttackMenu(monster, character));
+              $('span > div:nth-child(1) > button').focus()
               $('span.menu-magic').remove();
 
             };
@@ -433,7 +435,12 @@ var TerrainBattle = Backbone.View.extend({
                   ifArrayValue()
                   turnArray.unshift(waitToBePushed)
                 };
-              };
+              } else if ([40].indexOf(e.which) > -1) {
+                console.log('down')
+                $('button:focus').parent().next().children().focus()
+              } else if ([38].indexOf(e.which) > -1) {
+                $('button:focus').parent().prev().children().focus()
+              }
             }, false)
 
             $('#battle').on('leave', function() {
@@ -549,133 +556,196 @@ var TerrainBattle = Backbone.View.extend({
                   } 
                 })
                 if (itemCheck.type === 'HP restore') {
-                  if (itemCheck.str === "%") {
-                    hpIncrease = _.ceil(characterToHeal.maxHp * (itemCheck.percentage))
-                    characterToHeal.currentHp += hpIncrease
+                  if (characterToHeal.currentHp <= 0) {
                     dmgDisplay = setTimeout(function () {
-                      $('span.' + selectedName).append('<div class="damage-display">' + 
-                        hpIncrease + '</div>')
+                      $('span.' + selectedName).append('<div class="damage-display">0</div>')
                       remDmgDis = setTimeout(function () {
                         $('div.damage-display').remove()
                       }, 1000)
                       timerArray.push(remDmgDis)
                     }, 400)
+                    $('span.battle-menu-turn').remove()
+                    newStats = setTimeout(function () {
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      // console.log(6, turnArray)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                      
+                    }, 1000)
                   } else {
-                    characterToHeal.currentHp += itemCheck.str
-                    dmgDisplay = setTimeout(function () {
-                      $('span.' + selectedName).append('<div class="damage-display">' + 
-                        itemCheck.str + '</div>')
-                      remDmgDis = setTimeout(function () {
-                        $('div.damage-display').remove()
-                      }, 1000)
-                      timerArray.push(remDmgDis)
-                    }, 400)
+                    if (itemCheck.str === "%") {
+                      hpIncrease = _.ceil(characterToHeal.maxHp * (itemCheck.percentage))
+                      characterToHeal.currentHp += hpIncrease
+                      dmgDisplay = setTimeout(function () {
+                        $('span.' + selectedName).append('<div class="damage-display">' + 
+                          hpIncrease + '</div>')
+                        remDmgDis = setTimeout(function () {
+                          $('div.damage-display').remove()
+                        }, 1000)
+                        timerArray.push(remDmgDis)
+                      }, 400)
+                    } else {
+                      characterToHeal.currentHp += itemCheck.str
+                      dmgDisplay = setTimeout(function () {
+                        $('span.' + selectedName).append('<div class="damage-display">' + 
+                          itemCheck.str + '</div>')
+                        remDmgDis = setTimeout(function () {
+                          $('div.damage-display').remove()
+                        }, 1000)
+                        timerArray.push(remDmgDis)
+                      }, 400)
+                    }
+                    if (characterToHeal.currentHp > characterToHeal.maxHp) {
+                      characterToHeal.currentHp = characterToHeal.maxHp
+                    }
+                    $('span.battle-menu-turn').remove()
+                    timerArray.push(dmgDisplay)
+                    newStats = setTimeout(function () {
+                      $('div.battle-menu-main-stats').remove()
+                      $('main > div > div').append(renderStats(character))
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      // console.log(6, turnArray)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                      
+                    }, 1000)
                   }
-                  if (characterToHeal.currentHp > characterToHeal.maxHp) {
-                    characterToHeal.currentHp = characterToHeal.maxHp
-                  }
-                  $('span.battle-menu-turn').remove()
-                  timerArray.push(dmgDisplay)
-                  newStats = setTimeout(function () {
-                    $('div.battle-menu-main-stats').remove()
-                    $('main > div > div').append(renderStats(character))
-                    waitToBePushed = $('span.turn').data('hero')
-                    turnArray.push(waitToBePushed)
-                    // console.log(6, turnArray)
-                    $('span.turn').removeClass('hero-turn turn')
-                    $('.character-turn').removeClass('character-turn')
-                    $('div.selected').remove()
-                    ifArrayValue()
-                    
-                  }, 1000)
                 timerArray.push(newStats)
                 } else if (itemCheck.type === "MP restore") {
-                  if (itemCheck.str === "%") {
-                    mpIncrease = _.ceil(characterToHeal.maxMp * (itemCheck.percentage))
-                    characterToHeal.currentMp += mpIncrease
+                  if (characterToHeal.currentHp <= 0) {
                     dmgDisplay = setTimeout(function () {
-                      $('span.' + selectedName).append('<div class="damage-display">' + 
-                        mpIncrease + '</div>')
+                      $('span.' + selectedName).append('<div class="damage-display">0</div>')
                       remDmgDis = setTimeout(function () {
                         $('div.damage-display').remove()
                       }, 1000)
                       timerArray.push(remDmgDis)
                     }, 400)
+                    $('span.battle-menu-turn').remove()
+                    newStats = setTimeout(function () {
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      // console.log(6, turnArray)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                      
+                    }, 1000)
                   } else {
-                    characterToHeal.currentMp += itemCheck.str
-                    dmgDisplay = setTimeout(function () {
-                      $('span.' + selectedName).append('<div class="damage-display">' + 
-                        itemCheck.str + '</div>')
-                      remDmgDis = setTimeout(function () {
-                        $('div.damage-display').remove()
-                      }, 1000)
-                      timerArray.push(remDmgDis)
-                    }, 400)
+                    if (itemCheck.str === "%") {
+                      mpIncrease = _.ceil(characterToHeal.maxMp * (itemCheck.percentage))
+                      characterToHeal.currentMp += mpIncrease
+                      dmgDisplay = setTimeout(function () {
+                        $('span.' + selectedName).append('<div class="damage-display">' + 
+                          mpIncrease + '</div>')
+                        remDmgDis = setTimeout(function () {
+                          $('div.damage-display').remove()
+                        }, 1000)
+                        timerArray.push(remDmgDis)
+                      }, 400)
+                    } else {
+                      characterToHeal.currentMp += itemCheck.str
+                      dmgDisplay = setTimeout(function () {
+                        $('span.' + selectedName).append('<div class="damage-display">' + 
+                          itemCheck.str + '</div>')
+                        remDmgDis = setTimeout(function () {
+                          $('div.damage-display').remove()
+                        }, 1000)
+                        timerArray.push(remDmgDis)
+                      }, 400)
+                    }
+                    if (characterToHeal.currentMp > characterToHeal.maxMp) {
+                      characterToHeal.currentMp = characterToHeal.maxMp
+                    }
+                    $('span.battle-menu-turn').remove()
+                    timerArray.push(dmgDisplay)
+                    newStats = setTimeout(function () {
+                      $('div.battle-menu-main-stats').remove()
+                      $('main > div > div').append(renderStats(character))
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      // console.log(7, turnArray)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                      
+                    }, 1000)
                   }
-                  if (characterToHeal.currentMp > characterToHeal.maxMp) {
-                    characterToHeal.currentMp = characterToHeal.maxMp
-                  }
-                  $('span.battle-menu-turn').remove()
-                  timerArray.push(dmgDisplay)
-                  newStats = setTimeout(function () {
-                    $('div.battle-menu-main-stats').remove()
-                    $('main > div > div').append(renderStats(character))
-                    waitToBePushed = $('span.turn').data('hero')
-                    turnArray.push(waitToBePushed)
-                    // console.log(7, turnArray)
-                    $('span.turn').removeClass('hero-turn turn')
-                    $('.character-turn').removeClass('character-turn')
-                    $('div.selected').remove()
-                    ifArrayValue()
-                    
-                  }, 1000)
                 timerArray.push(newStats)
                 } else if (itemCheck.type === "HP MP restore") {
-                  if (itemCheck.str === "%") {
-                    mpIncrease = characterToHeal.maxMp * itemCheck.percentage
-                    hpIncrease = characterToHeal.maxHp * itemCheck.percentage
-                    characterToHeal.currentMp += mpIncrease
-                    characterToHeal.currentHp += hpIncrease
+                  if (characterToHeal.currentHp <= 0) {
                     dmgDisplay = setTimeout(function () {
-                      $('span.' + selectedName).append('<div class="damage-display">' + 
-                        hpIncrease + 'HP/' +mpIncrease + 'MP</div>')
+                      $('span.' + selectedName).append('<div class="damage-display">0</div>')
                       remDmgDis = setTimeout(function () {
                         $('div.damage-display').remove()
                       }, 1000)
                       timerArray.push(remDmgDis)
                     }, 400)
+                    $('span.battle-menu-turn').remove()
+                    newStats = setTimeout(function () {
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      // console.log(6, turnArray)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                      
+                    }, 1000)
                   } else {
-                    characterToHeal.currentMp += itemCheck.str
-                    characterToHeal.currentHp += itemCheck.str
-                    dmgDisplay = setTimeout(function () {
-                      $('span.' + selectedName).append('<div class="damage-display">' + 
-                        hpIncrease + 'HP/' +mpIncrease + 'MP</div>')
-                      remDmgDis = setTimeout(function () {
-                        $('div.damage-display').remove()
-                      }, 1000)
-                      timerArray.push(remDmgDis)
-                    }, 400)
+                    if (itemCheck.str === "%") {
+                      mpIncrease = characterToHeal.maxMp * itemCheck.percentage
+                      hpIncrease = characterToHeal.maxHp * itemCheck.percentage
+                      characterToHeal.currentMp += mpIncrease
+                      characterToHeal.currentHp += hpIncrease
+                      dmgDisplay = setTimeout(function () {
+                        $('span.' + selectedName).append('<div class="damage-display">' + 
+                          hpIncrease + 'HP/' +mpIncrease + 'MP</div>')
+                        remDmgDis = setTimeout(function () {
+                          $('div.damage-display').remove()
+                        }, 1000)
+                        timerArray.push(remDmgDis)
+                      }, 400)
+                    } else {
+                      characterToHeal.currentMp += itemCheck.str
+                      characterToHeal.currentHp += itemCheck.str
+                      dmgDisplay = setTimeout(function () {
+                        $('span.' + selectedName).append('<div class="damage-display">' + 
+                          hpIncrease + 'HP/' +mpIncrease + 'MP</div>')
+                        remDmgDis = setTimeout(function () {
+                          $('div.damage-display').remove()
+                        }, 1000)
+                        timerArray.push(remDmgDis)
+                      }, 400)
+                    }
+                    if (characterToHeal.currentMp > characterToHeal.maxMp) {
+                      characterToHeal.currentMp = characterToHeal.maxMp
+                    }
+                    if (characterToHeal.currentHp > characterToHeal.maxHp) {
+                      characterToHeal.currentHp = characterToHeal.maxHp
+                    }
+                    $('span.battle-menu-turn').remove()
+                    timerArray.push(dmgDisplay)
+                    newStats = setTimeout(function () {
+                      $('div.battle-menu-main-stats').remove()
+                      $('main > div > div').append(renderStats(character))
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      // console.log(8, turnArray)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                      
+                    }, 1000)
                   }
-                  if (characterToHeal.currentMp > characterToHeal.maxMp) {
-                    characterToHeal.currentMp = characterToHeal.maxMp
-                  }
-                  if (characterToHeal.currentHp > characterToHeal.maxHp) {
-                    characterToHeal.currentHp = characterToHeal.maxHp
-                  }
-                  $('span.battle-menu-turn').remove()
-                  timerArray.push(dmgDisplay)
-                  newStats = setTimeout(function () {
-                    $('div.battle-menu-main-stats').remove()
-                    $('main > div > div').append(renderStats(character))
-                    waitToBePushed = $('span.turn').data('hero')
-                    turnArray.push(waitToBePushed)
-                    // console.log(8, turnArray)
-                    $('span.turn').removeClass('hero-turn turn')
-                    $('.character-turn').removeClass('character-turn')
-                    $('div.selected').remove()
-                    ifArrayValue()
-                    
-                  }, 1000)
                 timerArray.push(newStats)
                 } else if (itemCheck.type === "Revive") {
                   if (characterToHeal.currentHp <= 0) {
@@ -893,7 +963,13 @@ var TerrainBattle = Backbone.View.extend({
                     }, 400)
                     timerArray.push(dmgDisplay)
                   } else if ($('span.' + selectedName)) {
-                    hpFromAttack = (characterTarget.str) - characterToAttack.def;
+                    if ($('span.' + selectedName).hasClass('defense')) {
+                      hpFromAttack = (characterTarget.str) - (characterToAttack.def);
+                      hpFromAttack /= 2
+                      hpFromAttack = _.ceil(hpFromAttack)
+                    } else {
+                      hpFromAttack = (characterTarget.str) - characterToAttack.def;
+                    }
                     // console.log('normal deals ' + hpFromAttack + ' damage');
                     dmgDisplay = setTimeout(function () {
                       $('span.' + selectedName).append('<div class="damage-display">' + 
@@ -1143,7 +1219,14 @@ var TerrainBattle = Backbone.View.extend({
                 timerArray.push(enemyToHero)
                 // console.log(randomIndex, ' this is randomIndex')
                 characterToAttack = characterWithStats[randomIndex];
-                // console.log(characterToAttack)
+                if ($('.hero' + (randomIndex + 1)).hasClass('defense')) {
+                  hpFromAttack = _.ceil((monsterAttack.str * 5) - (characterToAttack.def * 1.6));
+                  hpFromAttack /= 2
+                  hpFromAttack = _.ceil(hpFromAttack)
+                } else {
+                  hpFromAttack = _.ceil((monsterAttack.str * 5) - (characterToAttack.def * 1.6));
+                }
+                // console.log(characterToAttack.name)
                 heroAttacked = setTimeout(function () {
                   $('span.hero' + (randomIndex + 1)).append('<div class="damage-display">' + 
                     hpFromAttack + '</div>')
@@ -1154,7 +1237,6 @@ var TerrainBattle = Backbone.View.extend({
                 }, 400)
                 timerArray.push(heroAttacked)
                 // console.log(characterToAttack.name, 'thisname')
-                hpFromAttack = _.ceil((monsterAttack.str * 5) - (characterToAttack.def * 1.6));
                 // console.log(hpFromAttack)
                 if (hpFromAttack > 0) {
                   if (hpFromAttack >= characterToAttack.currentHp) {

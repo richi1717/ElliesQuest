@@ -1,16 +1,19 @@
 var $ = require('jquery');
 var Backbone = require('backbone');
-var newGameTemplate = require('../templates/new-game.hbs');
+var tmpl = require('../template.js');
 
 // App
 var App = require('../app');
+var User = require('../models/user')
+var Character = require('../models/character')
 
 // View: List Users
 var NewGame = Backbone.View.extend({
   el: $('main'),
 
   render: function () {
-    this.$el.html(newGameTemplate());
+    this.$el.html(tmpl.newGame());
+    $('main').append('<audio id="login-music" controls autoplay name="media"> <source src="../../utility/3-16 The Prelude.mp3" type="audio/mpeg"> </audio>')
     $('#shift').on('click', function () {
       if ($(this).data('name') === 'click') {
         $(this).data('name', '')
@@ -155,27 +158,87 @@ var NewGame = Backbone.View.extend({
         if ($('div.new-game-input').text() === 'Enter Your Password') {
           console.log('do nothing')
         } else {
-          console.log($('div.new-game-input').text())
+          newPassword = $('div.new-game-input').text()
+           var newData = {
+            name: newName,
+            password: newPassword
+          };
+          App.Collections.user.create(newData, {
+            success: function (user) {
+              $.ajax({
+                method: "POST",
+                url: "http://localhost:3000/currentUser",
+                data: { id: user.id }
+              }).done(function () {
+                $.ajax({
+                  method: "POST",
+                  url: "http://localhost:3000/characters",
+                  data: { "userId": user.id, "name": "Link", "battleName": "hero1", "classes": "ff-sprite red-boy-down1", "str": 20, "def": 16, "exp": 0, "maxMp": 30, "currentMp": 30, "maxHp": 350, "currentHp": 350, "accuracy": 10, "magic": 10, "evade": 6, "agility": 11, "currentPositionX": 5, "currentPositionY": 10, "items": ["Health Tonic", "Magic Tonic", "Elixir", "Revive", "Super Health Tonic", "Super Magic Tonic"]},  
+                  
+                }).done(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:3000/characters",
+                    data: {"userId": user.id, "name": "Ellie", "battleName": "hero2", "classes": "white-girl-down1 ff-sprite", "magicAbilities": [ "Cure1", "Fire1", "Lightning1" ], "magic": 19, "str": 11, "def": 10, "exp": 0, "maxMp": 50, "currentMp": 50, "maxHp": 219, "currentHp": 219, "accuracy": 8, "evade": 6, "agility": 9, "items": ["Health Tonic", "Magic Tonic", "Elixir", "Revive", "Super Health Tonic", "Super Magic Tonic"]}
+                  }).done(function () {
+                    $('#login-music').animate({volume: 0}, 2000)
+                    setTimeout(function () {
+                      $('#login-music').trigger('leave', { trigger: true })
+                      App.router.navigate('/game', { trigger: true });
+                    }, 1500)
+                  }) 
+                })
+
+              })
+            }
+          })
         }
-      } else { 
+      } else {
+        newName = $('div.new-game-input').text()
+        console.log(newName)
         $('div.new-game-input').text('Enter Your Password')
         $('button#start').addClass('click')
       }
     })
     function myFunction(e) {
-      e.preventDefault
+      // e.preventDefault()
       var x = e.which;
-      if (x == 37) {  // 27 is the ESC key
-        console.log("You pressed the Escape key!");
+      if (x == 37) {
+        $('button:focus').prev().focus()
+      } else if (x == 39) {
         $('button:focus').next().focus()
+      } else if (x == 40) {
+        classic = $('button:focus').data('next') + 1
+        console.log(classic)
+        if (!$.isNumeric(classic)) {
+          if ($('div').hasClass('new-game-start')) {
+            if ($('button#start').is(':focus')) {
+              $('button[data-next="1"]').prevAll().focus()
+            } else {
+              $('button#start').focus()
+            }
+          } else {
+            $('button:focus').prevAll().focus()
+            
+          }
+        } else {
+          $('button:focus').next().nextUntil('[data-next="' + classic + '"]').focus()
+          
+         }
+      } else if (x == 38) {
+        classic = $('button:focus').data('next') - 1
+        if (!$.isNumeric(classic)) {
+          $('button[data-next="1"]').next().focus()
+        } else {
+          $('button:focus').prev().prevUntil('[data-next="' + classic + '"]').focus()
+          
+        }
       }
     }
     $('html').on('keydown', function (e) {
       myFunction(e)
       
     })
-
-
   }
 });
 

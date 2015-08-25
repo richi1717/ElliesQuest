@@ -173,12 +173,14 @@ var NewGame = Backbone.View.extend({
                 $.ajax({
                   method: "POST",
                   url: "http://localhost:3000/characters",
+                  traditional: true,
                   data: { "userId": user.id, "name": "Link", "battleName": "hero1", "classes": "ff-sprite red-boy-down1", "str": 20, "def": 16, "exp": 0, "maxMp": 30, "currentMp": 30, "maxHp": 350, "currentHp": 350, "accuracy": 10, "magic": 10, "evade": 6, "agility": 11, "currentPositionX": 5, "currentPositionY": 10, "items": ["Health Tonic", "Magic Tonic", "Elixir", "Revive", "Super Health Tonic", "Super Magic Tonic"]},  
                   
                 }).done(function () {
                 $.ajax({
                     method: "POST",
                     url: "http://localhost:3000/characters",
+                    traditional: true,
                     data: {"userId": user.id, "name": "Ellie", "battleName": "hero2", "classes": "white-girl-down1 ff-sprite", "magicAbilities": [ "Cure1", "Fire1", "Lightning1" ], "magic": 19, "str": 11, "def": 10, "exp": 0, "maxMp": 50, "currentMp": 50, "maxHp": 219, "currentHp": 219, "accuracy": 8, "evade": 6, "agility": 9, "items": ["Health Tonic", "Magic Tonic", "Elixir", "Revive", "Super Health Tonic", "Super Magic Tonic"]}
                   }).done(function () {
                     $('#login-music').animate({volume: 0}, 2000)

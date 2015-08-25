@@ -42,6 +42,21 @@ tr:nth-child(3) {
 
 }
 
+.mountains {
+  background-image: url('src/images/mountains.png');
+  background-size: cover;
+  height: 200px;
+  width: 790px;
+  position: absolute;
+  top: 4px;
+  left: 420px;
+}
+
+.boss {
+  background-image: url('src/images/grass.png');
+  background-size: cover; 
+}
+
 .overworld {
   width: 100vw;
   height: 100vh;
@@ -550,6 +565,22 @@ h1 {
 
 .grass > div {
   background-image: url('src/images/grass-battle.png');
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  position: relative;
+}
+
+.boss > div {
+  background-image: url('src/images/boss-battle.png');
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  position: relative;
+}
+
+.desolation > div {
+  background-image: url('src/images/desolation.jpg');
   height: 100vh;
   width: 100vw;
   background-size: cover;
@@ -1133,6 +1164,26 @@ span > div:nth-child(7) {
 .monster-attack-hero2 {
   top: 50%;
   left: 72%;
+}
+
+.boss-ryan {
+  background-image: url('src/images/ryan.png');
+  background-size: cover;
+  height: 450px;
+  width: 450px;
+  position: absolute;
+  top: 20vh;
+  left: -1vw;
+}
+
+.boss-move1 {
+  top: -10vh;
+  left: 9vw;
+}
+
+.boss-move2 {
+  top: 20vh;
+  left: 30vw;
 }
 
 button.menu-select {

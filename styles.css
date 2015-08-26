@@ -1,4 +1,3 @@
-
 html {
   font-family: 'Orbitron', sans-serif;
   box-sizing: border-box;
@@ -6,8 +5,8 @@ html {
 }
 
 *, *::before, *::after {
-    box-sizing: inherit;
-    color: inherit;
+  box-sizing: inherit;
+  color: inherit;
 }
 
 body {
@@ -39,7 +38,6 @@ tr + tr {
 
 tr:nth-child(3) {
   height: 85px;
-
 }
 
 .mountains {
@@ -62,7 +60,6 @@ tr:nth-child(3) {
   height: 100vh;
   overflow: hidden;
 }
-
 
 .content {
   white-space: nowrap;
@@ -321,9 +318,6 @@ a > button {
 .new-game-screen {
   position: relative;
   background-color: #000;
- /* height: 600px;
-  width: 1500px;*/
-  
 }
 
 .game-over-screen {
@@ -350,7 +344,6 @@ a > button {
   box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
   background-color: rgb(12, 45, 74);
   border-radius: 5px;
-  
 }
 
 .login-screen > div {
@@ -374,9 +367,6 @@ span {
   height: 50px;
   width: 50px;
   box-sizing: border-box;
-  /*border: 2px solid red;*/
-  /*background-color: rgba(0,255,0,0.33);*/
-  /*background-image: url('src/images/advent-character.png');*/
   background-size: 100px;
 }
 
@@ -418,7 +408,6 @@ h1 {
 }
 
 .grass {
-    /*background-color: green;*/
   background-image: url('src/images/grass.png');
   background-size: cover;    
 }
@@ -433,26 +422,22 @@ h1 {
 }
 
 .desert {
-    /*background-color: rgba(233, 180, 78, 1);*/
   background-image: url('src/images/sand1.png');
   background-size: cover;
 }
 
 .water {
-    /*background-color: blue;*/
-    background-image: url('src/images/water5.png');
-    background-size: cover;
+  background-image: url('src/images/water5.png');
+  background-size: cover;
 }
 
 .rain {
   background-image: url('src/images/rain.png');
-  /*background-size: cover;*/
   height: 100vh;
   width: 100vw;
   position: absolute;
   opacity: .5;
   background-position: 0 20px;
-
 }
 
 .rain2 {
@@ -479,7 +464,6 @@ h1 {
   background-image: url('src/images/ff1-sprites.png');
   background-position: 0 0;
   background-size: 1200px;
-
 } 
 
 .red-boy-down1 {
@@ -514,7 +498,6 @@ h1 {
   transform: scaleX(-1);
   filter: FlipH;
   -ms-filter: "FlipH";
-
 }
 
 .red-boy-right2 {
@@ -540,6 +523,7 @@ h1 {
 .home-hero {
   margin-left: -20px;
 }
+
  /**
  *  Battle Sceens
  */
@@ -593,6 +577,7 @@ h1 {
   text-indent: 40px;
   text-shadow: 2px 1px #8a8a7b;
 }
+
 .character-turn {
   color: rgba(110, 110, 110, 1);
   text-shadow: 2px 1px rgba(250, 250, 250, .3);
@@ -670,9 +655,9 @@ h1 {
 }
 
 .battle-menu-turn > li:nth-child(6) {
-    position: absolute;
-    top: 0;
-    right: 10px;
+  position: absolute;
+  top: 0;
+  right: 10px;
 }
 
 .battle-menu-turn > ul > li{
@@ -838,7 +823,6 @@ span > div:nth-child(7) {
   right: 25%;
 }
 
-
 .battle-hero-white-girl {
   background-position: 6px -90px;
 }
@@ -865,12 +849,7 @@ span > div:nth-child(7) {
 .battle-ff-sprite {
   background-image: url('src/images/battle-sprites.png');
   background-size: 700px;
-
 } 
-
-.battle-hero-position-duo {
-
-}
 
 .defense {
   background-position-x: -310px; 
@@ -915,7 +894,7 @@ span > div:nth-child(7) {
 }
 
 .battle-hero-attack {
-    background-position-x: -210px;
+  background-position-x: -210px;
 }
 
 .attack-enemy1 {
@@ -1185,7 +1164,7 @@ button.game-over-button {
 }
 
 button.game-over-button.fadedOut {
-    opacity: 0;
+  opacity: 0;
 }
 
 div.new-game-screen > div > button {
@@ -1208,37 +1187,37 @@ div.login-screen > div > button {
 }
 
 .new-game-input {
-    font-family: 'Istok Web', sans-serif;
-    color: rgba(204, 237, 255, 0.73);
-    text-shadow: 2px 1px rgb(0, 0, 0);
-    font-size: 50pt;
-    min-width: 50px;
-    position: absolute;
-    top: -110px;
-    left: -0.3%;
-    height: 100px;
-    width: 800px;
-    border: 2px solid #D8EDFF;
-    box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
-    background-color: #0C2D4A;
-    border-radius: 5px;
+  font-family: 'Istok Web', sans-serif;
+  color: rgba(204, 237, 255, 0.73);
+  text-shadow: 2px 1px rgb(0, 0, 0);
+  font-size: 50pt;
+  min-width: 50px;
+  position: absolute;
+  top: -110px;
+  left: -0.3%;
+  height: 100px;
+  width: 800px;
+  border: 2px solid #D8EDFF;
+  box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
+  background-color: #0C2D4A;
+  border-radius: 5px;
 }
 
 .new-game-start {
-    font-family: 'Istok Web', sans-serif;
-    color: rgba(204, 237, 255, 0.73);
-    text-shadow: 2px 1px rgb(0, 0, 0);
-    font-size: 50pt;
-    min-width: 50px;
-    position: absolute;
-    top: 558px;
-    left: 19.9%;
-    height: 100px;
-    width: 800px;
-    border: 2px solid #D8EDFF;
-    box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
-    background-color: #0C2D4A;
-    border-radius: 5px;
+  font-family: 'Istok Web', sans-serif;
+  color: rgba(204, 237, 255, 0.73);
+  text-shadow: 2px 1px rgb(0, 0, 0);
+  font-size: 50pt;
+  min-width: 50px;
+  position: absolute;
+  top: 558px;
+  left: 19.9%;
+  height: 100px;
+  width: 800px;
+  border: 2px solid #D8EDFF;
+  box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
+  background-color: #0C2D4A;
+  border-radius: 5px;
 }
 
 div.new-game-screen > div > button:focus {

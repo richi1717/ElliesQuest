@@ -40,6 +40,7 @@ var GameWorld = Backbone.View.extend({
         var character = $('span')
         var characterStats = characterCollection.models[0].attributes
 
+        // movement
         $('body').on('keydown', function (e) {
           var direction = 'top'
           if (e.which === 38) {
@@ -62,16 +63,13 @@ var GameWorld = Backbone.View.extend({
             $('span.ff-sprite').removeClass('red-boy-left1 red-boy-right1 red-boy-up1 red-boy-up2 red-boy-left2 red-boy-right2')
             $('span.ff-sprite').addClass('red-boy-down1')
             $('span.ff-sprite').toggleClass('red-boy-down2')
-          }
-            
-            var classes = direction
+          } 
+          var classes = direction
 
-            $('#overworld').addClass(classes)
-            moveTo(findDirection(direction))
-            // }
-            if (_.random(0, 30) === 1) {
+          $('#overworld').addClass(classes)
+          moveTo(findDirection(direction))
+          if (_.random(0, 30) === 1) {
             var terrain = findTerrain(findCell(characterStats.currentPositionX, characterStats.currentPositionY))
-
             $('body').off()
             clearInterval(checkSunny)
             clearInterval(rainedOn)
@@ -92,20 +90,24 @@ var GameWorld = Backbone.View.extend({
           }
         })
         
+        // music cues
         $('#world').on('leave', function () {
           this.pause()
         })
 
+        // find position
         function findCell(x, y) {
           return $('.row:nth-child(' + y + ') > div:nth-child(' + x + ')')
         }
 
+        // build the map
         function buildTerrain(cells) {
           return cells.forEach(function (cell) {
             findCell(cell.x + 1, cell.y + 1).addClass(cell.terrain)
           })
         }
 
+        // movement on map
         function moveTo(cells) {
           var coords = findCell(cells.x, cells.y).offset()
           character.css({
@@ -117,10 +119,12 @@ var GameWorld = Backbone.View.extend({
           return {x: characterStats.currentPositionX, y: characterStats.currentPositionY}
         }
 
+        // for battles, find terrain to render battle backgroun and enemies
         function findTerrain(cell) {
           return cell.attr('class')
         }
 
+        // determines where he moves to
         function findDirection(direction) {
           var x = characterStats.currentPositionX
           var y = characterStats.currentPositionY
@@ -138,7 +142,9 @@ var GameWorld = Backbone.View.extend({
         moveTo({x: characterStats.currentPositionX, y: characterStats.currentPositionY})
 
         buildTerrain(cellsTerrain)
+
         // for the rain if I decide to use it
+        // turn rain on
         var raining = {}
         var lightning = 0
         var raining = 0
@@ -162,6 +168,7 @@ var GameWorld = Backbone.View.extend({
           timerArray.push(lightning)
         }
 
+        // check if it's already raining before checking for rain again
         var randomRain = _.random(0)
         var rainOrNot = 0
         rainOrNot = setInterval(function () {
@@ -180,6 +187,7 @@ var GameWorld = Backbone.View.extend({
         var rainedOn = 0
         var checkSunny = 0
 
+        // turn rain off
         rainedOn = setInterval(function () {
           if ($('.sunny').hasClass('rain')) {
             sunny = setInterval(function () {

@@ -14,8 +14,8 @@ App.Models.Character = Backbone.Model.extend({
   },
 
   addPosition: function (x, y) {
-    this.set('currentPosition[x]', x)
-    this.set('currentPosition[y]', y)
+    this.set('currentPositionX', x)
+    this.set('currentPositionY', y)
     this.save()
   },
 

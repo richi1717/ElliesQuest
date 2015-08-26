@@ -131,7 +131,7 @@ var Login = Backbone.View.extend({
               $('button[data-id="' + userLog + '"]').remove()
               $('.new-game-start').remove()
               $('button[data-id="1"]').trigger('focus')
-              App.router.navigate('#/user/' + userLog + '/delete', { trigger: true })
+              App.router.navigate('/user/' + userLog + '/delete', { trigger: true })
             } else {
               $('div.new-game-input').text('Try Again')
             } 

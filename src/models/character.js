@@ -2,16 +2,10 @@ var Backbone = require('backbone')
 var expUtils = require('../../utility/calcLevel.js')
 var _ = require('lodash')
 
-/****************************************
-  App
-*****************************************/
-
+// App
 var App = require('../app')
 
-/****************************************
-  Model: Characters
-*****************************************/
-
+// Model: Character
 App.Models.Character = Backbone.Model.extend({
   url: function () { 
     var base = App.Settings.apiRoot + '/characters'
@@ -29,7 +23,6 @@ App.Models.Character = Backbone.Model.extend({
     var currentLvl = expUtils.calcLevel(this.get('exp'))
     this.set('exp', this.get('exp') + expGained)
     var newLvl = expUtils.calcLevel(this.get('exp'))
-
     if (newLvl > currentLvl) {
       var newLevelStats = {
         str: _.random(5, 10),
@@ -48,7 +41,6 @@ App.Models.Character = Backbone.Model.extend({
       var newLevelStats = false
       this.save()
     }
-
     return newLevelStats
   },
 

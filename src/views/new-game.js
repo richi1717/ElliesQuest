@@ -107,12 +107,10 @@ var NewGame = Backbone.View.extend({
           } else {
             if ($('button').hasClass('click') && $('div.new-game-input').text().length < 2) {
                 $('div.new-game-input').text('Enter Your Password')
-              
             } else {
               if ($('div.new-game-input').text().length < 2) {
                 $('div.new-game-start').remove()
                 $('div.new-game-input').text('Enter Your Name')
-
               } else if ($('div.new-game-input').text() === 'Enter Your Name') {
                 $('div.new-game-input').append(' Please...')
               } else if ($('div.new-game-input').text() === 'Enter Your Name Please...') {
@@ -137,8 +135,6 @@ var NewGame = Backbone.View.extend({
             } else {
               $('div.new-game-input').text('Enter Your Name')
               $('div.new-game-start').remove()
-
-              // $('div.new-game-input').text('Enter Your Name')
             }
           }
         }
@@ -167,7 +163,6 @@ var NewGame = Backbone.View.extend({
                   url: "http://localhost:3000/characters",
                   traditional: true,
                   data: { "userId": user.id, "name": "Link", "battleName": "hero1", "classes": "ff-sprite red-boy-down1", "str": 20, "def": 16, "exp": 0, "maxMp": 30, "currentMp": 30, "maxHp": 350, "currentHp": 350, "accuracy": 10, "magic": 10, "evade": 6, "agility": 11, "currentPositionX": 5, "currentPositionY": 10, "items": ["Health Tonic", "Magic Tonic", "Elixir", "Revive", "Super Health Tonic", "Super Magic Tonic"]},  
-                  
                 }).done(function () {
                 $.ajax({
                     method: "POST",
@@ -195,7 +190,6 @@ var NewGame = Backbone.View.extend({
       }
     })
     function myFunction(e) {
-      // e.preventDefault()
       var x = e.which
       if (x == 37) {
         $('button:focus').prev().focus()
@@ -213,25 +207,21 @@ var NewGame = Backbone.View.extend({
             }
           } else {
             $('button:focus').prevAll().focus()
-            
           }
         } else {
           $('button:focus').next().nextUntil('[data-next="' + classic + '"]').focus()
-          
          }
       } else if (x == 38) {
         classic = $('button:focus').data('next') - 1
         if (!$.isNumeric(classic)) {
           $('button[data-next="1"]').next().focus()
         } else {
-          $('button:focus').prev().prevUntil('[data-next="' + classic + '"]').focus()
-          
+          $('button:focus').prev().prevUntil('[data-next="' + classic + '"]').focus() 
         }
       }
     }
     $('html').on('keydown', function (e) {
       myFunction(e)
-      
     })
   }
 })

@@ -63,8 +63,8 @@ var GameOver = Backbone.View.extend({
         $('#game-over').trigger('leave')
         App.router.navigate('/', { trigger: true })
       }, 3000)
-
     })
+    
     $('#game-over').on('leave', function () {
       this.pause()
     })

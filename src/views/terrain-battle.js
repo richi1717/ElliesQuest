@@ -166,8 +166,6 @@ var TerrainBattle = Backbone.View.extend({
             } else {
               $('#battle').trigger('start')
             }
-            
-            // _this.$el.append(renderStats(character))
 
             // Get all the characters data
             function characterDbInfo(characters) {
@@ -192,6 +190,7 @@ var TerrainBattle = Backbone.View.extend({
             }
             magicDbInfo(magic)
 
+            // Get all the items data
             function itemDbInfo(items) {
               itemCollection.forEach(function (item, index) {
                 itemsWithStats.push(item.attributes)
@@ -1297,8 +1296,9 @@ var TerrainBattle = Backbone.View.extend({
             // run option and determine whether you get away or not
             function runClick() {
               event.preventDefault()
-              var ranNum = _.random(0,1)
+              var ranNum = _.random(0, 1)
               $('main').children('span.sub-menu').remove()
+              waitToBePushed = $('.hero-turn').data('hero')
               $('.battle-hero').addClass('run1 run2').removeClass('hero-turn turn')
               if ($('.battle-hero').hasClass('stop-this')) {
                 clearInterval(runAway)
@@ -1328,7 +1328,6 @@ var TerrainBattle = Backbone.View.extend({
                 $('span.battle-menu-turn').remove()
                 $('div.selected').remove()
                 setTimeout(function () {
-                  waitToBePushed = $('span.turn').data('hero')
                   turnArray.push(waitToBePushed)
                   $('span.turn').removeClass('hero-turn turn')
                   $('.character-turn').removeClass('character-turn')

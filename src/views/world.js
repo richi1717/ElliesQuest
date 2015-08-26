@@ -9,12 +9,7 @@ var App = require('../app')
 var cellCollection = require('../collections/cell.js')
 var cellTerrain = require('../models/cell.js')
 var Character = require('../models/character.js')
-
-
 var cellsTerrain = []
-
-// App
-
 var Direction = {
       top: 12,
       right: 3,
@@ -24,10 +19,7 @@ var Direction = {
 
 var GameWorld = Backbone.View.extend({
   el: $('main'),
-  
-
   collection: App.Collections.product,
-
   render: function () {
     var characterCollection = require('../collections/character.js')
     var _this = this
@@ -35,11 +27,8 @@ var GameWorld = Backbone.View.extend({
 
     characterCollection.fetch().done(function (character) {
       cellCollection.fetch().done(function (cell) {  
-        // characterCollection.forEach(function (character) {
-        // })
         function cellDb(cells) {
           cellCollection.forEach(function (cell, index) {
-
             cellsTerrain.push( cell.attributes )
           })
         }
@@ -52,11 +41,7 @@ var GameWorld = Backbone.View.extend({
         var characterStats = characterCollection.models[0].attributes
 
         $('body').on('keydown', function (e) {
-          // $('#overworld').removeClass('top left right bottom red-boy-up1 red-boy-down1 red-boy-left1 red-boy-right1 red-boy-up2 red-boy-down2 red-boy-left2 red-boy-right2')
-          // check each step for a battle event
-
           var direction = 'top'
-          // var ffSprite = 'ff-sprite'
           if (e.which === 38) {
             direction = 'top'
             $('span.ff-sprite').removeClass('red-boy-left1 red-boy-right1 red-boy-down1 red-boy-down2 red-boy-left2 red-boy-right2')
@@ -102,12 +87,9 @@ var GameWorld = Backbone.View.extend({
             var leaveBattle = setTimeout(function () {
               $('#world').trigger('leave')
               App.router.navigate('battle/' + terrain, { trigger: true })
-              
             }, 2000)
             timerArray.push(leaveBattle)
-            // enemyNameByArea()
           }
-
         })
         
         $('#world').on('leave', function () {
@@ -116,7 +98,6 @@ var GameWorld = Backbone.View.extend({
 
         function findCell(x, y) {
           return $('.row:nth-child(' + y + ') > div:nth-child(' + x + ')')
-
         }
 
         function buildTerrain(cells) {
@@ -164,23 +145,19 @@ var GameWorld = Backbone.View.extend({
         var lightningStrike = 0
         function rain () {    
           $('.sunny').addClass('rain')
-         
           raining = setInterval(function () {
             $('.sunny').toggleClass('rain2')
           }, 200)
           timerArray.push(raining)
-
           lightning = setInterval(function () {
             var randomLightning = _.random(1, 20)
             $('.sunny').removeClass('lightning')
             if (randomLightning === 1) {
               lightningStrike = setTimeout(function () {
-                $('.sunny').addClass('lightning')
-                 
+                $('.sunny').addClass('lightning')  
               }, 200)
               timerArray.push(lightningStrike)
             }
-             
           }, 300)
           timerArray.push(lightning)
         }
@@ -192,7 +169,7 @@ var GameWorld = Backbone.View.extend({
           if (randomRain === 1) {
             if($('.sunny').hasClass('rain')) return false
             else {
-              object.trigger("run")
+              rainAbility.trigger("run")
             }  
           }
         }, 2000)
@@ -208,13 +185,11 @@ var GameWorld = Backbone.View.extend({
             sunny = setInterval(function () {
               randomSunny = _.random(0, 1)
               if (randomSunny) {
-                object.off("run", "all", function () {
+                rainAbility.off("run", "all", function () {
                 })
-                // object.off()
                 clearInterval(raining)
                 clearInterval(lightning)
                 $('.sunny').removeClass('rain rain2 lightning')
-
               }
             }, 10000)
             timerArray.push(sunny)
@@ -223,22 +198,19 @@ var GameWorld = Backbone.View.extend({
         timerArray.push(rainedOn)
 
         checkSunny = setInterval(function () {
-         
           if ($('.sunny').hasClass('rain') === false) {
             clearInterval(sunny)
           }
         }, 5000)
         timerArray.push(checkSunny)
      
-        var object = {}
+        var rainAbility = {}
 
-        _.extend(object, Backbone.Events)
+        _.extend(rainAbility, Backbone.Events)
 
-        object.on("run", function() {
+        rainAbility.on("run", function() {
           rain()
         })
-        // object.off(null, null, function () {
-        // })
       })
     })
   }

@@ -1,17 +1,17 @@
 'use strict'
 
-var $ = require('jquery');
-var Backbone = require('backbone');
-var tmpl = require('../template.js');
-var Handlebars = require('hbsfy/runtime');
+var $ = require('jquery')
+var Backbone = require('backbone')
+var tmpl = require('../template.js')
+var Handlebars = require('hbsfy/runtime')
 var _ = require('lodash')
-var App = require('../app');
-var cellCollection = require('../collections/cell.js');
-var cellTerrain = require('../models/cell.js');
-var Character = require('../models/character.js');
+var App = require('../app')
+var cellCollection = require('../collections/cell.js')
+var cellTerrain = require('../models/cell.js')
+var Character = require('../models/character.js')
 
 
-var cellsTerrain = [];
+var cellsTerrain = []
 
 // App
 
@@ -29,8 +29,8 @@ var GameWorld = Backbone.View.extend({
   collection: App.Collections.product,
 
   render: function () {
-    var characterCollection = require('../collections/character.js');
-    var _this = this;
+    var characterCollection = require('../collections/character.js')
+    var _this = this
     var characterModels = 0
 
     characterCollection.fetch().done(function (character) {
@@ -40,7 +40,7 @@ var GameWorld = Backbone.View.extend({
         function cellDb(cells) {
           cellCollection.forEach(function (cell, index) {
 
-            cellsTerrain.push( cell.attributes );
+            cellsTerrain.push( cell.attributes )
           })
         }
         cellDb()
@@ -95,7 +95,7 @@ var GameWorld = Backbone.View.extend({
             clearTimeout(lightningStrike)
             clearInterval(rainOrNot)
             clearInterval(sunny)
-            characterModels = characterCollection.models;
+            characterModels = characterCollection.models
             characterModels[0].addPosition(characterStats.currentPositionX, characterStats.currentPositionY)
             $('#world').animate({volume: 0}, 2000)
             $('div.sunny').fadeOut(2000)
@@ -111,8 +111,8 @@ var GameWorld = Backbone.View.extend({
         })
         
         $('#world').on('leave', function () {
-          this.pause();
-        });
+          this.pause()
+        })
 
         function findCell(x, y) {
           return $('.row:nth-child(' + y + ') > div:nth-child(' + x + ')')
@@ -192,7 +192,7 @@ var GameWorld = Backbone.View.extend({
           if (randomRain === 1) {
             if($('.sunny').hasClass('rain')) return false
             else {
-              object.trigger("run");
+              object.trigger("run")
             }  
           }
         }, 2000)
@@ -230,18 +230,18 @@ var GameWorld = Backbone.View.extend({
         }, 5000)
         timerArray.push(checkSunny)
      
-        var object = {};
+        var object = {}
 
-        _.extend(object, Backbone.Events);
+        _.extend(object, Backbone.Events)
 
         object.on("run", function() {
-          rain();
-        });
+          rain()
+        })
         // object.off(null, null, function () {
         // })
       })
     })
   }
-});
+})
 
-module.exports = GameWorld;
+module.exports = GameWorld

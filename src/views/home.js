@@ -13,8 +13,7 @@ var HomePage = Backbone.View.extend({
   render: function () {
     var _this = this
       
-        _this.$el.html(homeTemplate());
-      // $('body').removeClass().addClass('home');
+      _this.$el.html(homeTemplate());
 
   }
 });

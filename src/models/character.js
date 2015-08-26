@@ -1,4 +1,4 @@
-var Backbone = require('backbone');
+var Backbone = require('backbone')
 var expUtils = require('../../utility/calcLevel.js')
 var _ = require('lodash')
 
@@ -6,7 +6,7 @@ var _ = require('lodash')
   App
 *****************************************/
 
-var App = require('../app');
+var App = require('../app')
 
 /****************************************
   Model: Characters
@@ -14,8 +14,8 @@ var App = require('../app');
 
 App.Models.Character = Backbone.Model.extend({
   url: function () { 
-    var base = App.Settings.apiRoot + '/characters';
-    if (this.isNew()) return base;
+    var base = App.Settings.apiRoot + '/characters'
+    if (this.isNew()) return base
     return base + '/' + this.id
   },
 
@@ -62,6 +62,6 @@ App.Models.Character = Backbone.Model.extend({
     this.set('magic', this.get('magic') + stats.magic)
     this.set('accuracy', this.get('accuracy') + stats.accuracy)
   }
-});
+})
 
-module.exports = App.Models.Character;
+module.exports = App.Models.Character

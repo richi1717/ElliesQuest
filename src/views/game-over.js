@@ -1,9 +1,9 @@
-var $ = require('jquery');
-var Backbone = require('backbone');
-var gameOver = require('../templates/game-over.hbs');
+var $ = require('jquery')
+var Backbone = require('backbone')
+var gameOver = require('../templates/game-over.hbs')
 
 // App
-var App = require('../app');
+var App = require('../app')
 
 // View: List Users
 var GameOver = Backbone.View.extend({
@@ -11,14 +11,14 @@ var GameOver = Backbone.View.extend({
 
   render: function () {
 
-    var continueGame = 0;
-    var newGame = 0;
+    var continueGame = 0
+    var newGame = 0
     var homePage
     clearTimeout(continueGame)
     clearTimeout(newGame)
     clearTimeout(homePage)
 
-    this.$el.html(gameOver());
+    this.$el.html(gameOver())
     $('div.game-over-screen > div').append('<button class="game-over-button">Click to continue from last save</button>')
     function gameContinue() {
       $('button.game-over-button').toggleClass('fadedOut')
@@ -37,7 +37,7 @@ var GameOver = Backbone.View.extend({
         clearTimeout(continueGame)
         clearTimeout(newGame)
         clearTimeout(homePage)
-        App.router.navigate('/game/', { trigger: true });
+        App.router.navigate('/game/', { trigger: true })
       }, 1500)
     })
     $('button#home').on('click', function () {
@@ -45,7 +45,6 @@ var GameOver = Backbone.View.extend({
       newGame = setTimeout(homeScreen(), 200)
       function homeScreen() {
         if (Backbone.history.on('hashchange')) {
-          console.log('fudge')
         }
         $('span.hero-game-over').toggleClass('game-over-start2')
         setTimeout(function () {
@@ -56,20 +55,20 @@ var GameOver = Backbone.View.extend({
       $('#game-over').animate({volume: 0}, 3000)
       $('div.game-over-screen').fadeOut(3000)
       homePage = setTimeout(function () {
-        clearTimeout(continueGame);
-        clearTimeout(newGame);
+        clearTimeout(continueGame)
+        clearTimeout(newGame)
         clearTimeout(homePage)
         $('button.game-over-button').addClass('stop-please')
         $('span.hero-game-over').addClass('stop-please')
         $('#game-over').trigger('leave')
-        App.router.navigate('/', { trigger: true });
+        App.router.navigate('/', { trigger: true })
       }, 3000)
 
     })
     $('#game-over').on('leave', function () {
-      this.pause();
+      this.pause()
     })
   }
-});
+})
 
-module.exports = GameOver;  
+module.exports = GameOver  

@@ -1,9 +1,9 @@
-var $ = require('jquery');
-var Backbone = require('backbone');
-var tmpl = require('../template.js');
+var $ = require('jquery')
+var Backbone = require('backbone')
+var tmpl = require('../template.js')
 
 // App
-var App = require('../app');
+var App = require('../app')
 var User = require('../models/user')
 var userCollection = require('../collections/user.js')
 
@@ -14,6 +14,7 @@ var Login = Backbone.View.extend({
     var _this = this
     userCollection.fetch().done(function (user) {
       _this.$el.html(tmpl.login(user))
+
       $('main').on('click', '#shift', function () {
         if ($(this).data('name') === 'click') {
           $(this).data('name', '')
@@ -24,52 +25,45 @@ var Login = Backbone.View.extend({
         $('button.upper').toggleClass('uppercase')
         $('button:nth-child(28)')
          .text( ($('button:nth-child(28)').text() === '!' ? '1' : '!') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(29)')
          .text( ($('button:nth-child(29)').text() === '@' ? '2' : '@') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(30)')
          .text( ($('button:nth-child(30)').text() === '#' ? '3' : '#') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(31)')
          .text( ($('button:nth-child(31)').text() === '$' ? '4' : '$') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(32)')
          .text( ($('button:nth-child(32)').text() === '%' ? '5' : '%') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(33)')
          .text( ($('button:nth-child(33)').text() === '^' ? '6' : '^') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(34)')
          .text( ($('button:nth-child(34)').text() === '&' ? '7' : '&') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(35)')
          .text( ($('button:nth-child(35)').text() === '*' ? '8' : '*') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(36)')
          .text( ($('button:nth-child(36)').text() === '-' ? '9' : '-') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(37)')
          .text( ($('button:nth-child(37)').text() === '+' ? '0' : '+') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(38)')
          .text( ($('button:nth-child(38)').text() === '~' ? '<' : '~') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(39)')
          .text( ($('button:nth-child(39)').text() === '≈' ? '>' : '≈') )
-         .toggleClass("active");
+         .toggleClass("active")
         $('button:nth-child(40)')
          .text( ($('button:nth-child(40)').text() === '\\' ? '/' : '\\') )
-         .toggleClass("active");
+         .toggleClass("active")
       })
 
-      $('button#clear').on('click', 'button#clear', function () {
-
-      })
-
-      $('button#backspace').on('click', 'button#backspace', function () {
-
-      })
       $('main').on('click', 'button', function () {
         if (!$(this).is('#start')) {
           if (!$(this).is('#delete')) {
@@ -104,7 +98,6 @@ var Login = Backbone.View.extend({
                   }
                 } else {
                   if ($('button').hasClass('click') && $('div.new-game-input').text().length < 2) {
-                    console.log('hey')
                     $('div.new-game-input').text('Enter Your Password')
                     
                   } else {
@@ -135,8 +128,9 @@ var Login = Backbone.View.extend({
             if (password == $('div.new-game-input').text()) {
               $('main > div').show()
               $('div.new-game-screen').remove()
-              console.log(userLog)
               $('button[data-id="' + userLog + '"]').remove()
+              $('.new-game-start').remove()
+              $('button[data-id="1"]').trigger('focus')
               App.router.navigate('#/user/' + userLog + '/delete', { trigger: true })
             } else {
               $('div.new-game-input').text('Try Again')
@@ -160,7 +154,7 @@ var Login = Backbone.View.extend({
           }
         }
       })
-
+      $('button[data-id="1"]').trigger('focus')
       $('main').on('click', 'button[data-id]', function () {
         userLog = $(this).data('id')
         $.get(App.Settings.apiRoot + '/users/' + userLog).done(function (user) {
@@ -172,14 +166,54 @@ var Login = Backbone.View.extend({
           if ($('div.new-game-input').text() === "Enter Your Name") {
             $('div.new-game-input').text('Enter Your Password')
           }
-          console.log(password)
         })
       })
       $('#login-music').on('leave', function () {
         this.pause()
       })
+      function myFunction(e) {
+        var x = e.which
+        if (x == 37) {
+          e.preventDefault()
+          $('button:focus').prev().focus()
+        } else if (x == 39) {
+          $('button:focus').next().focus()
+          e.preventDefault()
+        } else if (x == 40) {
+          e.preventDefault()
+          classic = $('button:focus').data('next') + 1
+          if (!$.isNumeric(classic)) {
+            if ($('div').hasClass('new-game-start')) {
+              if ($('button#start').is(':focus')) {
+                $('button[data-next="1"]').prevAll().focus()
+              } else {
+                $('button#start').focus()
+              }
+            } else {
+              $('button:focus').prevAll().focus()
+              
+            }
+          } else {
+            $('button:focus').next().nextUntil('[data-next="' + classic + '"]').focus()
+            
+           }
+        } else if (x == 38) {
+          e.preventDefault()
+          classic = $('button:focus').data('next') - 1
+          if (!$.isNumeric(classic)) {
+            $('button[data-next="1"]').next().focus()
+          } else {
+            $('button:focus').prev().prevUntil('[data-next="' + classic + '"]').focus()
+            
+          }
+        }
+      }
+      $('html').on('keydown', function (e) {
+        myFunction(e)
+        
+      })
     })
   }
-});
+})
 
-module.exports = Login;
+module.exports = Login

@@ -1,9 +1,9 @@
-var $ = require('jquery');
-var Backbone = require('backbone');
-var tmpl = require('../template.js');
+var $ = require('jquery')
+var Backbone = require('backbone')
+var tmpl = require('../template.js')
 
 // App
-var App = require('../app');
+var App = require('../app')
 var User = require('../models/user')
 var Character = require('../models/character')
 
@@ -12,7 +12,7 @@ var NewGame = Backbone.View.extend({
   el: $('main'),
 
   render: function () {
-    this.$el.html(tmpl.newGame());
+    this.$el.html(tmpl.newGame())
     $('main').append('<audio id="login-music" controls autoplay name="media"> <source src="../../utility/3-16 The Prelude.mp3" type="audio/mpeg"> </audio>')
     $('#shift').on('click', function () {
       if ($(this).data('name') === 'click') {
@@ -24,52 +24,45 @@ var NewGame = Backbone.View.extend({
       $('button.upper').toggleClass('uppercase')
       $('button:nth-child(28)')
        .text( ($('button:nth-child(28)').text() === '!' ? '1' : '!') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(29)')
        .text( ($('button:nth-child(29)').text() === '@' ? '2' : '@') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(30)')
        .text( ($('button:nth-child(30)').text() === '#' ? '3' : '#') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(31)')
        .text( ($('button:nth-child(31)').text() === '$' ? '4' : '$') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(32)')
        .text( ($('button:nth-child(32)').text() === '%' ? '5' : '%') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(33)')
        .text( ($('button:nth-child(33)').text() === '^' ? '6' : '^') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(34)')
        .text( ($('button:nth-child(34)').text() === '&' ? '7' : '&') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(35)')
        .text( ($('button:nth-child(35)').text() === '*' ? '8' : '*') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(36)')
        .text( ($('button:nth-child(36)').text() === '-' ? '9' : '-') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(37)')
        .text( ($('button:nth-child(37)').text() === '+' ? '0' : '+') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(38)')
        .text( ($('button:nth-child(38)').text() === '~' ? '<' : '~') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(39)')
        .text( ($('button:nth-child(39)').text() === '≈' ? '>' : '≈') )
-       .toggleClass("active");
+       .toggleClass("active")
       $('button:nth-child(40)')
        .text( ($('button:nth-child(40)').text() === '\\' ? '/' : '\\') )
-       .toggleClass("active");
+       .toggleClass("active")
     })
 
-    $('button#clear').on('click', function () {
-
-    })
-
-    $('button#backspace').on('click', function () {
-
-    })
     $('button').on('click', function () {
       if(!$(this).is('#shift')) {
         if(!$(this).is('#clear')) {
@@ -113,7 +106,6 @@ var NewGame = Backbone.View.extend({
             }
           } else {
             if ($('button').hasClass('click') && $('div.new-game-input').text().length < 2) {
-                console.log('hey')
                 $('div.new-game-input').text('Enter Your Password')
               
             } else {
@@ -162,7 +154,7 @@ var NewGame = Backbone.View.extend({
            var newData = {
             name: newName,
             password: newPassword
-          };
+          }
           App.Collections.user.create(newData, {
             success: function (user) {
               $.ajax({
@@ -186,7 +178,7 @@ var NewGame = Backbone.View.extend({
                     $('#login-music').animate({volume: 0}, 2000)
                     setTimeout(function () {
                       $('#login-music').trigger('leave', { trigger: true })
-                      App.router.navigate('/game', { trigger: true });
+                      App.router.navigate('/game', { trigger: true })
                     }, 1500)
                   }) 
                 })
@@ -204,7 +196,7 @@ var NewGame = Backbone.View.extend({
     })
     function myFunction(e) {
       // e.preventDefault()
-      var x = e.which;
+      var x = e.which
       if (x == 37) {
         $('button:focus').prev().focus()
       } else if (x == 39) {
@@ -242,6 +234,6 @@ var NewGame = Backbone.View.extend({
       
     })
   }
-});
+})
 
-module.exports = NewGame;
+module.exports = NewGame

@@ -1,18 +1,18 @@
-var Backbone = require('backbone');
+var Backbone = require('backbone')
 
 // App
-var App = require('./app');
-var HomePage = require('./views/home');
-App.Views.HomePage = new HomePage;
-var monsterCollection = require('./collections/monster');
+var App = require('./app')
+var HomePage = require('./views/home')
+App.Views.HomePage = new HomePage
+var monsterCollection = require('./collections/monster')
 // var characterCollection = require('./collections/character')
 var magicCollection = require('./collections/magic')
 var cellCollection = require('./collections/cell')
 var userCollection = require('./collections/user')
 
 // View: List Users
-var TerrainBattleView = require('./views/terrain-battle');
-App.Views.TerrainBattle  = new TerrainBattleView;
+var TerrainBattleView = require('./views/terrain-battle')
+App.Views.TerrainBattle  = new TerrainBattleView
 
 // View: Home Page
 
@@ -25,18 +25,18 @@ App.Views.Login = new Login
 var GameOver = require('./views/game-over.js')
 App.Views.GameOver = new GameOver
 
-var ListMonstersView = require('./views/list-monsters');
-App.Views.ListMonsters = new ListMonstersView;
+var ListMonstersView = require('./views/list-monsters')
+App.Views.ListMonsters = new ListMonstersView
 
-var ListCharactersView = require('./views/list-characters');
-App.Views.ListCharacters = new ListCharactersView;
+var ListCharactersView = require('./views/list-characters')
+App.Views.ListCharacters = new ListCharactersView
 
-var ListMagicsView = require('./views/list-magics');
-App.Views.ListMagics = new ListMagicsView;
+var ListMagicsView = require('./views/list-magics')
+App.Views.ListMagics = new ListMagicsView
 
 // View: List Products
-var GameWorldView = require('./views/world');
-App.Views.GameWorld = new GameWorldView;
+var GameWorldView = require('./views/world')
+App.Views.GameWorld = new GameWorldView
 
 // App Router
 App.Router = Backbone.Router.extend({
@@ -65,88 +65,78 @@ App.Router = Backbone.Router.extend({
 
   // Route handlers
   index: function() {
-    App.Views.HomePage.render();
+    App.Views.HomePage.render()
   },
 
   terrainBattle: function(terrain) {
     $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-      App.currentUser = currentUser;
-      console.log(currentUser.id)
-      App.Views.TerrainBattle.render(terrain);
+      App.currentUser = currentUser
+      App.Views.TerrainBattle.render(terrain)
     })
   },
 
   listMagics: function() {
     $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-      App.currentUser = currentUser;
-      console.log(currentUser.id)
-      App.Views.ListMagics.render();
+      App.currentUser = currentUser
+      App.Views.ListMagics.render()
     })
   },
 
   showMagic: function(id) {
     $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-      App.currentUser = currentUser;
-      console.log(currentUser.id)
-      App.Views.ListMagics.render(id);
+      App.currentUser = currentUser
+      App.Views.ListMagics.render(id)
     })
-    console.log(id)
   },
 
   listCells: function() {
-    App.Views.ListCells.render();
+    App.Views.ListCells.render()
   },
 
   showCell: function(id) {
-    App.Views.ListCells.render(id);
+    App.Views.ListCells.render(id)
   },
 
   listMonsters: function() {
-    App.Views.ListMonsters.render();
+    App.Views.ListMonsters.render()
   },
 
   showMonster: function(id) {
-    App.Views.ListMonsters.render(id);
-    console.log(id)
+    App.Views.ListMonsters.render(id)
   },
 
   listCharacters: function() {
     $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-      App.currentUser = currentUser;
-      console.log(currentUser.id)
-      App.Views.ListCharacters.render();
+      App.currentUser = currentUser
+      App.Views.ListCharacters.render()
     })
   },
 
   showCharacter: function(id) {
     $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-      App.currentUser = currentUser;
-      console.log(currentUser.id)
-      App.Views.ListCharacters.render(id);
+      App.currentUser = currentUser
+      App.Views.ListCharacters.render(id)
     })
   },
 
   addUser: function(id) {
-    App.Views.NewGame.render(id);
+    App.Views.NewGame.render(id)
   },
 
   listUsers: function() {
-    App.Views.Login.render();
+    App.Views.Login.render()
   },
 
   deleteUser: function(id) {
-    var user = userCollection.get(id);
-
+    var user = userCollection.get(id)
     user.destroy().done(function (user) {
-      console.log('deleted')
-    });
+    })
   },
 
   world: function(id) {
     $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-      App.currentUser = currentUser;
-      console.log(currentUser.id)
-      App.Views.GameWorld.render();
+      App.currentUser = currentUser
+      App.Views.GameWorld.render()
     })
   },
 
@@ -161,30 +151,27 @@ App.Router = Backbone.Router.extend({
   defaultRoute: function(actions) {
     
   }
-});
+})
 
 // module.export = {
 //   App.Router: App.Router
 // }
 
 // Initiate the router
-App.router = new App.Router;
+App.router = new App.Router
 
-Backbone.history.start();
+Backbone.history.start()
 $.get(App.Settings.apiRoot + '/currentUser').done(function (currentUser) {
-  App.currentUser = currentUser;
-  console.log(currentUser.id)
+  App.currentUser = currentUser
 })
 timerArray = []
 $(window).on('hashchange', function(){
-console.log(timerArray)
   var length = timerArray.length
   var i = 0
   while (i < length) {
     timer = timerArray.pop()
     clearInterval(timer)
     clearTimeout(timer)
-    console.log(timer)
     i++
   }
 })

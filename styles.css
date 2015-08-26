@@ -363,7 +363,7 @@ a > button {
   box-shadow: 3px 3px #7F93AB, -3px -3px #7F93AB, -3px 3px #7F93AB, 3px -3px #7F93AB;
   background-color: rgb(12, 45, 74);
   border-radius: 5px;
-  
+  overflow: scroll;
 }
 
 span {
@@ -545,8 +545,8 @@ h1 {
  */
 
 .battle > div {
-  height: 675px;
-  width: 1280px;
+  height: 100vh;
+  width: 100vw;
   background-size: cover;
   position: relative;
 }
@@ -557,34 +557,14 @@ h1 {
 
 .desert > div {
   background-image: url('src/images/desert-battle.png');
-  height: 675px;
-  width: 1280px;
-  background-size: cover;
-  position: relative;
 }
 
 .grass > div {
   background-image: url('src/images/grass-battle.png');
-  height: 100vh;
-  width: 100vw;
-  background-size: cover;
-  position: relative;
 }
 
 .boss > div {
   background-image: url('src/images/boss-battle.png');
-  height: 100vh;
-  width: 100vw;
-  background-size: cover;
-  position: relative;
-}
-
-.desolation > div {
-  background-image: url('src/images/desolation.jpg');
-  height: 100vh;
-  width: 100vw;
-  background-size: cover;
-  position: relative;
 }
 
 .battle-menu-main {

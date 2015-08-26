@@ -337,8 +337,7 @@ var TerrainBattle = Backbone.View.extend({
                   ifArrayValue()
                 }, 1000)
                 timerArray.push(arrayCheck)
-              }
-              else {
+              } else {
                 if (!$('span').hasClass('turn')) {
                   turnNow = turnArray.shift()
                   if (_.find($('.' + turnNow)) === undefined || $('.' + turnNow).hasClass('dead')) {
@@ -360,8 +359,7 @@ var TerrainBattle = Backbone.View.extend({
             $('.character').on('click', function (event) {
               if (!$(this).hasClass('turn')) {
                 ifArrayValue()
-              }
-              else {
+              } else {
                 event.preventDefault()
                 $('main').children('span.sub-menu').remove()
                 $('main').children('span.battle-menu-turn').remove()
@@ -481,8 +479,7 @@ var TerrainBattle = Backbone.View.extend({
                     indexOfTarget = indexOfTarget.slice(5,6)
                     indexOfTarget = indexOfTarget - 1
                     return indexOfTarget
-                  }
-                  else if ($('span.' + selectedName)) {
+                  } else if ($('span.' + selectedName)) {
                     spanHero.append('<div class="selected"></div>')
                     indexOfTarget = selectedName.slice(4,5)
                     indexOfTarget = indexOfTarget - 1
@@ -733,16 +730,16 @@ var TerrainBattle = Backbone.View.extend({
                       }, 400)
                     }
                     newStats = setTimeout(function () {
-                    $('div.battle-menu-main-stats').remove()
-                    $('main > div > div').append(renderStats(character))
-                    waitToBePushed = $('span.turn').data('hero')
-                    turnArray.push(waitToBePushed)
-                    turnArray.push(selectedName)
-                    $('span.turn').removeClass('hero-turn turn')
-                    $('.character-turn').removeClass('character-turn')
-                    $('div.selected').remove()
-                    ifArrayValue() 
-                  }, 1000)
+                      $('div.battle-menu-main-stats').remove()
+                      $('main > div > div').append(renderStats(character))
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      turnArray.push(selectedName)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue() 
+                    }, 1000)
                   } else {
                     $('span.' + selectedName).append('<div class="damage-display">0</div>')
                     remDmgDis = setTimeout(function () {
@@ -750,15 +747,15 @@ var TerrainBattle = Backbone.View.extend({
                     }, 1000)
                     timerArray.push(remDmgDis)
                     newStats = setTimeout(function () {
-                    $('div.battle-menu-main-stats').remove()
-                    $('main > div > div').append(renderStats(character))
-                    waitToBePushed = $('span.turn').data('hero')
-                    turnArray.push(waitToBePushed)
-                    $('span.turn').removeClass('hero-turn turn')
-                    $('.character-turn').removeClass('character-turn')
-                    $('div.selected').remove()
-                    ifArrayValue()
-                  }, 1000)
+                      $('div.battle-menu-main-stats').remove()
+                      $('main > div > div').append(renderStats(character))
+                      waitToBePushed = $('span.turn').data('hero')
+                      turnArray.push(waitToBePushed)
+                      $('span.turn').removeClass('hero-turn turn')
+                      $('.character-turn').removeClass('character-turn')
+                      $('div.selected').remove()
+                      ifArrayValue()
+                    }, 1000)
                   }
                   $('span.battle-menu-turn').remove()
                   timerArray.push(dmgDisplay)
@@ -942,20 +939,17 @@ var TerrainBattle = Backbone.View.extend({
                     if ((monsterTarget.currentHp) > monsterTarget.maxHp) {
                       monsterTarget.currentHp = monsterTarget.maxHp
                     }
-                  }
-                  else if ($('span.' + selectedName)) {
+                  } else if ($('span.' + selectedName)) {
                     characterToAttack.currentHp = characterToAttack.currentHp + hpFromAttack
                     if ((characterToAttack.currentHp) > characterToAttack.maxHp) {
                       characterToAttack.currentHp = characterToAttack.maxHp
                     }
                   }
-                }
-                else {
+                } else {
                   if ($('section').hasClass(selectedName)) {
                     monsterTarget.currentHp = monsterTarget.currentHp - hpFromAttack
                     if ((monsterTarget.currentHp) >= 0) {
-                    }
-                    else {
+                    } else {
                       expFromBattle += monsterTarget.expOnDefeat
                       hasBeenKilled = hasBeenKilled + 1
                       enemyDead = setTimeout(function () {
@@ -964,8 +958,7 @@ var TerrainBattle = Backbone.View.extend({
                       }, 1200)
                       timerArray.push(enemyDead)
                     }
-                  }
-                  else if ($('span.' + selectedName)) {
+                  } else if ($('span.' + selectedName)) {
                     characterToAttack.currentHp = characterToAttack.currentHp - hpFromAttack
                     if ((characterToAttack.currentHp) >= 0) {
                       console.log('should you really attack your own buddy?!')

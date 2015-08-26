@@ -1453,7 +1453,7 @@ button:focus {
   width: 670px;
   height: 353px;
   margin: 2% auto;
-  background: url('src/images/ssscroll2.png') left center;
+  background: url('src/images/ssscroll.png') left center;
   animation: play 10s steps(3) infinite;
 }
 

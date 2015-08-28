@@ -4,5 +4,4 @@ db
 game.sublime-project
 build/
 libs/
-db.json
 enjoyable

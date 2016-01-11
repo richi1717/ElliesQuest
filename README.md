@@ -6,8 +6,7 @@ all of my sprites, sounds, and music from scratch.
 
 <h2>Bugs</h2>
 There are some issues with using Backbone history that will cause some bugs.  This can be fixed by
-refreshing the browser.  I plan on fixing these bugs at a later date but am now focused on getting
-a job and learning other frameworks.  There is a lot that needs to be done in this game and one huge issue is making it fit on different screens.  I used a 13" MacBook Pro to design it so if you're using something else and there is a gap in between the bottom sections of the battle screen or if they are overlapping, try zooming in or out with cmd + '+' or cmd + '-' or ctrl + '+' or ctrl + '-' if you are unfortunate to have to use Windows:( 
+refreshing the browser.  I plan on fixing these bugs at a later date but am now focused on learning other frameworks.  There is a lot that needs to be done in this game and one huge issue is making it fit on different screens.  I used a 13" MacBook Pro to design it so if you're using something else and there is a gap in between the bottom sections of the battle screen or if they are overlapping, try zooming in or out with cmd + '+' or cmd + '-' or ctrl + '+' or ctrl + '-' if you are unfortunate to have to use Windows:( 
 
 <h2>Want to Play My Game or Just Mess With My Code?</h2>
 Just clone this repo if you want to check out or try my game.  Next, in 

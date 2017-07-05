@@ -20,7 +20,6 @@ var ListMonsters = Backbone.View.extend({
     $('body').removeClass().addClass('monsters')
     monsterCollection.fetch().done(function (monsters) {
       _this.$el.html(listMonstersTemplate(monsters))
-
     })
   }
 })
